@@ -45,3 +45,4 @@ for note in notes:
     records.append(record)
     doc_records.append(doc)
     vocab_records_bytes.append(vocab)
+records_json = {'records':records}
