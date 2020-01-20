@@ -37,10 +37,11 @@ notes=resp.json()['notes']
 #process through the notes with spacy and save the docs and vocabs in a json named "records"
 doc_records = []
 vocab_records_bytes = []
+records = []
 for note in notes:
     doc = nlp(note)
     vocab = nlp.vocab.to_bytes()
+    record = {'doc_bytes':doc.to_bytes(),'vocab_bytes':vocab}
+    records.append(record)
     doc_records.append(doc)
     vocab_records_bytes.append(vocab)
-records ={'docs':doc_records, 'vocab_bytes':vocab_records_bytes}
-
