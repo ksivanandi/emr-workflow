@@ -3,7 +3,6 @@ from nltk.stem.wordnet import WordNetLemmatizer
 import nltk
 from nltk.corpus import wordnet as wn
 import gensim 
-import glob2
 import os
 import random
 import spacy
@@ -14,13 +13,11 @@ import numpy as np
 import pandas as pd
 from nltk import word_tokenize, sent_tokenize
 import time
-import re
 import json
 from Jason_model import Model
 from jason_unit_component import UnitComponent
 from jason_volume_unit_component import VolumeUnitComponent
 from pkg_resources import resource_filename
-import shutil
 
 #make the nlp object from spacy and replace it with a custom component for this use case
 nlp = spacy.load("en_core_web_sm")
