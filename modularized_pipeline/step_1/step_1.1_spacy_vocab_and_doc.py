@@ -29,16 +29,16 @@ nlp.replace_pipe("ner", unitcomponent)
 resp = requests.get('http://10.32.22.16:56733/noteevents/55500')
 if resp.status_code != 200:
     raise ApiError('GET /noteevents/<size> {}'.format(resp.status_code))
-notes=resp.json()['notes']
+notes=resp.json()['json_notes']
 
 #process through the notes with spacy and save the docs and vocabs in a json named "records"
 doc_records = []
 vocab_records_bytes = []
 records = []
 for note in notes:
-    doc = nlp(note)
+    doc = nlp(note['text'])
     vocab = nlp.vocab.to_bytes()
-    record = {'doc_bytes':doc.to_bytes(),'vocab_bytes':vocab}
+    record = {'row_id':note['row_id'],'note_text':note['text'],'doc_bytes':doc.to_bytes(),'vocab_bytes':vocab}
     records.append(record)
     doc_records.append(doc)
     vocab_records_bytes.append(vocab)
