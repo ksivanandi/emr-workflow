@@ -11,6 +11,6 @@ global variables
 parser=English()
 en_stop = set(nltk.corpus.stopwords.words('english'))
 
-#placeholder until it is figured out how to migrate json_dataframe from step_1.2
+#placeholder until it is figured out how to migrate json_dataframe from step 1
 json_dataframe = {}
 data=pd.read_json()
