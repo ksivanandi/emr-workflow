@@ -44,7 +44,7 @@ Global Variables
 """
 mimic_file="/rapids/notebooks/hostfs/MIMIC-data/mimic-iii-clinical-database-1.4/mimic-unstructured.txt"
 text=open(mimic_file).readlines()
-
+en_stop = set(nltk.corpus.stopwords.words('english'))
 
 # In[39]:
 
