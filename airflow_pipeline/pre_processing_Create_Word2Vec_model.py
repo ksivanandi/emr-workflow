@@ -23,10 +23,14 @@ Get data from the previous step where the data was tokenized
 def load_tokens():
     with open('EMR_Tokens.json') as json_file:
         data = json.load(json_file)
+        return data['token_list']
 
 """
 Prep data, create model
 need to investigate different parameter settings and different Models (FastText, other)
 """
-model = Word2Vec([sentences], size=100, window=10, min_count=1, workers=7, max_vocab_size=None)
-
+def create_and_save_word2vec():
+    data=load_tokens()
+    if(data != None):
+        model = Word2Vec([data], size=100, window=10, min_count=1, workers=7, max_vocab_size=None)
+        model.save('word2vec.model')

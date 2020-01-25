@@ -55,15 +55,13 @@ write tokens to json
 """
 def write_tokens(token_list):
     with open (outputfile, 'wb') as f:
-        f.write(json.dumps({'text_data': text_data}))
+        f.write(json.dumps({'token_list': token_list}))
 
 """
 tokenize data
 """
 def tokenize_data():
     data = get_data()
-    text_data = []
     tokens=prepare_text_for_lda(str(data))
-    text_data=text_data+tokens
-    write_tokens(text_data)
+    write_tokens(tokens)
 
