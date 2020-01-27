@@ -62,6 +62,11 @@ tokenize data
 """
 def tokenize_data():
     data = get_data()
-    tokens=prepare_text_for_lda(str(data))
+    #change the data list to a string and get rid of the list notation in the new string
+    string_data = str(data)
+    string_data = re.sub(',', '', string_data)
+    string_data = re.sub('\[', '', string_data)
+    string_data = re.sub(']', '', string_data)
+    tokens=prepare_text_for_lda(string_data)
     write_tokens(tokens)
 
