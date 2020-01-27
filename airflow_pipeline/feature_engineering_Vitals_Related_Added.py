@@ -1,8 +1,4 @@
 #!/usr/bin/env python
-# coding: utf-8
-
-# In[6]:
-
 
 """
 create vitals_related text field and vitals_related_ngrams from unstructured clinical note field
@@ -13,18 +9,10 @@ last modified: 1-23-20
 author: andrew malinow
 """
 
-
-# In[19]:
-
-
 """
 install dependencies
 """
 #!pip install nltk
-
-
-# In[24]:
-
 
 """
 Imports
@@ -34,10 +22,6 @@ import nltk
 from nltk import sent_tokenize, word_tokenize
 import re
 
-
-# In[28]:
-
-
 """
 global variables
 """
@@ -45,10 +29,6 @@ infile='pp_clinical_note_sequenced.json'
 data=pd.read_json(infile)
 en_stop = set(nltk.corpus.stopwords.words('english'))
 df=pd.DataFrame()
-
-
-# In[33]:
-
 
 """
 generate n-grams function
@@ -67,10 +47,6 @@ def generate_ngrams(s, n):
     # Concatentate the tokens into ngrams and return
     ngrams = zip(*[tokens[i:] for i in range(n)])
     return [" ".join(ngram) for ngram in ngrams]
-
-
-# In[34]:
-
 
 """
 feature engineering: pull out vitals
@@ -118,10 +94,6 @@ for record in data['tokens_in_record']:
 data['non-vitals']=non_vital
 data['vitals']=all_vitals
 
-
-# In[37]:
-
-
 """
 generate n-grams for df['vitals'] to further refine vitals and prep for topic modeling
 """
@@ -132,10 +104,6 @@ for i, row in data.iterrows():
     ngrams.append(clinical_ngrams)
 
 data['clinical_ngrams']=ngrams
-
-
-# In[38]:
-
 
 """
 turn ngrams into single 'words' by replacing " " with "_"
@@ -154,10 +122,4 @@ for i, row in df.iterrows():
 data['clinical_ngrams_concat']=clinical_ngrams_concat
 data['clinical_ngrams_concat']
 data.to_json("fe_vitals_related_added.json")
-
-
-# In[ ]:
-
-
-
 
