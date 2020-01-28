@@ -21,7 +21,7 @@ import pandas as pd
 import gensim
 import re
 import pyLDAvis
-import pyLDAvis.gensim  # don't skip this
+import pyLDAvis.gensim
 import matplotlib.pyplot as plt
 
 """
@@ -73,6 +73,7 @@ def run_topic_modeling():
     lda = create_lda_model(corpus, dictionary)
     write_topics(lda)
     visualize_cluster(lda, corpus, dictionary)
+
 """
 visualize clusters-- including this- we should consider printing out a PDF report
 """

@@ -10,11 +10,6 @@ author: andrew malinow
 """
 
 """
-install dependencies
-"""
-#!pip install nltk
-
-"""
 Imports
 """
 import pandas as pd
@@ -25,10 +20,14 @@ import re
 """
 global variables
 """
-infile='pp_clinical_note_sequenced.json'
-data=pd.read_json(infile)
+infile = 'fe_clinical_note_sequenced.json'
+outputfile = 'fe_vitals_related_added.json'
 en_stop = set(nltk.corpus.stopwords.words('english'))
-df=pd.DataFrame()
+
+def load_dataframe():
+    with open(infile) as json_file:
+        df = pd.read_json(infile)
+        return df
 
 """
 generate n-grams function
@@ -51,75 +50,81 @@ def generate_ngrams(s, n):
 """
 feature engineering: pull out vitals
 """
-all_vitals=[]
-non_vital=[]
-for record in data['tokens_in_record']:
-    
-    missing=[]
-    vitals=[]
-    
-    sentences=sent_tokenize(str(record))
-    
-    for line in sentences:
-       
-        if re.findall(r'temperature', str(line)): 
-            junk, temp, keep=str(line).partition('temperature')
-            vital=temp+keep
-            vitals.append(vital)
-            missing.append('na')
-        if re.findall(r'blood pressure', str(line)):
-            junk, bp, keep=str(line).partition('blood pressure')
-            vital=bp+keep
-            vitals.append(vital)
-            missing.append('na')
-        if re.findall(r'breathing',str(line)):
-            junk, breath, keep=str(line).partition('breathing')
-            vital=breath+keep
-            vitals.append(vital)
-            missing.append('na')
-        if re.findall(r'respitory',str(line)):
-            junk, breath, keep=str(line).partition('respitory')
-            vital=breath+keep
-            vitals.append(vital)
-            missing.append('na')
-        
-        else:
-            
-            continue
-   
-    all_vitals.append(vitals)
-    non_vital.append(missing)
-    continue
-   
-data['non-vitals']=non_vital
-data['vitals']=all_vitals
+def make_vitals_columns(data):
+    all_vitals=[]
+    non_vital=[]
+    for record in data['tokens_in_record']:
+        missing=[]
+        vitals=[]
+        for line in record:
+            if re.findall(r'temperature', line): 
+                junk, temp, keep=line.partition('temperature')
+                vital=temp+keep
+                vitals.append(vital)
+                missing.append('na')
+            if re.findall(r'blood pressure', line):
+                junk, bp, keep=line.partition('blood pressure')
+                vital=bp+keep
+                vitals.append(vital)
+                missing.append('na')
+            if re.findall(r'breathing',line):
+                junk, breath, keep=line.partition('breathing')
+                vital=breath+keep
+                vitals.append(vital)
+                missing.append('na')
+           if re.findall(r'respitory',line):
+                junk, breath, keep=line.partition('respitory')
+                vital=breath+keep
+                vitals.append(vital)
+                missing.append('na')
+
+        all_vitals.append(vitals)
+        non_vital.append(missing)
+    return all_vitals, non_vital
 
 """
 generate n-grams for df['vitals'] to further refine vitals and prep for topic modeling
 """
-ngrams=[]
-for i, row in data.iterrows():
-    vitals=row['vitals']
-    clinical_ngrams=generate_ngrams(str(vitals),5)
-    ngrams.append(clinical_ngrams)
-
-data['clinical_ngrams']=ngrams
+def make_ngrams_column(data):
+    ngrams=[]
+    for i, row in data.iterrows():
+        vitals=row['vitals']
+        clinical_ngrams=generate_ngrams(str(vitals),5)
+        ngrams.append(clinical_ngrams)
+    return ngrams
 
 """
 turn ngrams into single 'words' by replacing " " with "_"
 """
-clinical_ngrams_concat=[]
-for i, row in df.iterrows():
-    ngram_list=[]
-    ngrams=row['clinical_ngrams']
-    for n in ngrams:
-        n=str(n)
-        a=str(n).replace(" ","_")
-        ngram_list.append(a)
-        continue
-    clinical_ngrams_concat.append(ngram_list)
-    continue
-data['clinical_ngrams_concat']=clinical_ngrams_concat
-data['clinical_ngrams_concat']
-data.to_json("fe_vitals_related_added.json")
+def make_ngrams_concat_column(data)
+    clinical_ngrams_concat=[]
+    for i, row in data.iterrows():
+        ngram_list=[]
+        ngrams=row['clinical_ngrams']
+        for n in ngrams:
+            n=str(n)
+            a=str(n).replace(" ","_")
+            ngram_list.append(a)
+        clinical_ngrams_concat.append(ngram_list)
+    return clinical_ngrams_concat
 
+def write_dataframe(df):
+    with open(outputfile, 'w') as f:
+        json = df.to_json()
+        f.write(json)
+
+def add_vitals_ngrams_columns():
+    #create the columns for the vitals and for the ngrams
+    all_vitals, non_vital = make_vitals_columns(df)
+    ngrams = make_ngrams_column(df)
+    clinical_ngrams_concat = make_ngrams_concat_column(df)
+
+    #add the columns to the dataframe from the previous step
+    df = load_dataframe()
+    df['non-vitals'] = non_vital
+    df['vitals'] = all_vitals
+    df['clinical_ngrams'] = ngrams
+    df['clinical_ngrams_concat'] = clinical_ngrams_concat
+
+    #save dataframe as json on disk
+    write_dataframe(df)
