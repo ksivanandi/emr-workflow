@@ -56,9 +56,8 @@ write tokens to json
 """
 def write_tokens(token_list):
     with open (outputfile,'w') as f:
-        string_json = json.dumps({'token_list': token_list})
-        bytes_json = str.encode(string_json)
-        f.write(string_json)
+        json = json.dumps({'token_list': token_list})
+        f.write(json)
 
 """
 tokenize data
