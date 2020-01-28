@@ -72,7 +72,7 @@ def run_topic_modeling():
     corpus, dictionary = prep_lda()
     lda = create_lda_model(corpus, dictionary)
     write_topics(lda)
-
+    visualize_cluster(lda, corpus, dictionary)
 """
 visualize clusters-- including this- we should consider printing out a PDF report
 """
