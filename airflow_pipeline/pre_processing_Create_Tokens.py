@@ -37,6 +37,7 @@ def get_data():
     #gets rid of new line characters "\n", more performant thatn re.sub():
     data = [x['text'].translate(string.punctuation) for x in json_notes]
     #gets rid of other special characters in the text
+    data = [re.sub('\'','',x) for x in data]
     data = [re.sub(r'([^\s\w]|_)+','',x) for x in data]
     return data
 
@@ -54,8 +55,10 @@ def prepare_text_for_lda(text):
 write tokens to json
 """
 def write_tokens(token_list):
-    with open (outputfile, 'wb') as f:
-        f.write(json.dumps({'token_list': token_list}))
+    with open (outputfile,'w') as f:
+        string_json = json.dumps({'token_list': token_list})
+        bytes_json = str.encode(string_json)
+        f.write(string_json)
 
 """
 tokenize data
