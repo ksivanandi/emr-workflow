@@ -23,22 +23,26 @@ import re
 import pyLDAvis
 import pyLDAvis.gensim
 import matplotlib.pyplot as plt
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 """
 Global Variables
 """
-input_file='EMR_Tokens.json'
+input_file='emr_tokens.parquet'
+output_file='lda_topics.parquet'
+
 def load_tokens():
-    with open(input_file, 'r') as json_file:
-        data = json.load(json_file)
-        return data['token_list']
+    table = pq.read_table(input_file)
+    df = table.to_pandas()
+    return df['token_list'].tolist()
 
 """
-Prep for LDA: 
+Prep for LDA:
 """
 def prep_lda(tokens):
     dictionary = gensim.corpora.Dictionary(tokens)
-    #create corpus 
+    #create corpus
     corpus = [dictionary.doc2bow(text) for text in tokens]
     #save corpus and dictionary
     pickle.dump(corpus, open('mimic-corpus.pkl', 'wb'))
@@ -65,7 +69,8 @@ def write_topics(lda):
     topics=lda.print_topics(num_words=5)
     df = pd.DataFrame()
     df['topics'].append(topics)
-    df.to_json('lda_topics.json')
+    table = pa.Table.from_pandas(df)
+    pq.write_table(table, output_file)
 
 def run_topic_modeling():
     tokens = load_tokens()
