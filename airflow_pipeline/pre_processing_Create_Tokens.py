@@ -18,6 +18,9 @@ from nltk import word_tokenize
 import requests
 import string
 import re
+import pandas as pd
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 """
 global variables
@@ -55,9 +58,10 @@ def prepare_text_for_lda(text):
 write tokens to json
 """
 def write_tokens(token_list):
-    with open (outputfile,'w') as f:
-        json = json.dumps({'token_list': token_list})
-        f.write(json)
+    df = pd.DataFrame({'token_list': token_list})
+    table = pa.Table.from_pandas(df)
+    pq.write_table(table, 'emr_tokens.parquet')
+        
 
 """
 tokenize data
