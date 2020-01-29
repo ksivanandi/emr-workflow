@@ -1,12 +1,12 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
-from pre_processing_Create_Tokens import tokenize_data 
-from pre_processing_Create_Word2Vec_model import create_and_save_word2vec
-from feature_engineering_Sequence_Clinical_Note import add_admit_discharge_columns
-from feature_engineering_Topic_Modeling import run_topic_modeling
-from feature_engineering_Vitals_Related_Added import add_vitals_ngrams_columns
-from tpot_prep_One_Hot_Encoding_Diagnoses import diagnoses_one_hot_encoding
-from tpot_prep_One_Hot_Encoding_Medications import medications_one_hot_encoding
+import pre_processing_Create_Tokens
+import pre_processing_Create_Word2Vec_model
+import feature_engineering_Sequence_Clinical_Note
+import feature_engineering_Topic_Modeling
+import feature_engineering_Vitals_Related_Added
+import tpot_prep_One_Hot_Encoding_Diagnoses
+import tpot_prep_One_Hot_Encoding_Medications
 
 from datetime import datetime, timedelta
 
@@ -19,43 +19,43 @@ dag = DAG('emr-initial-dag', default_args=default_args)
 
 tokenize_operator = PythonOperator(
     task_id = 'pre_processing_create_tokens',
-    python_callable = tokenize_data,
+    python_callable = pre_processing_Create_Tokens.teokenize_data,
     dag = dag
     )
 
 word_embedding_operator = PythonOperator(
     task_id = 'pre_processing_create_word2vec_model',
-    python_callable = create_and_save_word2vec,
+    python_callable = pre_processing_Create_Word2Vec_model.create_and_save_word2vec,
     dag = dag
     )
 
 admit_discharge_features_operator = PythonOperator(
     task_id = 'feature_engineering_admit_discharge',
-    python_callable = add_admit_discharge_columns,
+    python_callable = feature_engineering_Sequence_Clinical_Note.add_admit_discharge_columns,
     dag = dag
     )
 
 topic_modeling_operator = PythonOperator(
     task_id = 'feature_engineering_topic_modeling',
-    python_callable = run_topic_modeling,
+    python_callable = feature_engineering_Topic_Modeling.run_topic_modeling,
     dag = dag
     )
 
 vitals_ngrams_features_operator = PythonOperator(
     task_id = 'feature_engineering_vitals_ngrams',
-    python_callable = add_vitals_ngrams_columns,
+    python_callable = feature_engineering_Vitals_Related_Added.add_vitals_ngrams_columns,
     dag = dag
     )
 
 diagnoses_one_hot_operator = PythonOperator(
     task_id = 'tpot_prep_diagnoses_one_hot',
-    python_callable = diagnoses_one_hot_encoding,
+    python_callable = tpot_prep_One_Hot_Encoding_Diagnoses.diagnoses_one_hot_encoding,
     dag = dag
     )
 
 medications_one_hot_operator = PythonOperator(
     task_id = 'tpot_prep_medications_one_hot',
-    python_callable = medications_one_hot_encoding,
+    python_callable = tpot_prep_One_Hot_Encoding_Medications.medications_one_hot_encoding,
     dag = dag
     )
 
