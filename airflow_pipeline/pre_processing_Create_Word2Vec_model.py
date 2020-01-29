@@ -16,14 +16,16 @@ from gensim.models import Word2Vec
 import nltk
 import re
 import json
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 """
 Get data from the previous step where the data was tokenized
 """
 def load_tokens():
-    with open('EMR_Tokens.json') as json_file:
-        data = json.load(json_file)
-        return data['token_list']
+    table = pq.read_table('emr_tokens.parquet')
+    df = table.to_pandas().tolist()
+    return data['token_list']
 
 """
 Prep data, create model
