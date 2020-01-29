@@ -16,18 +16,19 @@ import pandas as pd
 import nltk
 from nltk import sent_tokenize, word_tokenize
 import re
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 """
 global variables
 """
-infile = 'fe_clinical_note_sequenced.json'
-outputfile = 'fe_vitals_related_added.json'
-en_stop = set(nltk.corpus.stopwords.words('english'))
+infile = 'fe_clinical_note_sequenced.parquet'
+outputfile = 'fe_vitals_related_added.parquet'
 
 def load_dataframe():
-    with open(infile) as json_file:
-        df = pd.read_json(infile)
-        return df
+    table = pa.read_table(infile)
+    df = table.to_pandas()
+    return df
 
 """
 generate n-grams function
@@ -109,9 +110,8 @@ def make_ngrams_concat_column(data)
     return clinical_ngrams_concat
 
 def write_dataframe(df):
-    with open(outputfile, 'w') as f:
-        json = df.to_json()
-        f.write(json)
+    table = pa.Table.from_pandas(df)
+    pq.write_table(table, output_file)
 
 def add_vitals_ngrams_columns():
     #create the columns for the vitals and for the ngrams
