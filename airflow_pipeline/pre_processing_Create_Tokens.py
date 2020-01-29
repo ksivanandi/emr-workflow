@@ -25,7 +25,7 @@ import pyarrow.parquet as pq
 """
 global variables
 """
-outputfile='EMR_Tokens.json'
+outputfile='emr_tokens.parquet'
 
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -60,7 +60,7 @@ write tokens to json
 def write_tokens(token_list):
     df = pd.DataFrame({'token_list': token_list})
     table = pa.Table.from_pandas(df)
-    pq.write_table(table, 'emr_tokens.parquet')
+    pq.write_table(table, outputfile)
         
 
 """
