@@ -17,11 +17,13 @@ import nltk
 from nltk import sent_tokenize, word_tokenize
 import re
 from pre_processing_Create_Tokens import get_data
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 """
 global variables
 """
-outputfile='fe_clinical_note_sequenced.json'
+outputfile='fe_clinical_note_sequenced.parquet'
 
 """
 pre-processing Pandas: tokenize text
@@ -66,9 +68,8 @@ def create_feature_lists(tokenized_records):
     return admission_related, discharge_related, deceased_flag
 
 def write_dataframe(df):
-    with open(outputfile,'w') as f:
-        json = df.to_json()
-        f.write(json)
+    table = pyarrow.Table.from_pandas(df)
+    pq.write_table(table, outputfile)
 
 def add_admit_discharge_columns():
     #tokenize and separate into features
