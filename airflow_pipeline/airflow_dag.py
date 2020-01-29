@@ -5,6 +5,9 @@ from pre_processing_Create_Word2Vec_model import create_and_save_word2vec
 from feature_engineering_Sequence_Clinical_Note import add_admit_discharge_columns
 from feature_engineering_Topic_Modeling import run_topic_modeling
 from feature_engineering_Vitals_Related_Added import add_vitals_ngrams_columns
+from tpot_prep_One_Hot_Encoding_Diagnoses import diagnoses_one_hot_encoding
+from tpot_prep_One_Hot_Encoding_Medications import medications_one_hot_encoding
+
 from datetime import datetime, timedelta
 
 default_args = {
@@ -44,4 +47,16 @@ vitals_ngrams_features_operator = PythonOperator(
     dag = dag
     )
 
-tokenize_operator >> [word_embedding_operator, admit_discharge_features_operator, topic_modeling_operator] >> vitals_ngrams_features_operator
+diagnoses_one_hot_operator = PythonOperator(
+    task_id = 'tpot_prep_diagnoses_one_hot',
+    python_callable = diagnoses_one_hot_encoding,
+    dag = dag
+    )
+
+medications_one_hot_operator = PythonOperator(
+    task_id = 'tpot_prep_medications_one_hot',
+    python_callable = medications_one_hot_encoding,
+    dag = dag
+    )
+
+tokenize_operator >> [word_embedding_operator, admit_discharge_features_operator, topic_modeling_operator] >> vitals_ngrams_features_operator >> diagnoses_one_hot_operator >> medications_one_hot_operator
