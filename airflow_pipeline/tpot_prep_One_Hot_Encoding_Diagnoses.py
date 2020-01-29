@@ -12,7 +12,8 @@ Imports
 import pandas as pd
 import sklearn
 from sklearn.preprocessing import MultiLabelBinarizer
-
+import pyarrow as pa
+import pyarrow.parquet as pq
 """
 global variables
 """
@@ -20,7 +21,7 @@ global variables
 #it is a dataframe with the entities
 infile = 'jason_mimc-554_new.csv'
 
-outputfile = 'tpot_prep-diagnosis_names_one_hot_encoded.json'
+outputfile = 'tpot_prep-diagnosis_names_one_hot_encoded.parquet'
 mlb = MultiLabelBinarizer()
 
 def load_dataframe():
@@ -29,9 +30,8 @@ def load_dataframe():
         return df
 
 def write_dataframe(df):
-    with open(outputfile,'w') as f:
-        json = df.to_json()
-        f.write(json)
+    table = pa.Table.from_pandas(df)
+    pq.write_table(table, outputfile)
 
 def diagnoses_one_hot_encoding():
     df = load_dataframe()

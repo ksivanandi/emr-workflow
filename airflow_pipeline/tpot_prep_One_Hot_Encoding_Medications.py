@@ -12,25 +12,25 @@ Imports
 import pandas as pd
 import sklearn
 from sklearn.preprocessing import MultiLabelBinarizer
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 """
 global variables
 """
 #takes as input the output from the diagnosis_one_hot_encoding script
-infile = 'tpot_prep-diagnosis_names_one_hot_encoded.json'
-
-outputfile = 'tpot_prep-medication_names_one_hot_encoded.json'
+infile = 'tpot_prep-diagnosis_names_one_hot_encoded.parquet'
+outputfile = 'tpot_prep-medication_names_one_hot_encoded.parquet'
 mlb = MultiLabelBinarizer()
 
 def load_dataframe():
-    with open(infile) as json_file:
-        df = pd.read_json(infile)
-        return df
+    table = pq.read_table(infile)
+    df = table.to_pandas()
+    return df
 
 def write_dataframe(df):
-    with open(outputfile,'w') as f:
-        json = df.to_json()
-        f.write(json)
+    table = pa.Table.from_pandas(df)
+    pq.write_table(table, outputfile)
 
 def medications_one_hot_encoding():
     df = load_dataframe()
