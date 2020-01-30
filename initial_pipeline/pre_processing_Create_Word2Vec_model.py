@@ -5,96 +5,101 @@
 
 
 """
-Reads tokenized EMR data and creates Word2Vec Model
-input: tokenized EMR data (tokens.json)
-output: word2vec model artifacts [saved to persistant volume]: corpora, dictionary, embeddings (.model file)
-Last update: 1/22/20
+Creates Word2Vec Model and features related to key term: 'readmission'
+input: raw unstructured EMR data
+output:Word2Vec model OR FastText Model
+Last update: 1.29.20
 Author:  Andrew Malinow, PhD
 """
 
 
-# In[1]:
+# In[46]:
 
 
 """
 Imports
 """
 import requests
-import json
+from nltk import word_tokenize
 import gensim
+import pandas as pd
 from gensim.models import Word2Vec
+import time
+import nltk
+import os
+import re
+from gensim.models import FastText
 
 
-# In[2]:
+# In[32]:
+
+
+"""
+nltk dependencies
+"""
+nltk.download('words')
+nltk.download('stopwords')
+nltk.download('punkt')
+
+
+# In[33]:
 
 
 """
 Global Variables
 """
-resp = requests.get('http://10.32.22.16:56733/noteevents/55500')
-if resp.status_code != 200:
-        raise ApiError('GET /noteevents/<size> {}'.format(resp.status_code))
+#this is the key variable that needs to be altered to address a specific clicnical/business challenge
+key_words=['septic','infection','infected','pneumonia','catheter line infection']
+#the words set from nltk should be replaced eventually with a better vocab- currently it filters our important words such as 'copays'
+related_terms_dict={}
+en_stop = set(nltk.corpus.stopwords.words('english'))
+
+
+# In[124]:
+
+
+"""
+Get Data
+"""
+resp = requests.get('http://10.32.22.16:56733/noteevents/100000')
+#if resp.status_code != 200:
+#        raise ApiError('GET /noteevents/<size> {}'.format(resp.status_code))
 json_notes=resp.json()['json_notes']
 notes_text = [note['text'] for note in json_notes]
-
-
-# In[3]:
-
-
-"""
-pre-processing for Word2Vec
-"""
-documents=[]
-for line in notes_text:
-    documents.append(gensim.utils.simple_preprocess (line))
-
-
-# In[4]:
-
-
-"""
-create word2vec model
-need to tune parameters
-"""
-model = Word2Vec(documents, min_count=2,workers=10)
-model.train(documents,total_examples=len(documents),epochs=10)
-word_vectors=model.wv
-vocabulary=model.wv.vocab  
-
-
-# In[7]:
-
-
-"""
-save model, and word vectors
-"""
-model.save('word2vec.model')
-model.wv.save_word2vec_format('word2vecKeyVectors.model',binary=True)
-
-
-# In[6]:
-
-
-sepsis_sim_words=model.wv.most_similar("infection")
-readmit_sim_words=model.wv.most_similar("readmitted")
-
-
-# In[18]:
-
-
-"""
-write out similar terms ["sepsis" and "readmission"] to separate files
-these terms will be turned into features- e.g., sepsis_term_1 (0/1/); sepsis_term_2 (0/1)
-"""
-with open('sepsis_related.json','w') as f:
-    json.dump(dict(sepsis_sim_words), f)
-
-with open('readmit_related.json','w') as a:
-    json.dump(dict(readmit_sim_words),a)
 
 
 # In[ ]:
 
 
+"""
+Prep data
+"""
 
+text=re.sub(r'([^\s\w]|_)+', '', str(notes_text))
+text=re.sub('\n','',str(text))
+sentences=word_tokenize(str(text))
+sentences=[token for token in sentences if len(token)>3]
+sentences=[token for token in sentences if token not in en_stop]
+
+
+# In[122]:
+
+
+"""
+validate data
+(there should be more sentences than number of records)
+"""
+print (len(sentences))
+
+
+# In[117]:
+
+
+"""
+create Word2Vec Model and save for future use
+need to update location for saved model
+"""
+
+model = Word2Vec([sentences], size=100, window=10, min_count=2, workers=3)
+model.wv.save_word2vec_format('Word2VecModel.bin', binary=True)
 
