@@ -5,9 +5,9 @@
 
 
 """
-Creates Word2Vec Model and features related to key term: 'readmission'
-input: raw unstructured EMR data
-output:Word2Vec model OR FastText Model
+Creates Word2Vec Model
+input: raw unstructured EMR data (['text'] column in our schema)
+output:Word2Vec model (.bin)
 Last update: 1.29.20
 Author:  Andrew Malinow, PhD
 """
@@ -22,13 +22,9 @@ Imports
 import requests
 from nltk import word_tokenize
 import gensim
-import pandas as pd
 from gensim.models import Word2Vec
-import time
 import nltk
-import os
 import re
-from gensim.models import FastText
 
 
 # In[32]:
@@ -48,10 +44,6 @@ nltk.download('punkt')
 """
 Global Variables
 """
-#this is the key variable that needs to be altered to address a specific clicnical/business challenge
-key_words=['septic','infection','infected','pneumonia','catheter line infection']
-#the words set from nltk should be replaced eventually with a better vocab- currently it filters our important words such as 'copays'
-related_terms_dict={}
 en_stop = set(nltk.corpus.stopwords.words('english'))
 
 
@@ -68,7 +60,7 @@ json_notes=resp.json()['json_notes']
 notes_text = [note['text'] for note in json_notes]
 
 
-# In[ ]:
+# In[125]:
 
 
 """
@@ -82,7 +74,7 @@ sentences=[token for token in sentences if len(token)>3]
 sentences=[token for token in sentences if token not in en_stop]
 
 
-# In[122]:
+# In[126]:
 
 
 """
@@ -92,7 +84,7 @@ validate data
 print (len(sentences))
 
 
-# In[117]:
+# In[127]:
 
 
 """
@@ -102,4 +94,10 @@ need to update location for saved model
 
 model = Word2Vec([sentences], size=100, window=10, min_count=2, workers=3)
 model.wv.save_word2vec_format('Word2VecModel.bin', binary=True)
+
+
+# In[ ]:
+
+
+
 
