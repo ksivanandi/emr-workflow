@@ -60,21 +60,21 @@ json_notes=resp.json()['json_notes']
 notes_text = [note['text'] for note in json_notes]
 
 
-# In[125]:
+# In[131]:
 
 
 """
 Prep data
 """
 
-text=re.sub(r'([^\s\w]|_)+', '', str(notes_text))
+#text=re.sub(r'([^\s\w]|_)+', '', str(notes_text))
 text=re.sub('\n','',str(text))
 sentences=word_tokenize(str(text))
 sentences=[token for token in sentences if len(token)>3]
 sentences=[token for token in sentences if token not in en_stop]
 
 
-# In[126]:
+# In[132]:
 
 
 """
@@ -84,7 +84,7 @@ validate data
 print (len(sentences))
 
 
-# In[127]:
+# In[133]:
 
 
 """
@@ -94,6 +94,25 @@ need to update location for saved model
 
 model = Word2Vec([sentences], size=100, window=10, min_count=2, workers=3)
 model.wv.save_word2vec_format('Word2VecModel.bin', binary=True)
+
+
+# In[ ]:
+
+
+"""
+build phrases
+"""
+from gensim.models.phrases import Phrases, Phraser
+def build_phrases(sentences):
+    phrases = Phrases(sentences,
+                      min_count=5,
+                      threshold=7,
+                      progress_per=1000)
+    return Phraser(phrases)
+
+phrases_model=build_phrases(sentences)
+phrases_model.save('phrases_model.txt')
+phrases_model= Phraser.load('phrases_model.txt')
 
 
 # In[ ]:
