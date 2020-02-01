@@ -19,7 +19,7 @@ dag = DAG('emr-initial-dag', default_args=default_args)
 
 tokenize_operator = PythonOperator(
     task_id = 'pre_processing_create_tokens',
-    python_callable = pre_processing_Create_Tokens.teokenize_data,
+    python_callable = pre_processing_Create_Tokens.tokenize_data,
     dag = dag
     )
 

@@ -73,7 +73,7 @@ def make_vitals_columns(data):
                 vital=breath+keep
                 vitals.append(vital)
                 missing.append('na')
-           if re.findall(r'respitory',line):
+            if re.findall(r'respitory',line):
                 junk, breath, keep=line.partition('respitory')
                 vital=breath+keep
                 vitals.append(vital)
@@ -97,7 +97,7 @@ def make_ngrams_column(data):
 """
 turn ngrams into single 'words' by replacing " " with "_"
 """
-def make_ngrams_concat_column(data)
+def make_ngrams_concat_column(data):
     clinical_ngrams_concat=[]
     for i, row in data.iterrows():
         ngram_list=[]
