@@ -4,6 +4,7 @@ from pandas.io.json import json_normalize
 import pyarrow as pa
 import pyarrow.parquet as pq
 import math
+import pymongo
 
 json_count = requests.get('http://10.32.22.16:56733/noteeventscount').json()
 count = json_count['note_count']
@@ -28,3 +29,11 @@ for admission in admissions:
 df = json_normalize(admissions)
 table = pa.Table.from_pandas(df)
 pq.write_table(table, 'admissions.parquet')
+
+myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+mydb = myclient['emr_steps']
+mycollection = mydb['first_dataframe']
+timestamp = datetime.datetime.now().timestamp()
+json_df = df.to_json()
+mongodb_output = {'timestamp': timestamp, 'json_df': json_df}
+mycollection.insert_one(mongodb_output)
