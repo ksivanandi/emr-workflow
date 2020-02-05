@@ -3,6 +3,7 @@ import pandas as pd
 from pandas.io.json import json_normalize
 import pyarrow as pa
 import pyarrow.parquet as pq
+import math
 
 json_count = requests.get('http://10.32.22.16:56733/noteeventscount').json()
 count = json_count['note_count']
