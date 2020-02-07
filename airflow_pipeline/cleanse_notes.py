@@ -13,7 +13,7 @@ def read_from_db():
     fs = gridfs.GridFS(db)
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
     json_df = fs.get(most_recent_entry['json_df_gridfs_id']).read()
-    df = pd.from_json(json_df)
+    df = pd.read_json(json_df)
     return df
 
 def combine_and_cleanse(df):
