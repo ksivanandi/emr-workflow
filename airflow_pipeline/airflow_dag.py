@@ -7,7 +7,8 @@ import feature_engineering_Topic_Modeling
 import feature_engineering_Vitals_Related_Added
 import tpot_prep_One_Hot_Encoding_Diagnoses
 import tpot_prep_One_Hot_Encoding_Medications
-import first_table_from_api 
+import first_table_from_api
+import cleanse_notes
 
 from datetime import datetime, timedelta
 
@@ -21,6 +22,12 @@ dag = DAG('emr-initial-dag', default_args=default_args)
 df_from_api_operator = PythonOperator(
     task_id = 'standardize_data_format_from_apis',
     python_callable = first_table_from_api.get_dataframe_from_apis,
+    dag = dag
+    )
+
+clean_notes_operator = PythonOperator(
+    task_id = 'cleanse_notes',
+    python_callable = cleanse_notes.clean_all_notes(),
     dag = dag
     )
 
