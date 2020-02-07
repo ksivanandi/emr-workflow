@@ -7,6 +7,7 @@ import feature_engineering_Topic_Modeling
 import feature_engineering_Vitals_Related_Added
 import tpot_prep_One_Hot_Encoding_Diagnoses
 import tpot_prep_One_Hot_Encoding_Medications
+import first_table_from_api 
 
 from datetime import datetime, timedelta
 
@@ -16,6 +17,12 @@ default_args = {
 }
 
 dag = DAG('emr-initial-dag', default_args=default_args)
+
+df_from_api_operator = PythonOperator(
+    task_id = 'standardize_data_format_from_apis',
+    python_callable = first_table_from_api.get_dataframe_from_apis,
+    dag = dag
+    )
 
 tokenize_operator = PythonOperator(
     task_id = 'pre_processing_create_tokens',
@@ -59,4 +66,4 @@ medications_one_hot_operator = PythonOperator(
     dag = dag
     )
 
-tokenize_operator >> [word_embedding_operator, admit_discharge_features_operator, topic_modeling_operator] >> vitals_ngrams_features_operator >> diagnoses_one_hot_operator >> medications_one_hot_operator
+df_from_api_operator >> tokenize_operator >> [word_embedding_operator, admit_discharge_features_operator, topic_modeling_operator] >> vitals_ngrams_features_operator >> diagnoses_one_hot_operator >> medications_one_hot_operator
