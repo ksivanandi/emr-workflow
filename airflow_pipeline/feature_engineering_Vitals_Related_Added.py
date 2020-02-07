@@ -46,7 +46,7 @@ def generate_ngrams(s, n):
     # Use the zip function to help us generate n-grams
     # Concatentate the tokens into ngrams and return
     ngrams = zip(*[tokens[i:] for i in range(n)])
-    return [" ".join(ngram) for ngram in ngrams]
+    return ["_".join(ngram) for ngram in ngrams]
 
 """
 feature engineering: pull out vitals
