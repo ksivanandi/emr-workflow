@@ -1,14 +1,16 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
-import pre_processing_Create_Tokens
 import pre_processing_Create_Word2Vec_model
 import feature_engineering_Sequence_Clinical_Note
 import feature_engineering_Topic_Modeling
 import feature_engineering_Vitals_Related_Added
 import tpot_prep_One_Hot_Encoding_Diagnoses
 import tpot_prep_One_Hot_Encoding_Medications
+
 import first_table_from_api
 import cleanse_notes
+import tokenize_notes
+import entityr_recognition
 
 from datetime import datetime, timedelta
 
@@ -31,17 +33,20 @@ clean_notes_operator = PythonOperator(
     dag = dag
     )
 
-tokenize_operator = PythonOperator(
-    task_id = 'pre_processing_create_tokens',
-    python_callable = pre_processing_Create_Tokens.tokenize_data,
+tokenize_notes_operator = PythonOperator(
+    task_id = 'tokenize_notes',
+    python_callable = tokenize_notes.tokenize_all_notes,
     dag = dag
     )
+
+
 
 word_embedding_operator = PythonOperator(
     task_id = 'pre_processing_create_word2vec_model',
     python_callable = pre_processing_Create_Word2Vec_model.create_and_save_word2vec,
     dag = dag
     )
+
 
 admit_discharge_features_operator = PythonOperator(
     task_id = 'feature_engineering_admit_discharge',
@@ -73,4 +78,4 @@ medications_one_hot_operator = PythonOperator(
     dag = dag
     )
 
-df_from_api_operator >> tokenize_operator >> [word_embedding_operator, admit_discharge_features_operator, topic_modeling_operator] >> vitals_ngrams_features_operator >> diagnoses_one_hot_operator >> medications_one_hot_operator
+df_from_api_operator >> clean_notes_operator >> tokenize_notes_operator >> [word_embedding_operator, admit_discharge_features_operator, topic_modeling_operator] >> vitals_ngrams_features_operator >> diagnoses_one_hot_operator >> medications_one_hot_operator

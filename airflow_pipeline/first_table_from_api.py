@@ -47,7 +47,7 @@ def write_to_db(df):
     timestamp = datetime.datetime.now().timestamp()
 
     # save reference to the gridfs store and a timestamp to the main table for this step
-    mongodb_output = {'timestamp': timestamp, 'json_df_gridfs_id': gridfs_id}
+    mongodb_output = {'timestamp': timestamp, 'gridfs_id': gridfs_id}
     collection.insert_one(mongodb_output)
 
 def get_dataframe_from_apis():

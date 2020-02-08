@@ -9,11 +9,11 @@ import datetime
 def read_from_db():
     client = pymongo.MongoClient('mongodb://localhost:27017/')
     db = client['emr_steps']
-    collection = db['dataframe_1']
+    collection = db['first_dataframe']
     fs = gridfs.GridFS(db)
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    json_df = fs.get(most_recent_entry['json_df_gridfs_id']).read()
-    df = pd.read_json(json_df)
+    json_df = fs.get(most_recent_entry['gridfs_id']).read()
+    df = pd.read_json(json_df.decode())
     return df
 
 def combine_and_cleanse(df):
@@ -38,7 +38,7 @@ def write_to_db(notes):
     notes_encoded = notes.encode()
     gridfs_id = fs.put(notes_encoded)
     timestamp = datetime.datetime.now().timestamp()
-    mongodb_output = {'timestamp': timestamp, 'clean_notes_gridfs_id': gridfs_id}
+    mongodb_output = {'timestamp': timestamp, 'gridfs_id': gridfs_id}
     collection.insert_one(mongodb_output)
 
 def clean_all_notes():
