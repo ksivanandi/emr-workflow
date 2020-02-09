@@ -10,7 +10,10 @@ import tpot_prep_One_Hot_Encoding_Medications
 import first_table_from_api
 import cleanse_notes
 import tokenize_notes
-import entityr_recognition
+import create_word2vec_model
+import entity_recognition
+import fe_from_readmission_keywords
+import fe_from_infection_keywords
 
 from datetime import datetime, timedelta
 
@@ -39,7 +42,29 @@ tokenize_notes_operator = PythonOperator(
     dag = dag
     )
 
+word2vec_operator = PythonOperator(
+    task_id = 'make_word2vec_model',
+    python_callable = create_word2vec_model.create_word2vec_model,
+    dag = dag
+    )
 
+entity_recognition_operator = PythonOperator(
+    task_id = 'entity_recognition',
+    python_callable = entity_recognition.make_ner,
+    dag = dag
+    )
+
+readmission_one_hot_operator = PythonOperator(
+    task_id = 'fe_readmit_one_hot',
+    python_callable = fe_from_readmission_keywords.readmission_one_hot,
+    dag = dag
+    )
+
+infected_one_hot_operator = PythonOperator(
+    task_id = 'fe_infected_one_hot',
+    python_callable = fe_from_infection_keywords.infected_one_hot,
+    dag = dag
+    )
 
 word_embedding_operator = PythonOperator(
     task_id = 'pre_processing_create_word2vec_model',

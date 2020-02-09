@@ -30,7 +30,6 @@ from sklearn.preprocessing import MultiLabelBinarizer
 
 # In[235]:
 
-
 """
 retrieve data and store in dataframe
 this needs to be updated to retrieve all data

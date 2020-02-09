@@ -20,13 +20,18 @@ def combine_and_cleanse(df):
     notes = df['notes']
     all_notes = ''
     for note in notes:
-        note = note.replace('\\n', '')
-        note = note.replace("|", ' ')
-        note = re.sub(r'\( (.*) \)', r'(\1)', note)
-        note = re.sub(' +', ' ', note.strip())
-        note = re.sub(r' ([,.:])', r'\1', note)
-
+        #note = note.replace('\\n', '')
+        #note = note.replace("|", ' ')
+        #note = re.sub(r'\( (.*) \)', r'(\1)', note)
+        #note = re.sub(' +', ' ', note.strip())
+        #note = re.sub(r' ([,.:])', r'\1', note)
         all_notes += ' ' + note
+
+    all_notes = all_notes.replace('\\n', '')
+    all_notes = all_notes.replace("|", ' ')
+    all_notes = re.sub(r'\( (.*) \)', r'(\1)', all_notes)
+    all_notes = re.sub(' +', ' ', all_notes.strip())
+    all_notes = re.sub(r' ([,.:])', r'\1', all_notes)
     all_notes = all_notes.strip()
     return all_notes
 

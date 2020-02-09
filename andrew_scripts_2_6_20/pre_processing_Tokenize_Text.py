@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
 """
 Tokenize unstructured EMR records to support downstream model creation (for feature engineering)
 input: raw EMR note data
@@ -11,10 +8,6 @@ output: tokenized text (tokens.json)
 Last updated: 1.26.20
 Author: Andrew Malinow
 """
-
-
-# In[35]:
-
 
 """
 imports
@@ -24,20 +17,14 @@ import requests
 import json
 from nltk import word_tokenize
 import nltk
-
-
-# In[32]:
-
+import pymongo
+import gridfs
 
 """
 nltk dependencies
 """
 nltk.download('stopwords')
 nltk.download('punkt')
-
-
-# In[21]:
-
 
 """
 global variables
@@ -49,8 +36,7 @@ if data.status_code != 200:
 json_notes=data.json()['json_notes']
 notes_text = [note['text'] for note in json_notes]
 
-
-# In[36]:
+def read_from_db():
 
 
 """
@@ -63,19 +49,8 @@ sentences=word_tokenize(str(text))
 sentences=[token for token in sentences if len(token)>2]
 sentences=[token for token in sentences if token not in en_stop]
 
-
-# In[38]:
-
-
 """
 write tokens to file/db table
 """
 with open('tokens.json', 'w') as f:
     json.dump(sentences, f)
-
-
-# In[ ]:
-
-
-
-
