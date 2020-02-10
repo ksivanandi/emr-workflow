@@ -3,7 +3,7 @@ from airflow.operators.python_operator import PythonOperator
 
 import first_table_from_api
 import cleanse_notes
-import tokenize_notes
+import word2vec_prep_tokenize_notes
 import create_word2vec_model
 import entity_recognition
 import fe_from_readmission_keywords
@@ -31,9 +31,9 @@ clean_notes_operator = PythonOperator(
     dag = dag
     )
 
-tokenize_notes_operator = PythonOperator(
-    task_id = 'tokenize_notes',
-    python_callable = tokenize_notes.tokenize_all_notes,
+word2vec_tokenize_notes_operator = PythonOperator(
+    task_id = 'word2vec_prep_tokenize_notes',
+    python_callable = word2vec_prep_tokenize_notes.tokenize_all_notes,
     dag = dag
     )
 
