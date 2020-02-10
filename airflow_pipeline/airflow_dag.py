@@ -62,7 +62,7 @@ infected_one_hot_operator = PythonOperator(
     )
 
 structured_features_operator = PythonOperator(
-    task_id = '',
+    task_id = 'fe_from_structured_data',
     python_callable = fe_from_structured_readmit_los.create_structured_data_features,
     dag = dag
     )
