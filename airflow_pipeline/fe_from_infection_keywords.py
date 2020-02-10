@@ -33,7 +33,7 @@ def get_first_dataframe():
     collection = db['first_dataframe']
     fs = gridfs.GridFS(db)
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    df_json = fs.get(most_recent_entry['gridfs_id'])
+    df_json = fs.get(most_recent_entry['gridfs_id']).read()
     df_json_decoded =  df_json.decode()
     df = pandas.read_json(df_json_decoded)
     return df
@@ -106,10 +106,6 @@ def one_hot_encode_found_key_terms(df):
 write one-hot encoded variables and index to file/table
 write term and cosine similarity value tuples to file/table
 """
-#df1=pd.DataFrame()
-#df.to_json('tpot_prep-infection_key_words_one_hot_encoded.json')
-#df1['infected_key_words']=infected_key_words
-#df1.to_json('infected_similarity_terms_cosine_values.json')
 def write_to_db(updated_df, flattened_list):
     client = pymongo.MongoClient('mongodb://localhost:27017')
     db = client['emr_steps']

@@ -29,7 +29,7 @@ def read_from_db():
     collection = db['notes_tokenized']
     fs = gridfs.GridFS(db)
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    tokens_list_string = fs.get(most_recent_entry['gridfs_id']).decode()
+    tokens_list_string = fs.get(most_recent_entry['gridfs_id']).decode().read()
     return tokens_list_string
 
 def write_to_db(bin_model):

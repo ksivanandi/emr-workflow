@@ -36,7 +36,7 @@ def combine_notes_and_admissions(admissions, all_notes):
 def write_to_db(df):
     # set up connections to the database
     client = pymongo.MongoClient('mongodb://localhost:27017/')
-    db = myclient['emr_steps']
+    db = client['emr_steps']
     fs = gridfs.GridFS(db)
     collection = db['first_dataframe']
 

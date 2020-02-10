@@ -32,7 +32,7 @@ def get_first_dataframe():
     collection = db['first_dataframe']
     fs = gridfs.GridFS(db)
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    df_json = fs.get(most_recent_entry['gridfs_id'])
+    df_json = fs.get(most_recent_entry['gridfs_id']).read()
     df_json_decoded =  df_json.decode()
     df = pandas.read_json(df_json_decoded)
     return df

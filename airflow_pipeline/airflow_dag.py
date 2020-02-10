@@ -8,6 +8,7 @@ import create_word2vec_model
 import entity_recognition
 import fe_from_readmission_keywords
 import fe_from_infection_keywords
+import fe_from_structured_readmit_los
 
 from datetime import datetime, timedelta
 
@@ -57,6 +58,12 @@ readmission_one_hot_operator = PythonOperator(
 infected_one_hot_operator = PythonOperator(
     task_id = 'fe_infected_one_hot',
     python_callable = fe_from_infection_keywords.infected_one_hot,
+    dag = dag
+    )
+
+structured_features_operator = PythonOperator(
+    task_id = '',
+    python_callable = fe_from_structured_readmit_los.create_structured_data_features,
     dag = dag
     )
 

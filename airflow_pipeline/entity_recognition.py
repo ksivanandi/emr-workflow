@@ -10,7 +10,7 @@ def read_from_db():
     collection = db['word2vec']
     fs = gridfs.GridFS(db)
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    word2vec_model_pickle = fs.get(most_recent_entry['gridfs_id'])
+    word2vec_model_pickle = fs.get(most_recent_entry['gridfs_id']).read()
     return word2vec_model_pickle
 
 def write_to_db(ner_output):
