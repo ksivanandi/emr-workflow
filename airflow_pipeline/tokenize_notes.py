@@ -36,7 +36,7 @@ def read_from_db():
     collection = db['all_notes_cleansed']
     fs = gridfs.GridFS(db)
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    notes = fs.get(most_recent_entry['gridfs_id']).decode()
+    notes = fs.get(most_recent_entry['gridfs_id']).read().decode()
     return notes
     
 
