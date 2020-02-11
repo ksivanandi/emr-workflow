@@ -11,6 +11,7 @@ import fe_from_readmission_keywords
 import fe_from_infection_keywords
 import fe_from_structured_readmit_los
 import fe_vitals_ngram_creation
+import create_lda_model
 
 from datetime import datetime, timedelta
 
@@ -42,6 +43,12 @@ word2vec_tokenize_notes_operator = PythonOperator(
 word2vec_operator = PythonOperator(
     task_id = 'make_word2vec_model',
     python_callable = create_word2vec_model.create_word2vec_model,
+    dag = dag
+    )
+
+create_lda_model_operator = PythonOperator(
+    task_id = 'create_lda_model',
+    python_callable = create_lda_model.create_lda_model,
     dag = dag
     )
 
