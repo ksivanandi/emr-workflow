@@ -35,8 +35,8 @@ pre-processing Pandas: tokenize text
 def tokenize_by_sentence(df):
     tokens_in_record = []
     for row in df.iterrows():
-        notes = record['text']
-        tokens=sent_tokenize(text)
+        notes = record['notes']
+        tokens=sent_tokenize(notes)
         tokens_in_record.append(tokens)
     df['tokens_in_record'] = tokens_in_record
     return df
