@@ -4,6 +4,7 @@ from airflow.operators.python_operator import PythonOperator
 import first_table_from_api
 import word2vec_prep_clean_notes
 import word2vec_prep_tokenize_notes
+import ngram_prep_tokenize_notes
 import create_word2vec_model
 import entity_recognition
 import fe_from_readmission_keywords
@@ -40,6 +41,12 @@ word2vec_tokenize_notes_operator = PythonOperator(
 word2vec_operator = PythonOperator(
     task_id = 'make_word2vec_model',
     python_callable = create_word2vec_model.create_word2vec_model,
+    dag = dag
+    )
+
+fe_ngram_prep_tokenize_notes_operator = PythonOperator(
+    task_id = 'fe_ngram_prep_tokenize_notes',
+    python_callable = ngram_prep_tokenize_notes.add_tokens_column,
     dag = dag
     )
 
