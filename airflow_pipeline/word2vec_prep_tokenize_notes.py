@@ -53,7 +53,7 @@ def tokenize(text):
 def write_to_db(tokens):
     client = pymongo.MongoClient('mongodb://localhost:27017/')
     db = client['emr_steps']
-    collection = db['notes_tokenized']
+    collection = db['word2vec_notes_tokenized']
     fs = gridfs.GridFS(db)
 
     tokens_string_encoded = str(tokens).encode()

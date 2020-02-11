@@ -26,7 +26,7 @@ Get Data
 def read_from_db():
     client = pymongo.MyClient('mongodb://localhost:27017/')
     db = client['emr_steps']
-    collection = db['notes_tokenized']
+    collection = db['word2vec_notes_tokenized']
     fs = gridfs.GridFS(db)
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
     tokens_list_string = fs.get(most_recent_entry['gridfs_id']).decode().read()
