@@ -2,7 +2,7 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 
 import first_table_from_api
-import cleanse_notes
+import word2vec_prep_clean_notes
 import word2vec_prep_tokenize_notes
 import create_word2vec_model
 import entity_recognition
@@ -27,7 +27,7 @@ df_from_api_operator = PythonOperator(
 
 clean_notes_operator = PythonOperator(
     task_id = 'cleanse_notes',
-    python_callable = cleanse_notes.clean_all_notes(),
+    python_callable = word2vec_prep_clean_notes.clean_all_notes(),
     dag = dag
     )
 
