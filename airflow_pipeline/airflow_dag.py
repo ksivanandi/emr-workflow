@@ -25,8 +25,8 @@ df_from_api_operator = PythonOperator(
     dag = dag
     )
 
-clean_notes_operator = PythonOperator(
-    task_id = 'cleanse_notes',
+word2vec_clean_notes_operator = PythonOperator(
+    task_id = 'word2vec_prep_cleanse_notes',
     python_callable = word2vec_prep_clean_notes.clean_all_notes(),
     dag = dag
     )
@@ -67,4 +67,4 @@ structured_features_operator = PythonOperator(
     dag = dag
     )
 
-df_from_api_operator >> clean_notes_operator >> tokenize_notes_operator >> word2vec_operator >> entity_recognition
+df_from_api_operator >> word2vec_clean_notes_operator >> word2vec_tokenize_notes_operator >> word2vec_operator >> entity_recognition
