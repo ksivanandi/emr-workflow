@@ -21,10 +21,18 @@ import re
 """
 global variables
 """
-infile='pp_clinical_note_sequenced.json'
-data=pd.read_json(infile)
 en_stop = set(nltk.corpus.stopwords.words('english'))
-df=pd.DataFrame()
+
+def read_from_db():
+    client = pymongo.MongoClient('mongodb://localhost:27017/')
+    db = client['emr_steps']
+    collection = db['ngram_prep_tokenize']
+    fs = gridfs.GridFS(db)
+    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
+    json_df = fs.get(most_recent_entry['gridfs_id']).read()
+    df = pd.read_json(json_df.decode())
+    return df
+
 
 """
 generate n-grams function
@@ -32,10 +40,8 @@ generate n-grams function
 def generate_ngrams(s, n):
     # Convert to lowercases
     s = s.lower()
-    
     # Replace all none alphanumeric characters with spaces
     s = re.sub(r'[^a-zA-Z0-9\s]', ' ', s)
-    
     # Break sentence in the token, remove empty tokens
     tokens = [token for token in s.split(" ") if token != ""]
     tokens = [token for token in s.split(" ") if len(token)>=3]
@@ -47,75 +53,80 @@ def generate_ngrams(s, n):
 """
 feature engineering: pull out vitals
 """
-all_vitals=[]
-non_vital=[]
-for record in data['tokens_in_record']:
-    
-    missing=[]
-    vitals=[]
-    
-    sentences=sent_tokenize(str(record))
-    
-    for line in sentences:
-       
-        if re.findall(r'temperature', str(line)): 
-            junk, temp, keep=str(line).partition('temperature')
-            vital=temp+keep
-            vitals.append(vital)
-            missing.append('na')
-        if re.findall(r'blood pressure', str(line)):
-            junk, bp, keep=str(line).partition('blood pressure')
-            vital=bp+keep
-            vitals.append(vital)
-            missing.append('na')
-        if re.findall(r'breathing',str(line)):
-            junk, breath, keep=str(line).partition('breathing')
-            vital=breath+keep
-            vitals.append(vital)
-            missing.append('na')
-        if re.findall(r'respitory',str(line)):
-            junk, breath, keep=str(line).partition('respitory')
-            vital=breath+keep
-            vitals.append(vital)
-            missing.append('na')
+def get_vitals_and_generate_ngrams(df):
+    all_vitals=[]
+    non_vital=[]
+    all_ngrams = []
+    for record in df['tokens_in_record']:
         
-        else:
-            
-            continue
-   
-    all_vitals.append(vitals)
-    non_vital.append(missing)
-    continue
-   
-data['non-vitals']=non_vital
-data['vitals']=all_vitals
+        #block for getting vitals
+        missing=[]
+        vitals=[]
+        for line in record:
+            if re.findall(r'temperature', str(line)):
+                junk, temp, keep=str(line).partition('temperature')
+                vital=temp+keep
+                vitals.append(vital)
+                missing.append('na')
+            if re.findall(r'blood pressure', str(line)):
+                junk, bp, keep=str(line).partition('blood pressure')
+                vital=bp+keep
+                vitals.append(vital)
+                missing.append('na')
+            if re.findall(r'breathing',str(line)):
+                junk, breath, keep=str(line).partition('breathing')
+                vital=breath+keep
+                vitals.append(vital)
+                missing.append('na')
+            if re.findall(r'respitory',str(line)):
+                junk, breath, keep=str(line).partition('respitory')
+                vital=breath+keep
+                vitals.append(vital)
+                missing.append('na')
+        all_vitals.append(vitals)
+        non_vital.append(missing)
+        
+        #block for generating ngrams
+        clinical_ngrams = generate_ngrams(str(vitals),5)
+        all_ngrams.append(clinical_ngrams)
+
+    df['non-vitals']=non_vital
+    df['vitals']=all_vitals
+    df['vitals_ngrams'] = all_ngrams
+    return df
 
 """
 generate n-grams for df['vitals'] to further refine vitals and prep for topic modeling
 """
-ngrams=[]
-for i, row in data.iterrows():
-    vitals=row['vitals']
-    clinical_ngrams=generate_ngrams(str(vitals),5)
-    ngrams.append(clinical_ngrams)
+#slows down code to go through the dataframe twice so combined this function into the function above
 
-data['clinical_ngrams']=ngrams
+#def generate_ngrams(df):
+#    ngrams=[]
+#    for row in data.iterrows():
+#        vitals=row['vitals']
+#        clinical_ngrams=generate_ngrams(str(vitals),5)
+#        ngrams.append(clinical_ngrams)
+#    df['clinical_ngrams']=ngrams
+#    return df
 
-"""
-turn ngrams into single 'words' by replacing " " with "_"
-"""
-clinical_ngrams_concat=[]
-for i, row in df.iterrows():
-    ngram_list=[]
-    ngrams=row['clinical_ngrams']
-    for n in ngrams:
-        n=str(n)
-        a=str(n).replace(" ","_")
-        ngram_list.append(a)
-        continue
-    clinical_ngrams_concat.append(ngram_list)
-    continue
-data['clinical_ngrams_concat']=clinical_ngrams_concat
-data['clinical_ngrams_concat']
-data.to_json("fe_vitals_related_added.json")
+def write_to_db(df):
+    # set up connections to the database
+    client = pymongo.MongoClient('mongodb://localhost:27017/')
+    db = client['emr_steps']
+    fs = gridfs.GridFS(db)
+    collection = db['vitals_ngrams']
 
+    # save the dataframe as a json string to the database gridfs store for large objects
+    json_df = df.to_json()
+    json_df_encoded = json_df.encode()
+    gridfs_id = fs.put(json_df_encoded)
+    timestamp = datetime.datetime.now().timestamp()
+
+    # save reference to the gridfs store and a timestamp to the main table for this step
+    mongodb_output = {'timestamp': timestamp, 'gridfs_id': gridfs_id}
+    collection.insert_one(mongodb_output)
+
+def create_vitals_ngrams():
+    df = read_from_db()
+    df = get_vitals_and_generate_ngrams(df)
+    write_to_db(df)

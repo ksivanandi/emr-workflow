@@ -10,6 +10,7 @@ import entity_recognition
 import fe_from_readmission_keywords
 import fe_from_infection_keywords
 import fe_from_structured_readmit_los
+import fe_vitals_ngram_creation
 
 from datetime import datetime, timedelta
 
@@ -47,6 +48,12 @@ word2vec_operator = PythonOperator(
 fe_ngram_prep_tokenize_notes_operator = PythonOperator(
     task_id = 'fe_ngram_prep_tokenize_notes',
     python_callable = ngram_prep_tokenize_notes.add_tokens_column,
+    dag = dag
+    )
+
+fe_vitals_ngram_creation_operator = PythonOperator(
+    task_id = 'create_vitals_ngrams',
+    python_callable = fe_vitals_ngram_creation.create_vitals_ngrams,
     dag = dag
     )
 
