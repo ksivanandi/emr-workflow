@@ -18,6 +18,7 @@ import nltk
 import pymongo
 import gridfs
 import datetime
+from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
 """
 nltk dependencies
@@ -63,6 +64,11 @@ def write_to_db(tokens):
     collection.insert_one(mongodb_output)
 
 def tokenize_all_notes():
-    notes = read_from_db()
+    notes_encoded = standard_read_from_db('all_notes_cleansed')
+    notes = notes_encoded.decode()
+    
     tokens = tokenize(notes)
-    write_to_db(tokens)
+
+    tokens_string_encoded = str(tokens).encode()
+    standard_write_to_db('word2vec_notes_tokenized', tokens_string_encoded)
+
