@@ -19,6 +19,7 @@ import gridfs
 import datetime
 import ast
 import pickle
+from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
 """
 Get Data
@@ -29,7 +30,7 @@ def read_from_db():
     collection = db['word2vec_notes_tokenized']
     fs = gridfs.GridFS(db)
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    tokens_list_string = fs.get(most_recent_entry['gridfs_id']).decode().read()
+    tokens_list_string = fs.get(most_recent_entry['gridfs_id']).read().decode()
     return tokens_list_string
 
 def write_to_db(bin_model):
@@ -43,9 +44,9 @@ def write_to_db(bin_model):
     collection.insert_one(mongodb_output)
 
 def create_word2vec_model():
-    tokens_string = read_from_db()
+    tokens_string = standard_read_from_db('word2vec_notes_tokenized').decode()
     tokens = ast.literal_eval(tokens_string)
     model = Word2Vec([tokens], size=100, window=10, min_count=2, workers=3)
     model_pickled = pickle.dumps(model)
-    write_to_db(model_pickled)
+    standard_write_to_db('word2vec', model_pickled)
 
