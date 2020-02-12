@@ -3,6 +3,7 @@ import gridfs
 import pandas as pd
 import numpy as np
 import datetime
+from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
 def get_first_dataframe():
     client = pymongo.MongoClient('mongodb://localhost:27017/')
@@ -62,7 +63,14 @@ def add_readmission_column(df):
     return df
 
 def create_structured_data_features():
-    df = get_first_dataframe()
+    df_json_encoded = standard_read_from_db('first_dataframe')
+    df_json = df_json_encoded.decode()
+    df = pd.read_json(df_json)
+
     df = add_los_and_binary_deathtime_columns(df)
     df = add_readmission_column(df)
-    write_to_db(df)
+    
+    df_json = df.to_json()
+    df_json_encoded = df_json.encode()
+    standard_write_to_db('structured_data_features', df_json_encoded)
+
