@@ -101,4 +101,41 @@ def infection_keywords_write_to_db(updated_df, flattened_list):
 
     collection.insert_one(mongodb_output)
 
+def readmission_keywords_read_from_db():
+    db = get_db()
+    collection = db['readmission_one_hot']
+    fs = gridfs.GridFS(db)
+
+    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
+    updated_df_json = fs.get(most_recent_entry['updated_df_gridfs_id']).read().decode()
+    term_cos_simil_df_json = fs.get(most_recent_entry['term_cos_simil_df_gridfs_id']).read().decode()
+
+    updated_df = pd.read_json(update_df_json)
+    term_cos_simil_df = pd.read_json(term_cos_simil_df_json)
+
+    return updated_df, term_cos_simil_df
+
+def readmission_keywords_write_to_db(updated_df, flattened_list):
+    db = get_db()
+    collection = db['readmission_one_hot']
+    fs = gridfs.GridFS(db)
+
+    df_term_and_cos_simil = pd.DataFrame()
+    df_term_and_cos_simil['readmission_key_words'] = flattened_list
+
+    updated_df_json = updated_df.to_json()
+    term_cos_simil_df_json = term_cos_simil_df.to_json()
+
+    timestamp = datetime.datetime.now().timestamp()
+    updated_df_gridfs_id = fs.put(updated_df_json.encode())
+    term_cos_simil_df_gridfs_id = fs.put(term_cos_simil_df_json.encode())
+
+    mongodb_output = {
+            'timestamp': timestamp,
+            'updated_df_gridfs_id': updated_df_gridfs_id,
+            'term_cos_simil_df_gridfs_id': term_cos_simil_df_gridfs_id
+            }
+
+    collection.insert_one(mongodb_output)
+
 
