@@ -6,6 +6,7 @@ import pyarrow.parquet as pq
 import math
 import pymongo
 import gridfs
+from workflow_read_and_write import standard_write_to_db
 
 def get_all_notes():
     json_count = requests.get('http://10.32.22.16:56733/noteeventscount').json()
@@ -55,5 +56,6 @@ def get_dataframe_from_apis():
     admissions = get_admissions()
     admissions_with_notes = combine_notes_and_admissions(admissions, notes)
     df = json_normalize(admissions_with_notes)
-    write_to_db(df)
+    df_json_decoded = df.to_json().decode()
+    write_to_db(df_json_decoded, 'first_dataframe')
 
