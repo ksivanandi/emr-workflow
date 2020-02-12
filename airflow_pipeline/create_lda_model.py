@@ -5,6 +5,7 @@ import pickle
 import pymongo
 import gridfs
 import datetime
+from workflow_read_and_write import standard_read_from_db, lda_write_to_db 
 
 #table = pq.read_table('/home/emrm1/emr-workflow/admissions.parquet')
 #df = table.to_pandas()
@@ -82,8 +83,8 @@ def write_to_db(dictionary, corpus, lda_model):
     collection.insert_one(mongodb_output)
 
 def create_lda_model():
-    notes = read_from_db()
+    notes = standard_read_from_db('all_notes_cleansed').decode()
     tokens = create_ngram_tokens(notes)
     dictionary, corpus, lda_model = make_model(tokens)
-    write_to_db(dictionary_corpus, lda_model)
+    lda_write_to_db(dictionary, corpus, lda_model)
 
