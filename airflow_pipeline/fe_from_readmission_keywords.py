@@ -21,6 +21,7 @@ import pymongo
 import gridfs
 import datetime
 import pickle
+from workflow_read_and_write import standard_read_from_db, readmission_write_to_db
 
 """
 retrieve data and store in dataframe
@@ -129,10 +130,16 @@ def write_to_db(updated_df, flattened_list):
     collection.insert_one(mongodb_output)
 
 def readmission_one_hot():
-    first_dataframe = get_first_dataframe()
-    word2vec_pickle = get_word2vec_model()
+    first_dataframe_json_encoded = standard_read_from_db('first_dataframe')
+    first_dataframe_json = first_dataframe_json_encoded.decode()
+    first_dataframe = pd.read_json(first_dataframe_json)
+
+    word2vec_pickle = standard_read_from_db('word2vec')
     word2vec_model = pickle.loads(word2vec_pickle)
+
     flattened, key_words = find_readmit_similar_terms(word2vec_model)
     df_found_words = add_found_words_column(first_dataframe, key_words)
     df_one_hot = one_hot_encode_found_key_terms(df_found_words)
-    write_to_db(df_one_hot, flattened)
+
+    readmission_keywords_write_to_db(df_one_hot, flattened)
+
