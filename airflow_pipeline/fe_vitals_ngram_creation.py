@@ -17,6 +17,7 @@ import pandas as pd
 import nltk
 from nltk import sent_tokenize, word_tokenize
 import re
+from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
 """
 global variables
@@ -127,6 +128,13 @@ def write_to_db(df):
     collection.insert_one(mongodb_output)
 
 def create_vitals_ngrams():
-    df = read_from_db()
+    df_json_encoded = standard_read_from_db('ngram_prep_tokenize')
+    df_json = df_json_encoded.decode()
+    df = pd.read_json(df_json)
+
     df = get_vitals_and_generate_ngrams(df)
-    write_to_db(df)
+
+    df_json = df.to_json()
+    df_json_encoded = df_json.encode()
+    standard_write_to_db('vitals_ngrams' ,df)
+
