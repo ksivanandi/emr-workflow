@@ -18,6 +18,7 @@ from nltk import sent_tokenize, word_tokenize
 import re
 import pymongo
 import gridfs
+from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
 def read_from_db():
     client = pymongo.MongoClient('mongodb://localhost:27017/')
@@ -59,6 +60,12 @@ def write_to_db(df):
     collection.insert_one(mongodb_output)
 
 def add_tokens_column():
-    df = read_from_db()
+    df_json_encoded = standard_read_from_db('first_dataframe')
+    df_json = df_json_encoded.decode()
+    df = pd.read_json(df_json)
+
     df = tokenize_by_sentence()
-    write_to_db(df)
+
+    df_json = df.to_json()
+    df_json_encoded = df_json.encode()
+    standard_write_to_db('ngram_prep_tokenize', df_json_encoded)
