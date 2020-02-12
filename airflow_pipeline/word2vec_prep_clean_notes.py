@@ -5,6 +5,7 @@ import pyarrow.parquet as pq
 import pymongo
 import gridfs
 import datetime
+from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
 def read_from_db():
     client = pymongo.MongoClient('mongodb://localhost:27017/')
@@ -47,6 +48,11 @@ def write_to_db(notes):
     collection.insert_one(mongodb_output)
 
 def clean_all_notes():
-    df = read_from_db()
+    df_json_encoded = standard_read_from_db('first_dataframe')
+    df_json = df_json.decode()
+    df = pd.read_json(df_json)
+
     all_notes = combine_and_cleanse(df)
-    write_to_db(all_notes)
+
+    all_notes_encoded = all_notes.encode()
+    standard_write_to_db('all_notes_cleansed' ,all_notes_encoded)
