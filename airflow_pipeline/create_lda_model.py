@@ -18,15 +18,6 @@ from workflow_read_and_write import standard_read_from_db, lda_write_to_db
 
 #new_sentences = sent_tokenize(all_notes_text)
 
-def read_from_db():
-    client = pymongo.MongoClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    collection = db['all_notes_cleansed']
-    fs = gridfs.GridFS(db)
-    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    notes = fs.get(most_recent_entry['gridfs_id']).read().decode()
-    return notes
-
 def generate_ngrams(s, n):
     # Convert to lowercases
     s = s.lower()
@@ -56,31 +47,6 @@ def make_model(tokens):
     lda_model=gensim.models.LdaMulticore(corpus=corpus,num_topics=5,id2word=dictionary,passes=10,workers=3)
 
     return dictionary, corpus, lda_model
-
-def write_to_db(dictionary, corpus, lda_model):
-    client = pymongo.MongoClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    collection = db['lda_model']
-    fs = gridfs.GridFS(db)
-
-    #serialize objects
-    dictionary_pickle = pickle.dumps(dictionary)
-    corpus_pickle = pickle.dumps(corpus)
-    lda_model_pickle = pickle.dumps(lda_model)
-    
-    dictionary_gridfs_id = fs.put(dictionary_pickle)
-    corpus_gridfs_id = fs.put(corpus_pickle)
-    lda_model_gridfs_id = fs.put(lda_model_pickle)
-    timestamp = datetime.datetime.now().timestamp()
-
-    mongodb_output = {
-            'timestamp': timestamp,
-            'dictionary_gridfs_id': dictionary_gridfs_id,
-            'corpus_gridfs_id': corpus_gridfs_id,
-            'lda_model_gridfs_id': lda_model_gridfs_id
-            }
-
-    collection.insert_one(mongodb_output)
 
 def create_lda_model():
     notes = standard_read_from_db('all_notes_cleansed').decode()

@@ -34,28 +34,11 @@ def combine_notes_and_admissions(admissions, all_notes):
         admission['notes'] = notes_concat
     return admissions
 
-def write_to_db(df):
-    # set up connections to the database
-    client = pymongo.MongoClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    fs = gridfs.GridFS(db)
-    collection = db['first_dataframe']
-
-    # save the dataframe as a json string to the database gridfs store for large objects
-    json_df = df.to_json()
-    json_df_encoded = json_df.encode()
-    gridfs_id = fs.put(json_df_encoded)
-    timestamp = datetime.datetime.now().timestamp()
-
-    # save reference to the gridfs store and a timestamp to the main table for this step
-    mongodb_output = {'timestamp': timestamp, 'gridfs_id': gridfs_id}
-    collection.insert_one(mongodb_output)
-
 def get_dataframe_from_apis():
     notes = get_all_notes()
     admissions = get_admissions()
     admissions_with_notes = combine_notes_and_admissions(admissions, notes)
     df = json_normalize(admissions_with_notes)
     df_json_decoded = df.to_json().decode()
-    write_to_db(df_json_decoded, 'first_dataframe')
+    standard_write_to_db(df_json_decoded, 'first_dataframe')
 

@@ -5,28 +5,6 @@ import numpy as np
 import datetime
 from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
-def get_first_dataframe():
-    client = pymongo.MongoClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    collection = db['first_dataframe']
-    fs = gridfs.GridFS(db)
-    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    df_json = fs.get(most_recent_entry['gridfs_id']).read()
-    df_json_decoded =  df_json.decode()
-    df = pandas.read_json(df_json_decoded)
-    return df
-
-def write_to_db(df):
-    client = pymongo.MongoClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    fs = gridfs.GridFS(db)
-    collection = db['structured_data_features']
-    df_json_encoded = df.to_json().encode()
-    gridfs_id = fs.put(df_json_encoded)
-    timestamp = datetime.datetime.timestamp().now()
-    mongodb_output = {'timestamp': timestamp, 'gridfs_id':gridfs_id}
-    collection.insert_one(mongodb_output)
-
 def add_los_and_binary_deathtime_columns(df):
     los_list=[]
     dt_binary_list = []
