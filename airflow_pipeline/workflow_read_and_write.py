@@ -63,3 +63,18 @@ def lda_write_to_db(dictionary, corpus, lda_model):
 
     collection.insert_one(mongodb_output)
 
+def train_ner_write_to_db(tokenizer_pickle, bert_model_pickle):
+        db = get_db()
+        fs = gridfs.GridFS(db)
+        collection = db['trained_ner']
+        timestamp = datetime.datetime.now().timestamp()
+        tokenizer_gridfs_id = fs.put(tokenizer_pickle)
+        bert_model_gridfs_id = fs.put(bert_model_pickle)
+        mongodb_output = {
+                'timestamp':timestamp,
+                'tokenizer_gridfs_id':tokenizer_gridfs_id,
+                'bert_model_gridfs_id':bert_model_gridfs_id
+                }
+
+        collection.insert_one(mongodb_output)
+
