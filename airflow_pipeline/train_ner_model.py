@@ -142,10 +142,11 @@ def train_clinical_bert_for_ner():
             "lr": LEARNING_RATE
         })
 
-    return tokenizer, bert_model
+    return tokenizer, bert_model, label_ids
 
 def create_entity_recognition():
-    tokenizer, bert_model = train_clinical_bert_for_ner()
+    tokenizer, bert_model, label_ids = train_clinical_bert_for_ner()
     tokenizer_pickle = pickle.dumps(tokenizer)
     bert_model_pickle = pickle.dumps(bert_model)
-    train_ner_write_to_db(tokenizer_pickle, bert_model_pickle)
+    label_ids_pickle = pickle.dumps(label_ids)
+    train_ner_write_to_db(tokenizer_pickle, bert_model_pickle, label_ids_pickle)

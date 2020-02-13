@@ -63,18 +63,30 @@ def lda_write_to_db(dictionary, corpus, lda_model):
 
     collection.insert_one(mongodb_output)
 
-def train_ner_write_to_db(tokenizer_pickle, bert_model_pickle):
+def train_ner_write_to_db(tokenizer_pickle, bert_model_pickle, label_ids_pickle):
         db = get_db()
         fs = gridfs.GridFS(db)
         collection = db['trained_ner']
         timestamp = datetime.datetime.now().timestamp()
         tokenizer_gridfs_id = fs.put(tokenizer_pickle)
         bert_model_gridfs_id = fs.put(bert_model_pickle)
+        label_ids_gridfs_id = fs.put(label_ids_pickle)
         mongodb_output = {
                 'timestamp':timestamp,
                 'tokenizer_gridfs_id':tokenizer_gridfs_id,
-                'bert_model_gridfs_id':bert_model_gridfs_id
+                'bert_model_gridfs_id':bert_model_gridfs_id,
+                'label_ids_gridfs_id': label_ids_gridfs_id
                 }
 
         collection.insert_one(mongodb_output)
 
+def train_ner_read_from_db():
+    db = get_db()
+    fs = gridfs.GridFS(db)
+    collection = db['trained_ner']
+
+    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
+    tokenizer_pickle = fs.get(most_recent_entry['tokenizer_gridfs_id'])
+    bert_model_pickle = fs.get(most_recent_entry['bert_model_gridfs_id'])
+    labe_ids_pickle = fs.get(most_recent_entry['label_ids_gridfs_id'])
+    return tokenizer_pickle, bert_model_pickle, label_ids_pickle
