@@ -14,6 +14,9 @@
 # limitations under the License.
 # =============================================================================
 
+# This is a modified verson of this notebook:
+# https://github.com/NVIDIA/NeMo/blob/master/examples/nlp/token_classification/NERWithBERT.ipynb
+
 import pymongo
 import gridfs
 import datetime
@@ -31,26 +34,6 @@ from nemo.collections.nlp.callbacks.token_classification_callback import eval_it
 from nemo.collections.nlp.nm.losses import TokenClassificationLoss
 from nemo.collections.nlp.nm.trainables import TokenClassifier
 from workflow_read_and_write import train_ner_write_to_db
-
-def read_from_db():
-    client = pymongo.MyClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    collection = db['word2vec']
-    fs = gridfs.GridFS(db)
-    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    word2vec_model_pickle = fs.get(most_recent_entry['gridfs_id']).read()
-    return word2vec_model_pickle
-
-def write_to_db(ner_output):
-    client = pymongo.MyClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    collection = db['entity_recognition']
-    fs = gridfs.GridFS(db)
-    ner_output_encoded = ner_output.encode()
-    gridfs_id = fs.put(ner_output_encoded)
-    timestamp = datetime.datetime.now().timestamp()
-    mongodb_output = {'timestamp': timestamp, 'gridfs_id': gridfs_id}
-    collection.insert_one(mongodb_output)
 
 def train_clinical_bert_for_ner():
     nf = nemo.core.NeuralModuleFactory(backend=nemo.core.Backend.PyTorch,

@@ -14,6 +14,9 @@
 # limitations under the License.
 # =============================================================================
 
+#This is a modified version of this script:
+# https://github.com/NVIDIA/NeMo/blob/master/examples/nlp/token_classification/token_classification_infer.py
+
 import argparse
 import os
 
