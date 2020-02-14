@@ -12,6 +12,7 @@ import fe_from_infection_keywords
 import fe_from_structured_readmit_los
 import fe_vitals_ngram_creation
 import create_lda_model
+import use_ner_model
 
 from datetime import datetime, timedelta
 
@@ -85,6 +86,12 @@ infected_one_hot_operator = PythonOperator(
 structured_features_operator = PythonOperator(
     task_id = 'fe_from_structured_data',
     python_callable = fe_from_structured_readmit_los.create_structured_data_features,
+    dag = dag
+    )
+
+label_with_ner_operator = PythonOperator(
+    task_id = 'label_note_with_ner_model',
+    python_callable = use_ner_model.run_ner_on_notes(),
     dag = dag
     )
 
