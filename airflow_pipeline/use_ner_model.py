@@ -58,7 +58,7 @@ def infer_from_ner_model(tokenizer, bert_model, label_ids, queries):
     logits, subtokens_mask = [concatenate(tensors) for tensors in evaluated_tensors]
     preds = np.argmax(logits, axis=2)
     
-    query_outputs = []
+    queries_output = ''
     for i, query in enumerate(queries):
         pred = preds[i][subtokens_mask[i] > 0.5]
         words = query.strip().split()
@@ -72,9 +72,8 @@ def infer_from_ner_model(tokenizer, bert_model, label_ids, queries):
                 label = '[' + label + ']'
                 output += label
             output += ' '
-        query_outputs += output
-    return query_outputs
-
+        queries_output += output
+    return queries_output
 
 def concatenate(lists):
     return np.concatenate([t.cpu() for t in lists])
@@ -89,8 +88,14 @@ def run_ner_on_notes():
     tokenizer = pickle.loads(tokenizer_pickle)
     bert_model = pickle.loads(bert_model_pickle)
     lable_ids = pickle.loads(label_ids_pickle)
+    
+    notes_labeled = []
+    for note in notes_list:
+        queries = [string[0 + i : max_seq_length + i] for i in range(0, len(note), max_seq_length)]
+        note_labeled = infer_from_ner_model(tokenizer, bert_model, label_ids, queries)
+        notes_labeled.append(note_labeled)
 
-    notes_labeled = infer_from_ner_model(tokenizer, bert_model, label_ids, notes_list)
+    notes_labeled = infer_from_ner_model(tokenizer, bert_model, label_ids, queries)
     df['note_entities_labeled'] = notes_labeled
 
     df_json = df.to_json()
