@@ -13,6 +13,7 @@ import fe_from_structured_readmit_los
 import fe_vitals_ngram_creation
 import create_lda_model
 import use_ner_model
+import combine_dataframes
 
 from datetime import datetime, timedelta
 
@@ -92,6 +93,12 @@ structured_features_operator = PythonOperator(
 label_with_ner_operator = PythonOperator(
     task_id = 'label_note_with_ner_model',
     python_callable = use_ner_model.run_ner_on_notes(),
+    dag = dag
+    )
+
+combine_all_dataframes_operator = PythonOperator(
+    task_id = 'combine_data_frames_for_tpot',
+    python_callable = combine_dataframes.combine(),
     dag = dag
     )
 
