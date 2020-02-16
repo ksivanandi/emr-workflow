@@ -102,4 +102,4 @@ combine_all_dataframes_operator = PythonOperator(
     dag = dag
     )
 
-df_from_api_operator >> word2vec_clean_notes_operator >> word2vec_tokenize_notes_operator >> word2vec_operator >> entity_recognition
+df_from_api_operator >> word2vec_clean_notes_operator >> word2vec_tokenize_notes_operator >> word2vec_operator >> [entity_recognition >> [fe_ngram_prep_tokenize_notes_operator >> fe_vitals_ngram_creation_operator], [infected_one_hot_operator, structured_features_operator]] >> combine_all_dataframes_operator
