@@ -93,7 +93,7 @@ label_with_ner_operator = PythonOperator(
     )
 
 combine_all_dataframes_operator = PythonOperator(
-    task_id = 'combine_data_frames_for_tpot',
+    task_id = 'combine_dataframes_for_tpot',
     python_callable = combine_dataframes.combine,
     dag = dag
     )
