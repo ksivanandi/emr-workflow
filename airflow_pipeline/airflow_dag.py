@@ -2,18 +2,19 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 
 import first_table_from_api
-import word2vec_prep_clean_notes
+#import word2vec_prep_clean_notes
 import word2vec_prep_tokenize_notes
 import ngram_prep_tokenize_notes
 import create_word2vec_model
-import entity_recognition
 import fe_from_readmission_keywords
 import fe_from_infection_keywords
 import fe_from_structured_readmit_los
 import fe_vitals_ngram_creation
 import create_lda_model
-import use_ner_model
+#import use_ner_model
 import combine_dataframes
+
+import placeholder
 
 from datetime import datetime, timedelta
 
@@ -32,7 +33,8 @@ df_from_api_operator = PythonOperator(
 
 word2vec_clean_notes_operator = PythonOperator(
     task_id = 'word2vec_prep_cleanse_notes',
-    python_callable = word2vec_prep_clean_notes.clean_all_notes(),
+    #python_callable = word2vec_prep_clean_notes.clean_all_notes(),
+    python_callable = placeholder.placeholder_function,
     dag = dag
     )
 
@@ -66,12 +68,6 @@ fe_vitals_ngram_creation_operator = PythonOperator(
     dag = dag
     )
 
-entity_recognition_operator = PythonOperator(
-    task_id = 'entity_recognition',
-    python_callable = entity_recognition.make_ner,
-    dag = dag
-    )
-
 readmission_one_hot_operator = PythonOperator(
     task_id = 'fe_readmit_one_hot',
     python_callable = fe_from_readmission_keywords.readmission_one_hot,
@@ -91,15 +87,28 @@ structured_features_operator = PythonOperator(
     )
 
 label_with_ner_operator = PythonOperator(
-    task_id = 'label_note_with_ner_model',
-    python_callable = use_ner_model.run_ner_on_notes(),
+    task_id = 'label_notes_with_ner_model',
+    python_callable = placeholder.placeholder_function,
     dag = dag
     )
 
 combine_all_dataframes_operator = PythonOperator(
     task_id = 'combine_data_frames_for_tpot',
-    python_callable = combine_dataframes.combine(),
+    python_callable = combine_dataframes.combine,
     dag = dag
     )
 
-df_from_api_operator >> word2vec_clean_notes_operator >> word2vec_tokenize_notes_operator >> word2vec_operator >> [entity_recognition >> [fe_ngram_prep_tokenize_notes_operator >> fe_vitals_ngram_creation_operator], [infected_one_hot_operator, structured_features_operator]] >> combine_all_dataframes_operator
+#df_from_api_operator >> word2vec_clean_notes_operator >> word2vec_tokenize_notes_operator >> word2vec_operator >> [label_with_ner_operator >> [fe_ngram_prep_tokenize_notes_operator >> fe_vitals_ngram_creation_operator], [infected_one_hot_operator, structured_features_operator]] >> combine_all_dataframes_operator
+
+df_from_api_operator.set_downstream(word2vec_clean_notes_operator)
+word2vec_clean_notes_operator.set_downstream(word2vec_tokenize_notes_operator)
+word2vec_clean_notes_operator.set_downstream(create_lda_model_operator)
+word2vec_tokenize_notes_operator.set_downstream(word2vec_operator)
+word2vec_operator.set_downstream(label_with_ner_operator)
+word2vec_operator.set_downstream([infected_one_hot_operator, readmission_one_hot_operator, structured_features_operator])
+label_with_ner_operator.set_downstream(fe_ngram_prep_tokenize_notes_operator)
+fe_ngram_prep_tokenize_notes_operator.set_downstream(fe_vitals_ngram_creation_operator)
+infected_one_hot_operator.set_downstream(combine_all_dataframes_operator)
+readmission_one_hot_operator.set_downstream(combine_all_dataframes_operator)
+fe_vitals_ngram_creation_operator.set_downstream(combine_all_dataframes_operator)
+structured_features_operator.set_downstream(combine_all_dataframes_operator)

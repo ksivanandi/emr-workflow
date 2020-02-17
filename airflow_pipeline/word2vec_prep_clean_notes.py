@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 import re
 import pandas as pd
 import pyarrow as pa
@@ -5,6 +8,7 @@ import pyarrow.parquet as pq
 import pymongo
 import gridfs
 import datetime
+#from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
 def read_from_db():
     client = pymongo.MongoClient('mongodb://localhost:27017/')
@@ -12,7 +16,8 @@ def read_from_db():
     collection = db['first_dataframe']
     fs = gridfs.GridFS(db)
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    json_df = fs.get(most_recent_entry['gridfs_id']).read()
+    #json_df = fs.get(most_recent_entry['gridfs_id']).read()
+    json_df = fs.get(most_recent_entry['gridfs_id'])
     df = pd.read_json(json_df.decode())
     return df
 
@@ -47,6 +52,11 @@ def write_to_db(notes):
     collection.insert_one(mongodb_output)
 
 def clean_all_notes():
+    #df_json_encoded = standard_read_from_db('first_dataframe')
+    #df_json = df_json_encoded.decode()
+    #df = pd.read_json(df_json())
     df = read_from_db()
     all_notes = combine_and_cleanse(df)
-    write_to_db(all_notes)
+
+    all_notes_encoded = all_notes.encode()
+    standard_write_to_db('all_notes_cleansed', all_notes_encoded)
