@@ -21,7 +21,9 @@ import pymongo
 import gridfs
 import datetime
 import pickle
-from workflow_read_and_write import standard_read_from_db, readmission_keywords_write_to_db
+from workflow_read_and_write import standard_read_from_db, one_hot_write_to_db
+
+mongodb_collection_name = 'readmission_one_hot'
 
 """
 use word2vec to find similar terms
@@ -84,5 +86,10 @@ def readmission_one_hot():
     df_found_words = add_found_words_column(first_dataframe, key_words)
     df_one_hot = one_hot_encode_found_key_terms(df_found_words)
 
-    readmission_keywords_write_to_db(df_one_hot, flattened)
+    df_term_cos_simil = pd.DataFrame()
+    df_term_cos_simil['readmission_key_words'] = flattened
+
+    df_one_hot_json_encoded = df_one_hot.to_json().encode()
+    df_term_cos_simil_json_encoded = df_term_cos_simil.to_json().encode()
+    one_hot_write_to_db(df_one_hot_json_encoded, df_term_cos_simil_json_encoded, collection_name)
 

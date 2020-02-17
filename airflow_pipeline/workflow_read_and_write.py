@@ -64,78 +64,58 @@ def lda_write_to_db(dictionary, corpus, lda_model):
 
     collection.insert_one(mongodb_output)
 
-def infection_keywords_read_from_db():
+def train_ner_write_to_db(tokenizer_pickle, bert_model_pickle, label_ids_pickle):
+        db = get_db()
+        fs = gridfs.GridFS(db)
+        collection = db['trained_ner']
+        timestamp = datetime.datetime.now().timestamp()
+        tokenizer_gridfs_id = fs.put(tokenizer_pickle)
+        bert_model_gridfs_id = fs.put(bert_model_pickle)
+        label_ids_gridfs_id = fs.put(label_ids_pickle)
+        mongodb_output = {
+                'timestamp':timestamp,
+                'tokenizer_gridfs_id':tokenizer_gridfs_id,
+                'bert_model_gridfs_id':bert_model_gridfs_id,
+                'label_ids_gridfs_id': label_ids_gridfs_id
+                }
+
+        collection.insert_one(mongodb_output)
+
+def train_ner_read_from_db():
     db = get_db()
-    collection = db['infection_one_hot']
     fs = gridfs.GridFS(db)
+    collection = db['trained_ner']
 
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    updated_df_json = fs.get(most_recent_entry['updated_df_gridfs_id']).read().decode()
-    term_cos_simil_df_json = fs.get(most_recent_entry['term_cos_simil_df_gridfs_id']).read().decode()
+    tokenizer_pickle = fs.get(most_recent_entry['tokenizer_gridfs_id'])
+    bert_model_pickle = fs.get(most_recent_entry['bert_model_gridfs_id'])
+    labe_ids_pickle = fs.get(most_recent_entry['label_ids_gridfs_id'])
+    return tokenizer_pickle, bert_model_pickle, label_ids_pickle
 
-    updated_df = pd.read_json(update_df_json)
-    term_cos_simil_df = pd.read_json(term_cos_simil_df_json)
-
-    return updated_df, term_cos_simil_df
-
-def infection_keywords_write_to_db(updated_df, flattened_list):
+def one_hot_write_to_db(updated_df_json_encoded, term_cos_simil_df_json_encoded, collection_name):
     db = get_db()
-    collection = db['infection_one_hot']
     fs = gridfs.GridFS(db)
+    collection = db[collection_name]
 
-    df_term_and_cos_simil = pd.DataFrame()
-    df_term_and_cos_simil['infected_key_words'] = flattened_list
-
-    updated_df_json = updated_df.to_json()
-    term_cos_simil_df_json = term_cos_simil_df.to_json()
-
+    updated_df_gridfs_id = fs.put(updated_df_json_encoded)
+    term_cos_simil_df_gridfs_id = fs.put(term_cos_simil_df_json_encoded)
     timestamp = datetime.datetime.now().timestamp()
-    updated_df_gridfs_id = fs.put(updated_df_json.encode())
-    term_cos_simil_df_gridfs_id = fs.put(term_cos_simil_df_json.encode())
-
-    mongodb_output = {
-        'timestamp': timestamp,
-        'updated_df_gridfs_id': updated_df_gridfs_id,
-        'term_cos_simil_df_gridfs_id': term_cos_simil_df_gridfs_id
-        }
-
-    collection.insert_one(mongodb_output)
-
-def readmission_keywords_read_from_db():
-    db = get_db()
-    collection = db['readmission_one_hot']
-    fs = gridfs.GridFS(db)
-
-    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    updated_df_json = fs.get(most_recent_entry['updated_df_gridfs_id']).read().decode()
-    term_cos_simil_df_json = fs.get(most_recent_entry['term_cos_simil_df_gridfs_id']).read().decode()
-
-    updated_df = pd.read_json(update_df_json)
-    term_cos_simil_df = pd.read_json(term_cos_simil_df_json)
-
-    return updated_df, term_cos_simil_df
-
-def readmission_keywords_write_to_db(updated_df, flattened_list):
-    db = get_db()
-    collection = db['readmission_one_hot']
-    fs = gridfs.GridFS(db)
-
-    df_term_and_cos_simil = pd.DataFrame()
-    df_term_and_cos_simil['readmission_key_words'] = flattened_list
-
-    updated_df_json = updated_df.to_json()
-    term_cos_simil_df_json = term_cos_simil_df.to_json()
-
-    timestamp = datetime.datetime.now().timestamp()
-    updated_df_gridfs_id = fs.put(updated_df_json.encode())
-    term_cos_simil_df_gridfs_id = fs.put(term_cos_simil_df_json.encode())
 
     mongodb_output = {
             'timestamp': timestamp,
             'updated_df_gridfs_id': updated_df_gridfs_id,
-            'term_cos_simil_df_gridfs_id': term_cos_simil_df_gridfs_id
+            'term_cos_simil_df_gridfs_id': term_cos_simil_df_grifs_id
             }
 
     collection.insert_one(mongodb_output)
 
+def one_hot_read_from_db(collection_name):
+    db = get_db()
+    fs = gridfs.GridFS(db)
+    collection = db[collection_name]
 
+    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
+    updated_df_json_encoded = fs.get(most_recent_entry['updated_df_gridfs_id'])
+    term_cos_simil_df_json_encoded = fs.get(most_recent_entry['term_cos_simil_df_gridfs_id'])
+
+    return updated_df_json_encoded, term_cos_simil_df_json_encoded

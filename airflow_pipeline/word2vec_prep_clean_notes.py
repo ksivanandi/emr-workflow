@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 import re
 import pandas as pd
 import pyarrow as pa
@@ -35,4 +38,3 @@ def clean_all_notes():
 
     all_notes_encoded = all_notes.encode()
     standard_write_to_db('all_notes_cleansed' ,all_notes_encoded)
-
