@@ -21,7 +21,7 @@ import pymongo
 import gridfs
 import datetime
 import pickle
-from workflow_read_and_write import standard_read_from_db, readmission_write_to_db
+from workflow_read_and_write import standard_read_from_db, readmission_keywords_write_to_db
 
 """
 use word2vec to find similar terms

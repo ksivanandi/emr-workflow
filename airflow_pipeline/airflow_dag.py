@@ -88,4 +88,4 @@ structured_features_operator = PythonOperator(
     dag = dag
     )
 
-df_from_api_operator >> word2vec_clean_notes_operator >> word2vec_tokenize_notes_operator >> word2vec_operator >> entity_recognition
+df_from_api_operator >> word2vec_tokenize_notes_operator >> word2vec_operator >> entity_recognition_operator
