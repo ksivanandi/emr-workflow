@@ -40,5 +40,5 @@ def get_dataframe_from_apis():
     admissions_with_notes = combine_notes_and_admissions(admissions, notes)
     df = json_normalize(admissions_with_notes)
     df_json_encoded = df.to_json().encode()
-    standard_write_to_db(df_json_decoded, 'first_dataframe')
+    standard_write_to_db(df_json_encoded, 'first_dataframe')
 
