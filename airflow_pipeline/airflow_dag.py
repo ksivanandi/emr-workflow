@@ -50,12 +50,6 @@ word2vec_operator = PythonOperator(
     dag = dag
     )
 
-create_lda_model_operator = PythonOperator(
-    task_id = 'create_lda_model',
-    python_callable = create_lda_model.create_lda_model,
-    dag = dag
-    )
-
 fe_ngram_prep_tokenize_notes_operator = PythonOperator(
     task_id = 'fe_ngram_prep_tokenize_notes',
     python_callable = ngram_prep_tokenize_notes.add_tokens_column,
@@ -102,7 +96,6 @@ combine_all_dataframes_operator = PythonOperator(
 
 df_from_api_operator.set_downstream(word2vec_clean_notes_operator)
 word2vec_clean_notes_operator.set_downstream(word2vec_tokenize_notes_operator)
-word2vec_clean_notes_operator.set_downstream(create_lda_model_operator)
 word2vec_tokenize_notes_operator.set_downstream(word2vec_operator)
 word2vec_operator.set_downstream(label_with_ner_operator)
 word2vec_operator.set_downstream([infected_one_hot_operator, readmission_one_hot_operator, structured_features_operator])
