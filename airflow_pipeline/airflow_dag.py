@@ -52,6 +52,12 @@ word2vec_operator = PythonOperator(
     dag = dag
     )
 
+label_with_ner_operator = PythonOperator(
+    task_id = 'label_notes_with_ner_model',
+    python_callable = placeholder.placeholder_function,
+    dag = dag
+    )
+
 fe_ngram_prep_tokenize_notes_operator = PythonOperator(
     task_id = 'fe_ngram_prep_tokenize_notes',
     python_callable = ngram_prep_tokenize_notes.add_tokens_column,
@@ -82,12 +88,6 @@ structured_features_operator = PythonOperator(
     dag = dag
     )
 
-label_with_ner_operator = PythonOperator(
-    task_id = 'label_notes_with_ner_model',
-    python_callable = placeholder.placeholder_function,
-    dag = dag
-    )
-
 combine_all_dataframes_operator = PythonOperator(
     task_id = 'combine_dataframes_for_tpot',
     python_callable = combine_dataframes.combine,
@@ -105,8 +105,6 @@ tpot_readmission_operator = PythonOperator(
     python_callable = run_tpot_readmission.run_tpot,
     dag = dag
     )
-
-#df_from_api_operator >> word2vec_clean_notes_operator >> word2vec_tokenize_notes_operator >> word2vec_operator >> [label_with_ner_operator >> [fe_ngram_prep_tokenize_notes_operator >> fe_vitals_ngram_creation_operator], [infected_one_hot_operator, structured_features_operator]] >> combine_all_dataframes_operator
 
 df_from_api_operator.set_downstream(word2vec_clean_notes_operator)
 word2vec_clean_notes_operator.set_downstream(word2vec_tokenize_notes_operator)
