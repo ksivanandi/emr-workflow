@@ -95,7 +95,6 @@ def run_ner_on_notes():
         note_labeled = infer_from_ner_model(tokenizer, bert_model, label_ids, queries)
         notes_labeled.append(note_labeled)
 
-    notes_labeled = infer_from_ner_model(tokenizer, bert_model, label_ids, queries)
     df['note_entities_labeled'] = notes_labeled
 
     df_json = df.to_json()
