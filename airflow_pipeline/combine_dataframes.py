@@ -39,6 +39,20 @@ def combine():
         if column not in combined_columns:
             combined_df[column] = ner_processed_df[column]
 
+    columns_to_remove = [
+            'admission_id',
+            'admittime',
+            'deathtime',
+            'dischtime',
+            'patient_id',
+            'notes',
+            'readmission_keywords',
+            'infected_key_words',
+            'note_entities_labeled'
+            ]
+
+    combined_df.drop(columns_to_remove,axis=1,inplace=True)
+
     combined_df_json_encoded = combined_df.to_json().encode()
 
     standard_write_to_db('combined_dataframe', combined_df_json_encoded)
