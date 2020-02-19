@@ -9,19 +9,19 @@ import gridfs
 from workflow_read_and_write import standard_write_to_db
 
 def get_all_notes():
-    json_count = requests.get('http://10.32.22.16:56733/noteeventscount').json()
+    json_count = requests.get('http://10.32.22.8:56733/noteeventscount').json()
     count = json_count['note_count']
     page_count = math.ceil(count/100000)
     all_notes = []
 
     for i in range(page_count):
-        resp = requests.get('http://10.32.22.16:56733/noteevents/page/'+str(i+1))
+        resp = requests.get('http://10.32.22.8:56733/noteevents/page/'+str(i+1))
         notes = resp.json()['json_notes']
         all_notes += notes
     return all_notes
 
 def get_admissions():
-    resp = requests.get('http://10.32.22.16:56733/admissions')
+    resp = requests.get('http://10.32.22.8:56733/admissions')
     admissions = resp.json()['json_admissions']
     return admissions
 
