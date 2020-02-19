@@ -16,8 +16,6 @@ from tpot import TPOTClassifier
 from sklearn.model_selection import train_test_split
 import numpy as np
 import pandas as pd
-import cudf
-from cudf import DataFrame
 import pickle
 from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
