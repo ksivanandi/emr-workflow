@@ -38,7 +38,11 @@ def get_dataframe_from_apis():
     notes = get_all_notes()
     admissions = get_admissions()
     admissions_with_notes = combine_notes_and_admissions(admissions, notes)
+
     df = json_normalize(admissions_with_notes)
+    # create an index column where the rows have values from 0 to len(df.iterrows())-1
+    df.reset_index(inplace=True)
+
     df_json_encoded = df.to_json().encode()
     standard_write_to_db(df_json_encoded, 'first_dataframe')
 
