@@ -13,6 +13,8 @@ import fe_vitals_ngram_creation
 import create_lda_model
 #import use_ner_model
 import combine_dataframes
+import run_tpot_los
+import run_tpot_readmission
 
 import placeholder
 
@@ -92,6 +94,18 @@ combine_all_dataframes_operator = PythonOperator(
     dag = dag
     )
 
+tpot_los_operator = PythonOperator(
+    task_id = 'run_tpot_for_los',
+    python_callable = run_tpot_los.run_tpot,
+    dag = dag
+    )
+
+tpot_readmission_operator = PythonOperator(
+    task_id = 'run_tpot_for_readmission',
+    python_callable = run_tpot_readmission.run_tpot,
+    dag = dag
+    )
+
 #df_from_api_operator >> word2vec_clean_notes_operator >> word2vec_tokenize_notes_operator >> word2vec_operator >> [label_with_ner_operator >> [fe_ngram_prep_tokenize_notes_operator >> fe_vitals_ngram_creation_operator], [infected_one_hot_operator, structured_features_operator]] >> combine_all_dataframes_operator
 
 df_from_api_operator.set_downstream(word2vec_clean_notes_operator)
@@ -105,3 +119,5 @@ infected_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 readmission_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 fe_vitals_ngram_creation_operator.set_downstream(combine_all_dataframes_operator)
 structured_features_operator.set_downstream(combine_all_dataframes_operator)
+combine_all_dataframes_operator.set_downstream([tpot_los_operator, tpot_readmission_operator])
+
