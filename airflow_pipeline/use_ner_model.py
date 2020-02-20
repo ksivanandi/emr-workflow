@@ -94,6 +94,14 @@ def run_ner_on_notes():
         if len(note) > max_note_length:
             max_note_length = len(note)
 
+    #MW: I read somewhere in the documentation that inferencing works faster if the max_seq_length is a 
+    # power of 2. I forget where exactly though. This can be removed if it ends up not making much 
+    # of a difference.
+    max_length_powers_of_2 = 2
+    while max_length_powers_of_2 < max_note_length:
+        max_length_powers_of_2 *= 2
+    max_note_length = max_length_powers_of_2
+
     # This block breaks down notes into smaller chunks to run inference on. It will likely break entities in 
     #two and is therefore no good. 
     #notes_labeled = []
