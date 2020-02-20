@@ -1,8 +1,10 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 
+from word2vec_prep_clean_notes import clean_all_notes
+
 import first_table_from_api
-#import word2vec_prep_clean_notes
+import word2vec_prep_clean_notes
 import word2vec_prep_tokenize_notes
 import ngram_prep_tokenize_notes
 import create_word2vec_model
@@ -21,7 +23,7 @@ import placeholder
 from datetime import datetime, timedelta
 
 default_args = {
-    'owner': 'Morgan EMR Pipeline',
+    'owner': 'EMR Appliance Pipeline',
     'start_date': datetime(2020,1,24)
 }
 
@@ -34,9 +36,8 @@ df_from_api_operator = PythonOperator(
     )
 
 word2vec_clean_notes_operator = PythonOperator(
-    task_id = 'word2vec_prep_cleanse_notes',
-    #python_callable = word2vec_prep_clean_notes.clean_all_notes(),
-    python_callable = placeholder.placeholder_function,
+    task_id = 'word2vec_prep_clean_notes',
+    python_callable = word2vec_prep_clean_notes.combine_and_clean,
     dag = dag
     )
 
