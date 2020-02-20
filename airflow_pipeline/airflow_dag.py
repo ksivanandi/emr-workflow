@@ -37,7 +37,7 @@ df_from_api_operator = PythonOperator(
 
 word2vec_clean_notes_operator = PythonOperator(
     task_id = 'word2vec_prep_clean_notes',
-    python_callable = word2vec_prep_clean_notes.combine_and_clean,
+    python_callable = clean_all_notes,
     dag = dag
     )
 
