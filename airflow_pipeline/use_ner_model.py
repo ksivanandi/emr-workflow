@@ -40,14 +40,14 @@ amp_opt_level = 'O1'
 work_dir = './output/checkpoints'
 
 # queries is a list of strings to be used as input for inference
-def infer_from_ner_model(tokenizer, bert_model, label_ids, queries):
+def infer_from_ner_model(tokenizer, bert_model, label_ids, max_length, queries):
     nf = nemo.core.NeuralModuleFactory(
-            backend = nemo.core.Backend.PyTorch, 
-            optimization_level = amp_opt_level, 
+            backend = nemo.core.Backend.PyTorch,
+            optimization_level = amp_opt_level,
             log_dir = None)
     hidden_size = bert_model.hidden_size
     data_layer = nemo_nlp.nm.data_layers.BertTokenClassificationInferDataLayer(
-                queries=queries, tokenizer=tokenizer, max_seq_length=max_seq_length, batch_size=1
+                queries=queries, tokenizer=tokenizer, max_seq_length=max_length, batch_size=1
                 )
     classifier = TokenClassifier(hidden_size=hidden_size, num_classes=len(label_ids), dropout=fc_dropout)
     input_ids, input_type_ids, input_mask, _, subtokens_mask = data_layer()
@@ -58,7 +58,7 @@ def infer_from_ner_model(tokenizer, bert_model, label_ids, queries):
     logits, subtokens_mask = [concatenate(tensors) for tensors in evaluated_tensors]
     preds = np.argmax(logits, axis=2)
     
-    queries_output = ''
+    queries_output = []
     for i, query in enumerate(queries):
         pred = preds[i][subtokens_mask[i] > 0.5]
         words = query.strip().split()
@@ -67,12 +67,12 @@ def infer_from_ner_model(tokenizer, bert_model, label_ids, queries):
         output = ''
         for j, w in enumerate(words):
             output += w
-            label = labels_ds[pred[j]]
+            label = label_ids[pred[j]]
             if label != none_label:
                 label = '[' + label + ']'
                 output += label
             output += ' '
-        queries_output += output
+        queries_output.append(output)
     return queries_output
 
 def concatenate(lists):
@@ -88,13 +88,21 @@ def run_ner_on_notes():
     tokenizer = pickle.loads(tokenizer_pickle)
     bert_model = pickle.loads(bert_model_pickle)
     lable_ids = pickle.loads(label_ids_pickle)
-    
-    notes_labeled = []
-    for note in notes_list:
-        queries = [string[0 + i : max_seq_length + i] for i in range(0, len(note), max_seq_length)]
-        note_labeled = infer_from_ner_model(tokenizer, bert_model, label_ids, queries)
-        notes_labeled.append(note_labeled)
 
+    max_note_length=0
+    for note in notes_list:
+        if len(note) > max_note_length:
+            max_note_length = len(note)
+
+    # This block breaks down notes into smaller chunks to run inference on. It will likely break entities in 
+    #two and is therefore no good. 
+    #notes_labeled = []
+    #for note in notes_list:
+    #    queries = [string[0 + i : max_seq_length + i] for i in range(0, len(note), max_seq_length)]
+    #    note_labeled = infer_from_ner_model(tokenizer, bert_model, label_ids, queries)
+    #    notes_labeled.append(note_labeled)
+
+    notes_labeled = infer_from_ner_model(tokenizer, bert_model, label_ids, max_note_length, notes_list)
     df['note_entities_labeled'] = notes_labeled
 
     df_json = df.to_json()
