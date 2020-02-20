@@ -48,7 +48,8 @@ def combine():
             'notes',
             'readmission_keywords',
             'infected_key_words',
-            'note_entities_labeled'
+            'note_entities_labeled',
+            'index'
             ]
 
     combined_df.drop(columns_to_remove,axis=1,inplace=True)
