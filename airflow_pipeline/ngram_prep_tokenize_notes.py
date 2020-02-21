@@ -37,7 +37,7 @@ def add_tokens_column():
     df_json = df_json_encoded.decode()
     df = pd.read_json(df_json)
 
-    df = tokenize_by_sentence()
+    df = tokenize_by_sentence(df)
 
     df_json = df.to_json()
     df_json_encoded = df_json.encode()
