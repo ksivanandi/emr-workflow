@@ -1,8 +1,6 @@
 import requests
 import pandas as pd
 from pandas.io.json import json_normalize
-import pyarrow as pa
-import pyarrow.parquet as pq
 import math
 import pymongo
 import gridfs
@@ -25,6 +23,8 @@ def get_admissions():
     admissions = resp.json()['json_admissions']
     return admissions
 
+
+
 def combine_notes_and_admissions(admissions, all_notes):
     for admission in admissions:
         notes_per_admission = [note for note in all_notes if note['admission_id'] == admission['admission_id']]
@@ -34,15 +34,30 @@ def combine_notes_and_admissions(admissions, all_notes):
         admission['notes'] = notes_concat
     return admissions
 
+# create a smaller dataset than the whole mimic database, faster for testing
+def testing_admissions_with_notes():
+    resp = requests.get('http://10.32.22.8:56733/admissions/100')
+    admissions = resp.json()['json_admissions']
+    for admission in admissions:
+        resp = requests.get('http://10.32.22.8:56733/noteevents/admitid/'+str(admission['admission_id']))
+        notes_per_admission = resp.json()['json_notes']
+        notes_concat = ''
+        for note in notes_per_admission:
+            notes_concat += ' ' + note['note']
+        admission['notes'] = notes_concat
+    return admissions
+
+
 def get_dataframe_from_apis():
     notes = get_all_notes()
     admissions = get_admissions()
-    admissions_with_notes = combine_notes_and_admissions(admissions, notes)
 
+    #admissions_with_notes = combine_notes_and_admissions(admissions, notes)
+    admissions_with_notes = testing_admissions_with_notes()
     df = pd.json_normalize(admissions_with_notes)
     # create an index column where the rows have values from 0 to len(df.iterrows())-1
     df.reset_index(inplace=True)
 
     df_json_encoded = df.to_json().encode()
-    standard_write_to_db(df_json_encoded, 'first_dataframe')
+    standard_write_to_db('first_dataframe', df_json_encoded)
 
