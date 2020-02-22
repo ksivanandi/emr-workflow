@@ -108,5 +108,5 @@ def create_vitals_ngrams():
 
     df_json = df.to_json()
     df_json_encoded = df_json.encode()
-    standard_write_to_db('vitals_ngrams' ,df)
+    standard_write_to_db('vitals_ngrams' ,df_json_encoded)
 
