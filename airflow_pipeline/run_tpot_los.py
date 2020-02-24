@@ -24,14 +24,16 @@ define target variable from variable in source data (Length of Stay) then drop
 from dataframe in preparation for model fitting
 """
 def create_tpot_pipeline(df, target_column):
-    #combined_df_json_encoded = standard_read_from_db('combined_dataframe')
-    #combined_df_json = combined_df_json_encoded.decode()
-    #combined_df = pd.read_json()
     target=df[target_column]
     df.drop(target_column,inplace=True, axis=1)
 
+    type_conversion_dict = {}
+    for column in df.columns:
+        type_conversion_dict[column] = 'float64'
+    float_df = df.astype(type_conversion_dict)
+
     ##tpot
-    X_train, X_test, y_train, y_test = train_test_split(df.astype(np.float64),
+    X_train, X_test, y_train, y_test = train_test_split(float_df,
         target, train_size=0.75, test_size=0.25)
 
 
@@ -45,7 +47,7 @@ def create_tpot_pipeline(df, target_column):
 def run_tpot():
     combined_df_json_encoded = standard_read_from_db('combined_dataframe')
     combined_df_json = combined_df_json_encoded.decode()
-    combined_df = pd.read_json()
+    combined_df = pd.read_json(combined_df_json)
 
     tpot_pipeline_code = create_tpot_pipeline(combined_df, 'los')
 
