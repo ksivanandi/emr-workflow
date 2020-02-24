@@ -35,9 +35,9 @@ def combine():
 
     combined_columns = combined_df.columns
 
-    for column in ner_processed_df.columns:
-        if column not in combined_columns:
-            combined_df[column] = ner_processed_df[column]
+    #for column in ner_processed_df.columns:
+    #    if column not in combined_columns:
+    #        combined_df[column] = ner_processed_df[column]
 
     columns_to_remove = [
             'admission_id',
