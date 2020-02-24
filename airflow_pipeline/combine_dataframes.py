@@ -50,7 +50,8 @@ def combine():
             'index',
             'tokens_in_record',
             'vitals',
-            'vitals_ngrams'
+            'non-vitals',
+            'vitals_ngrams',
             ]
 
     combined_df.drop(columns_to_remove,axis=1,inplace=True)
