@@ -23,7 +23,7 @@ import datetime
 import pickle
 from workflow_read_and_write import standard_read_from_db, one_hot_write_to_db
 
-mongodb_collection_name = 'readmission_one_hot'
+collection_name = 'readmission_one_hot'
 
 """
 use word2vec to find similar terms
@@ -52,7 +52,7 @@ def add_found_words_column(df, key_words):
     all_found_key_terms_readmission=[]
     for i, row in df.iterrows():
         found_r=[]
-        note=row['text']
+        note=row['notes']
         for word in key_words:
             if str(word) in str(note):
                 found_r.append(word)

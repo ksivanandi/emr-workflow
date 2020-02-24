@@ -104,7 +104,7 @@ def one_hot_write_to_db(updated_df_json_encoded, term_cos_simil_df_json_encoded,
     mongodb_output = {
             'timestamp': timestamp,
             'updated_df_gridfs_id': updated_df_gridfs_id,
-            'term_cos_simil_df_gridfs_id': term_cos_simil_df_grifs_id
+            'term_cos_simil_df_gridfs_id': term_cos_simil_df_gridfs_id
             }
 
     collection.insert_one(mongodb_output)
