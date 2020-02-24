@@ -115,7 +115,7 @@ def one_hot_read_from_db(collection_name):
     collection = db[collection_name]
 
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    updated_df_json_encoded = fs.get(most_recent_entry['updated_df_gridfs_id'])
-    term_cos_simil_df_json_encoded = fs.get(most_recent_entry['term_cos_simil_df_gridfs_id'])
+    updated_df_json_encoded = fs.get(most_recent_entry['updated_df_gridfs_id']).read()
+    term_cos_simil_df_json_encoded = fs.get(most_recent_entry['term_cos_simil_df_gridfs_id']).read()
 
     return updated_df_json_encoded, term_cos_simil_df_json_encoded

@@ -24,7 +24,7 @@ import datetime
 import pickle
 from workflow_read_and_write import one_hot_write_to_db, standard_read_from_db
 
-mongodb_collection_name = 'infection_one_hot'
+collection_name = 'infection_one_hot'
 
 """
 use word2vec to find similar terms
@@ -41,7 +41,7 @@ def find_infection_similar_terms(model):
     flattened=[item for sublist in infected_key_words for item in sublist]  
 
     key_words=[]
-    for label, value in infected_key_words:
+    for label, value in flattened:
         key_words.append(label)
 
     return flattened, key_words
@@ -54,7 +54,7 @@ def add_found_words_column(df, key_words):
     all_found_key_terms_infection=[]
     for i, row in df.iterrows():
         found_r=[]
-        note=row['text']
+        note=row['notes']
         for word in key_words:
             if str(word) in str(note):
                 found_r.append(word)
@@ -88,7 +88,7 @@ def infected_one_hot():
     word2vec_pickle = standard_read_from_db('word2vec')
     word2vec_model = pickle.loads(word2vec_pickle)
 
-    flattened, key_words = find_readmit_similar_terms(word2vec_model)
+    flattened, key_words = find_infection_similar_terms(word2vec_model)
     df_found_words = add_found_words_column(first_dataframe, key_words)
     df_one_hot = one_hot_encode_found_key_terms(df_found_words)
 
@@ -97,5 +97,5 @@ def infected_one_hot():
 
     df_one_hot_json_encoded = df_one_hot.to_json().encode()
     df_term_cos_simil_json_encoded = df_term_cos_simil.to_json().encode()
-    one_hot_write_to_db(df_one_hot_json_encoded, df_term_cos_simil_json_encoded, mongodb_collection_name)
+    one_hot_write_to_db(df_one_hot_json_encoded, df_term_cos_simil_json_encoded, collection_name)
 

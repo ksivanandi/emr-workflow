@@ -46,8 +46,6 @@ def combine():
             'dischtime',
             'patient_id',
             'notes',
-            'readmission_keywords',
-            'infected_key_words',
             #'note_entities_labeled',
             'index'
             ]
