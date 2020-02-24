@@ -6,13 +6,13 @@ def combine():
     readmission_one_hot_df_json_encoded, _ = one_hot_read_from_db('readmission_one_hot')
     structured_features_df_json_encoded = standard_read_from_db('structured_data_features')
     vitals_ngrams_df_json_encoded = standard_read_from_db('vitals_ngrams')
-    ner_processed_df_json_encoded = standard_read_from_db('post_ner_inference')
+    #ner_processed_df_json_encoded = standard_read_from_db('post_ner_inference')
 
     infection_one_hot_df = pd.read_json(infection_one_hot_df_json_encoded.decode())
     readmission_one_hot_df = pd.read_json(readmission_one_hot_df_json_encoded.decode())
     structured_features_df = pd.read_json(structured_features_df_json_encoded.decode())
     vitals_ngrams_df = pd.read_json(vitals_ngrams_df_json_encoded.decode())
-    ner_processed_df = pd.read_json(ner_processed_df_json_encoded.decode())
+    #ner_processed_df = pd.read_json(ner_processed_df_json_encoded.decode())
 
     combined_df = infection_one_hot_df
     combined_columns = combined_df.columns
@@ -48,7 +48,7 @@ def combine():
             'notes',
             'readmission_keywords',
             'infected_key_words',
-            'note_entities_labeled',
+            #'note_entities_labeled',
             'index'
             ]
 
