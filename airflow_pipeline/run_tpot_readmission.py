@@ -17,7 +17,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 import pandas as pd
 import pickle
-from workflow_read_and_write import standard_read_from_db, standard_write_to_db
+from workflow_read_and_write import standard_read_from_db, tpot_write_to_db
 
 """
 define target variable from variable in source data (Length of Stay) then drop
@@ -34,17 +34,19 @@ def create_tpot_pipeline(df, target_column):
 
     tpot = TPOTClassifier(generations=100, population_size=20, verbosity=3)
     tpot.fit(X_train, y_train)
+    score = tpot.score(X_test, y_test)
 
     tpot_pipeline_code = tpot.export()
-    return tpot_pipeline_code
-
+    return tpot_pipeline_code, score
 
 def run_tpot():
     combined_df_json_encoded = standard_read_from_db('combined_dataframe')
     combined_df_json = combined_df_json_encoded.decode()
     combined_df = pd.read_json(combined_df_json)
 
-    tpot_pipeline_code = create_tpot_pipeline(combined_df, 'readmission')
+    tpot_pipeline_code, score = create_tpot_pipeline(combined_df, 'readmission')
 
     tpot_pipeline_code_encoded = tpot_pipeline_code.encode()
-    standard_write_to_db('tpot_readmission', tpot_pipeline_code_encoded)
+    score_encoded = score.encode()
+    tpot_write_to_db(tpot_pipeline_code_encoded, score_encoded, 'tpot_readmission')
+

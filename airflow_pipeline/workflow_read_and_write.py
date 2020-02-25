@@ -119,3 +119,32 @@ def one_hot_read_from_db(collection_name):
     term_cos_simil_df_json_encoded = fs.get(most_recent_entry['term_cos_simil_df_gridfs_id']).read()
 
     return updated_df_json_encoded, term_cos_simil_df_json_encoded
+
+def tpot_write_to_db(tpot_pipeline_code_encoded, score_encoded, collection_name):
+    db = get_db()
+    fs = gridfs.GridFS(db)
+    collection = db[collection_name]
+
+    tpot_pipeline_gridfs_id = fs.put(tpot_pipeline_code_encoded)
+    score_gridfs_id = fs.put(score_encoded)
+    timestamp = datetime.datetime.now().timestamp()
+
+    mongodb_output = {
+        'timestamp': timestamp,
+        'tpot_pipeline_gridfs_id': tpot_pipeline_gridfs_id,
+        'score_gridfs_id': score_gridfs_id
+        }
+
+    collection.insert_one(mongodb_output)
+
+def tpot_read_from_db(collection_name):
+    db = get_db()
+    fs = gridfs.GridFS(db)
+    collection = db[collection_name]
+
+    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
+    tpot_pipeline_code_encoded = fs.get(most_recent_entry['tpot_pipeline_gridfs_id']).read()
+    score_encoded = fs.get(most_recent_entry['score_grid_fs_id']).read()
+
+    return tpot_pipeline_code_encoded, score_encoded
+
