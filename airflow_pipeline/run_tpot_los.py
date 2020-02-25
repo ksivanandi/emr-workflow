@@ -53,5 +53,5 @@ def run_tpot():
     tpot_pipeline_code, score = create_tpot_pipeline(combined_df, 'los')
 
     tpot_pipeline_code_encoded = tpot_pipeline_code.encode()
-    score_encoded = score.encode()
+    score_encoded = str(score).encode()
     tpot_write_to_db(tpot_pipeline_code_encoded, score_encoded, 'tpot_los')
