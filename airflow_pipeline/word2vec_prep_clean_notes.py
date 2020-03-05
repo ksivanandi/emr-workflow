@@ -1,7 +1,5 @@
 import re
 import pandas as pd
-import pyarrow as pa
-import pyarrow.parquet as pq
 import pymongo
 import gridfs
 import datetime
