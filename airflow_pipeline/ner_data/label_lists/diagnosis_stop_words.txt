@@ -166,7 +166,6 @@
 'taken'
 'substance'
 'substances'
-!haveNumbers(word)
 'percent'
 'less'
 'than'
