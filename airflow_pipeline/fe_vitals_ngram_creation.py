@@ -17,22 +17,12 @@ import pandas as pd
 import nltk
 from nltk import sent_tokenize, word_tokenize
 import re
+from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
 """
 global variables
 """
 en_stop = set(nltk.corpus.stopwords.words('english'))
-
-def read_from_db():
-    client = pymongo.MongoClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    collection = db['ngram_prep_tokenize']
-    fs = gridfs.GridFS(db)
-    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    json_df = fs.get(most_recent_entry['gridfs_id']).read()
-    df = pd.read_json(json_df.decode())
-    return df
-
 
 """
 generate n-grams function
@@ -109,24 +99,14 @@ generate n-grams for df['vitals'] to further refine vitals and prep for topic mo
 #    df['clinical_ngrams']=ngrams
 #    return df
 
-def write_to_db(df):
-    # set up connections to the database
-    client = pymongo.MongoClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    fs = gridfs.GridFS(db)
-    collection = db['vitals_ngrams']
-
-    # save the dataframe as a json string to the database gridfs store for large objects
-    json_df = df.to_json()
-    json_df_encoded = json_df.encode()
-    gridfs_id = fs.put(json_df_encoded)
-    timestamp = datetime.datetime.now().timestamp()
-
-    # save reference to the gridfs store and a timestamp to the main table for this step
-    mongodb_output = {'timestamp': timestamp, 'gridfs_id': gridfs_id}
-    collection.insert_one(mongodb_output)
-
 def create_vitals_ngrams():
-    df = read_from_db()
+    df_json_encoded = standard_read_from_db('ngram_prep_tokenize')
+    df_json = df_json_encoded.decode()
+    df = pd.read_json(df_json)
+
     df = get_vitals_and_generate_ngrams(df)
-    write_to_db(df)
+
+    df_json = df.to_json()
+    df_json_encoded = df_json.encode()
+    standard_write_to_db('vitals_ngrams' ,df_json_encoded)
+

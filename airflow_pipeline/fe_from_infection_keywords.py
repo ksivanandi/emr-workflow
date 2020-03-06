@@ -22,35 +22,9 @@ import pymongo
 import gridfs
 import datetime
 import pickle
+from workflow_read_and_write import one_hot_write_to_db, standard_read_from_db
 
-"""
-retrieve data and store in dataframe
-this needs to be updated to retrieve all data
-"""
-def get_first_dataframe():
-    client = pymongo.MongoClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    collection = db['first_dataframe']
-    fs = gridfs.GridFS(db)
-    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    df_json = fs.get(most_recent_entry['gridfs_id']).read()
-    df_json_decoded =  df_json.decode()
-    df = pandas.read_json(df_json_decoded)
-    return df
-
-"""
-global variables
-should also write infected_key_words to a table/file for future use since we 
-are currently only using the term and not the associated cosine similarity score for anything
-"""
-def get_word2vec_model():
-    client = pymongo.MongoClient('mongodb://localhost:27017/')
-    db = client['emr_steps']
-    collection = db['word2vec']
-    fs = gridfs.GridFS(db)
-    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
-    word2vec_pickle = fs.get(most_recent_entry['gridfs_id'])
-    return word2vec_pickle
+collection_name = 'infection_one_hot'
 
 """
 use word2vec to find similar terms
@@ -67,7 +41,7 @@ def find_infection_similar_terms(model):
     flattened=[item for sublist in infected_key_words for item in sublist]  
 
     key_words=[]
-    for label, value in infected_key_words:
+    for label, value in flattened:
         key_words.append(label)
 
     return flattened, key_words
@@ -80,7 +54,7 @@ def add_found_words_column(df, key_words):
     all_found_key_terms_infection=[]
     for i, row in df.iterrows():
         found_r=[]
-        note=row['text']
+        note=row['notes']
         for word in key_words:
             if str(word) in str(note):
                 found_r.append(word)
@@ -106,36 +80,22 @@ def one_hot_encode_found_key_terms(df):
 write one-hot encoded variables and index to file/table
 write term and cosine similarity value tuples to file/table
 """
-def write_to_db(updated_df, flattened_list):
-    client = pymongo.MongoClient('mongodb://localhost:27017')
-    db = client['emr_steps']
-    collection = db['infection_one_hot']
-    fs = gridfs.GridFS(db)
-
-    df_term_and_cos_simil = pd.DataFrame()
-    df_term_and_cos_simil['infected_key_words'] = flattened_list
-
-    updated_df_json = updated_df.to_json()
-    term_cos_simil_df_json = term_cos_simil_df.to_json()
-
-    timestamp = datetime.datetime.now().timestamp()
-    updated_df_gridfs_id = fs.put(updated_df_json.encode())
-    term_cos_simil_df_gridfs_id = fs.put(term_cos_simil_df_json.encode())
-
-    mongodb_output = {
-            'timestamp': timestamp,
-            'updated_df_gridfs_id': updated_df_gridfs_id,
-            'term_cos_simil_df_gridfs_id': term_cos_simil_df_gridfs_id
-            }
-
-    collection.insert_one(mongodb_output)
-
 def infected_one_hot():
-    first_dataframe = get_first_dataframe()
-    word2vec_pickle = get_word2vec_model()
+    first_dataframe_json_encoded = standard_read_from_db('first_dataframe')
+    first_dataframe_json = first_dataframe_json_encoded.decode()
+    first_dataframe = pd.read_json(first_dataframe_json)
+
+    word2vec_pickle = standard_read_from_db('word2vec')
     word2vec_model = pickle.loads(word2vec_pickle)
-    flattened, key_words = find_readmit_similar_terms(word2vec_model)
+
+    flattened, key_words = find_infection_similar_terms(word2vec_model)
     df_found_words = add_found_words_column(first_dataframe, key_words)
     df_one_hot = one_hot_encode_found_key_terms(df_found_words)
-    write_to_db(df_one_hot, flattened)
+
+    df_term_cos_simil = pd.DataFrame()
+    df_term_cos_simil['infected_key_words'] = flattened
+
+    df_one_hot_json_encoded = df_one_hot.to_json().encode()
+    df_term_cos_simil_json_encoded = df_term_cos_simil.to_json().encode()
+    one_hot_write_to_db(df_one_hot_json_encoded, df_term_cos_simil_json_encoded, collection_name)
 

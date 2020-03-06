@@ -1,22 +1,29 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 
+from word2vec_prep_clean_notes import clean_all_notes
+
 import first_table_from_api
 import word2vec_prep_clean_notes
 import word2vec_prep_tokenize_notes
 import ngram_prep_tokenize_notes
 import create_word2vec_model
-import entity_recognition
 import fe_from_readmission_keywords
 import fe_from_infection_keywords
 import fe_from_structured_readmit_los
 import fe_vitals_ngram_creation
 import create_lda_model
+#import use_ner_model
+import combine_dataframes
+import run_tpot_los
+import run_tpot_readmission
+
+import placeholder
 
 from datetime import datetime, timedelta
 
 default_args = {
-    'owner': 'Morgan EMR Pipeline',
+    'owner': 'EMR Appliance Pipeline',
     'start_date': datetime(2020,1,24)
 }
 
@@ -29,8 +36,8 @@ df_from_api_operator = PythonOperator(
     )
 
 word2vec_clean_notes_operator = PythonOperator(
-    task_id = 'word2vec_prep_cleanse_notes',
-    python_callable = word2vec_prep_clean_notes.clean_all_notes(),
+    task_id = 'word2vec_prep_clean_notes',
+    python_callable = clean_all_notes,
     dag = dag
     )
 
@@ -46,9 +53,9 @@ word2vec_operator = PythonOperator(
     dag = dag
     )
 
-create_lda_model_operator = PythonOperator(
-    task_id = 'create_lda_model',
-    python_callable = create_lda_model.create_lda_model,
+label_with_ner_operator = PythonOperator(
+    task_id = 'label_notes_with_ner_model',
+    python_callable = placeholder.placeholder_function,
     dag = dag
     )
 
@@ -61,12 +68,6 @@ fe_ngram_prep_tokenize_notes_operator = PythonOperator(
 fe_vitals_ngram_creation_operator = PythonOperator(
     task_id = 'create_vitals_ngrams',
     python_callable = fe_vitals_ngram_creation.create_vitals_ngrams,
-    dag = dag
-    )
-
-entity_recognition_operator = PythonOperator(
-    task_id = 'entity_recognition',
-    python_callable = entity_recognition.make_ner,
     dag = dag
     )
 
@@ -88,4 +89,34 @@ structured_features_operator = PythonOperator(
     dag = dag
     )
 
-df_from_api_operator >> word2vec_clean_notes_operator >> word2vec_tokenize_notes_operator >> word2vec_operator >> entity_recognition
+combine_all_dataframes_operator = PythonOperator(
+    task_id = 'combine_dataframes_for_tpot',
+    python_callable = combine_dataframes.combine,
+    dag = dag
+    )
+
+tpot_los_operator = PythonOperator(
+    task_id = 'run_tpot_for_los',
+    python_callable = run_tpot_los.run_tpot,
+    dag = dag
+    )
+
+tpot_readmission_operator = PythonOperator(
+    task_id = 'run_tpot_for_readmission',
+    python_callable = run_tpot_readmission.run_tpot,
+    dag = dag
+    )
+
+df_from_api_operator.set_downstream(word2vec_clean_notes_operator)
+word2vec_clean_notes_operator.set_downstream(word2vec_tokenize_notes_operator)
+word2vec_tokenize_notes_operator.set_downstream(word2vec_operator)
+word2vec_operator.set_downstream(label_with_ner_operator)
+word2vec_operator.set_downstream([infected_one_hot_operator, readmission_one_hot_operator, structured_features_operator])
+label_with_ner_operator.set_downstream(fe_ngram_prep_tokenize_notes_operator)
+fe_ngram_prep_tokenize_notes_operator.set_downstream(fe_vitals_ngram_creation_operator)
+infected_one_hot_operator.set_downstream(combine_all_dataframes_operator)
+readmission_one_hot_operator.set_downstream(combine_all_dataframes_operator)
+fe_vitals_ngram_creation_operator.set_downstream(combine_all_dataframes_operator)
+structured_features_operator.set_downstream(combine_all_dataframes_operator)
+combine_all_dataframes_operator.set_downstream([tpot_los_operator, tpot_readmission_operator])
+
