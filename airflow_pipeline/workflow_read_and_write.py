@@ -144,7 +144,7 @@ def tpot_read_from_db(collection_name):
 
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
     tpot_pipeline_code_encoded = fs.get(most_recent_entry['tpot_pipeline_gridfs_id']).read()
-    score_encoded = fs.get(most_recent_entry['score_grid_fs_id']).read()
+    score_encoded = fs.get(most_recent_entry['score_gridfs_id']).read()
 
     return tpot_pipeline_code_encoded, score_encoded
 
