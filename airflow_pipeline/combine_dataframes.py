@@ -55,6 +55,7 @@ def combine():
             ]
 
     combined_df.drop(columns_to_remove,axis=1,inplace=True)
+    combined_df=combined_df.dropna()
 
     combined_df_json_encoded = combined_df.to_json().encode()
 
