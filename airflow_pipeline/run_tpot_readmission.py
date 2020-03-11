@@ -32,7 +32,7 @@ def create_tpot_pipeline(df, target_column):
         target, train_size=0.75, test_size=0.25)
 
 
-    tpot = TPOTClassifier(generations=100, population_size=20, verbosity=3)
+    tpot = TPOTClassifier(generations=100, population_size=20, verbosity=3, config_dict="TPOT sparse")
     tpot.fit(X_train, y_train)
     score = tpot.score(X_test, y_test)
 
