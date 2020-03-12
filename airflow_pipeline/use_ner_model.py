@@ -25,10 +25,13 @@ import pandas as pd
 import pickle
 
 import nemo
+from nemo import logging
 import nemo.collections.nlp as nemo_nlp
 from nemo.collections.nlp.data import NemoBertTokenizer
 from nemo.collections.nlp.nm.trainables import TokenClassifier
 from nemo.collections.nlp.utils.common_nlp_utils import get_vocab
+from nemo_nlp.data import NemoBertTokenizer
+from nemo_nlp.nm.trainables import TokenClassifier
 
 from workflow_read_and_write import train_ner_read_from_db, standard_read_from_db, standard_write_to_db
 
