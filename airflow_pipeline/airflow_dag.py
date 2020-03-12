@@ -1,8 +1,6 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 
-from word2vec_prep_clean_notes import clean_all_notes
-
 import first_table_from_api
 import word2vec_prep_clean_notes
 import word2vec_prep_tokenize_notes
@@ -17,6 +15,9 @@ import create_lda_model
 import combine_dataframes
 import run_tpot_los
 import run_tpot_readmission
+import readmission_word2vec_prep_clean_notes
+import readmission_word2vec_prep_tokenize_notes
+import create_readmission_word2vec_model
 
 import placeholder
 
@@ -35,21 +36,39 @@ df_from_api_operator = PythonOperator(
     dag = dag
     )
 
-word2vec_clean_notes_operator = PythonOperator(
-    task_id = 'word2vec_prep_clean_notes',
-    python_callable = clean_all_notes,
+all_word2vec_clean_notes_operator = PythonOperator(
+    task_id = 'all_word2vec_prep_clean_notes',
+    python_callable = word2vec_prep_clean_notes.clean_all_notes,
     dag = dag
     )
 
-word2vec_tokenize_notes_operator = PythonOperator(
-    task_id = 'word2vec_prep_tokenize_notes',
+all_word2vec_tokenize_notes_operator = PythonOperator(
+    task_id = 'all_word2vec_prep_tokenize_notes',
     python_callable = word2vec_prep_tokenize_notes.tokenize_all_notes,
     dag = dag
     )
 
-word2vec_operator = PythonOperator(
-    task_id = 'make_word2vec_model',
+all_word2vec_operator = PythonOperator(
+    task_id = 'make_all_word2vec_model',
     python_callable = create_word2vec_model.create_word2vec_model,
+    dag = dag
+    )
+
+readmission_word2vec_clean_notes_operator = PythonOperator(
+    task_id = 'readmission_word2vec_prep_clean_notes',
+    python_callable = readmission_word2vec_prep_clean_notes.clean_readmission_notes,
+    dag = dag
+    )
+
+readmission_word2vec_tokenize_notes_operator = PythonOperator(
+    task_id = 'readmission_word2vec_tokenize_notes',
+    python_callable = readmission_word2vec_prep_tokenize_notes.tokenize_readmission_notes,
+    dag = dag
+    )
+
+readmission_word2vec_operator = PythonOperator(
+    task_id = 'make_readmission_word2vec_model',
+    python_callable = create_readmission_word2vec_model.create_word2vec_model,
     dag = dag
     )
 
@@ -107,16 +126,20 @@ tpot_readmission_operator = PythonOperator(
     dag = dag
     )
 
-df_from_api_operator.set_downstream(word2vec_clean_notes_operator)
-word2vec_clean_notes_operator.set_downstream(word2vec_tokenize_notes_operator)
-word2vec_tokenize_notes_operator.set_downstream(word2vec_operator)
-word2vec_operator.set_downstream(label_with_ner_operator)
-word2vec_operator.set_downstream([infected_one_hot_operator, readmission_one_hot_operator, structured_features_operator])
+#df_from_api_operator.set_downstream(word2vec_clean_notes_operator)
+df_from_api_operator.set_downstream(structured_features_operator)
+structured_features_operator.set_downstream([all_word2vec_clean_notes_operator, readmission_word2vec_clean_notes_operator])
+readmission_word2vec_clean_notes_operator.set_downstream(readmission_word2vec_tokenize_notes_operator)
+readmission_word2vec_tokenize_notes_operator.set_downstream(readmission_word2vec_operator)
+readmission_word2vec_operator.set_downstream(readmission_one_hot_operator)
+all_word2vec_clean_notes_operator.set_downstream(all_word2vec_tokenize_notes_operator)
+all_word2vec_tokenize_notes_operator.set_downstream(all_word2vec_operator)
+all_word2vec_operator.set_downstream([infected_one_hot_operator, label_with_ner_operator])
 label_with_ner_operator.set_downstream(fe_ngram_prep_tokenize_notes_operator)
 fe_ngram_prep_tokenize_notes_operator.set_downstream(fe_vitals_ngram_creation_operator)
 infected_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 readmission_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 fe_vitals_ngram_creation_operator.set_downstream(combine_all_dataframes_operator)
-structured_features_operator.set_downstream(combine_all_dataframes_operator)
+#structured_features_operator.set_downstream(combine_all_dataframes_operator)
 combine_all_dataframes_operator.set_downstream([tpot_los_operator, tpot_readmission_operator])
 

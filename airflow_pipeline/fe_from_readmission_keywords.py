@@ -79,7 +79,7 @@ def readmission_one_hot():
     first_dataframe_json = first_dataframe_json_encoded.decode()
     first_dataframe = pd.read_json(first_dataframe_json)
 
-    word2vec_pickle = standard_read_from_db('word2vec')
+    word2vec_pickle = standard_read_from_db('readmission_word2vec')
     word2vec_model = pickle.loads(word2vec_pickle)
 
     flattened, key_words = find_readmit_similar_terms(word2vec_model)
