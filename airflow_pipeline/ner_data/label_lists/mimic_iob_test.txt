@@ -1,0 +1,307 @@
+ Admission Date:  [**2196-4-9**]       Discharge Date:  [**2196-4-10**]
+
+Date of Birth:   [**2131-5-7**]       Sex:  F
+
+Service:  ICU
+
+CHIEF COMPLAINT:  Unresponsiveness
+
+HISTORY OF PRESENT ILLNESS:   The patient is a 64-year-old
+female with a history of hypertension, depression, prior
+suicide attempt by overdose, recently with exacerbated mood
+disorder status post the death of her husband in [**2195-6-2**], now presented after being found unresponsive.  The
+patient's daughters found her in the morning of the day of
+presentation, unresponsive with empty bottles of Ambien and
+Zyprexa at the bedside.  Pill count revealed that the patient
+had likely taken 26 Ambien and 12 Zyprexa.  The patient has
+been unable to be alone secondary to depression with suicidal
+ideation, and has been living with her daughters.  They note
+that the patient went to bed at 11 P.M. the night prior to
+admission and was found at 11 A.M. unresponsive with
+respiratory depression.  The patient had seen her primary
+psychiatrist the day before.
+
+In the Emergency Department, the patient was charcoaled,
+gastric lavaged, and intubated for airway protection.  She
+was hemodynamically stable.  She was transferred to the
+Intensive Care Unit.
+
+In the Intensive Care Unit, the patient was able to open her
+eyes, and was moving all four extremities and responsive to
+command.
+
+PAST MEDICAL HISTORY:
+1.  Hypertension
+2.  Depression with suicide attempt ten years ago by
+overdose.  The patient was hospitalized for two weeks at that
+point.  The patient's outpatient psychiatrist is Dr. [**Last Name (STitle) **].
+
+ALLERGIES:   No known drug allergies.
+
+MEDICATIONS:   Zyprexa 2.5 mg by mouth daily at bedtime,
+Zestril 20 mg by mouth once daily, Ambien 10 mg by mouth
+daily at bedtime, Estradiol 1 mg by mouth once daily,
+nortriptyline 25 mg by mouth daily at bedtime, Klonopin 0.5
+to 1 mg daily at bedtime, Biotin and calcium supplementation.
+
+SOCIAL HISTORY:   The patient lives with her daughter.  [**Name (NI) **]
+husband died in [**2196-1-2**].  The patient denied any
+tobacco, alcohol or drug use.
+
+FAMILY HISTORY:   Unknown.
+
+PHYSICAL EXAMINATION:   The patient's temperature was 97.7,
+with a blood pressure of 130/65, pulse of 84, respiratory
+rate of 14, and oxygen saturation of 100%.  The patient was
+ventilated on IMV pressure support with a rate of 14,
+pressure support of 10, PEEP of 7.5, volume of 500, and 40%
+FIO2.  On general examination, the patient was a very
+ill-appearing female, in no apparent distress.  She was
+intubated.  Head, eyes, ears, nose and throat examination
+revealed 1 to 2 mm nonreactive pupils.  Neck examination
+revealed no jugular venous distention and no bruits.  Cardiac
+examination revealed a regular rate and rhythm, normal S1 and
+S2, and no murmurs, gallops or rubs.  Pulmonary examination
+revealed that the lungs were clear to auscultation
+bilaterally.  Abdominal examination revealed a belly that was
+soft, nontender, nondistended, with normal bowel sounds.
+Extremity examination revealed no edema, with 2+ dorsalis
+pedis pulses bilaterally.  Neurological examination revealed
+a patient that was moving all four extremities, opening eyes
+intermittently, withdrawing to pain.  The patient had 2+ deep
+tendon reflexes, and downgoing plantar reflexes.
+
+LABORATORY DATA:   The patient had a white blood cell count
+of 5.1, hematocrit of 35.9, platelets of 259.  The patient
+had a sodium of 140, potassium of 4.4, chloride of 103,
+bicarbonate of 28, BUN of 17, creatinine of 0.6, and glucose
+of 102.  The patient's INR was 1.1.  The patient had an ALT
+of 19, an AST of 26.  Arterial blood gas was performed
+post-intubation and was found to be pH of 7.47, PACO2 of 29,
+and PAO2 of 287.
+
+Electrocardiogram:  Normal sinus rhythm at 80, with normal
+axis, [**Doctor Last Name 1754**] and intervals, and ST elevations in V2 and
+Lead I.
+
+Other studies:  Urine toxicology was negative, serum
+toxicology was negative.  Urinalysis revealed negative
+nitrates, leukocytes, blood, no red blood cells, no white
+blood cells, occasional bacteria, and less than one
+epithelial cell.
+
+Head CT:  No signs of intracranial hemorrhage or mass effect.
+
+HOSPITAL COURSE:   The patient is a 64-year-old female with a
+history of hypertension and depression with suicidal ideation
+and previous history of overdose attempt, status post likely
+overdose on Ambien and Zyprexa, status post intubation and
+hemodynamically stable.
+
+1.  Toxicology:  Patient with likely Ambien overdose and
+Zyprexa overdose.  Her symptoms of light coma, somnolence and
+respiratory compromise were consistent with Ambien overdose.
+The patient also had evidence of myosis, which was consistent
+with Zyprexa overdose.  The patient had been gastric lavaged,
+charcoaled and supported in the Emergency Department.  In the
+Intensive Care Unit, the patient was supported with
+intravenous fluids and gradually weaned on the ventilator to
+the point where she was successfully extubated shortly after
+arriving to the Intensive Care Unit.
+
+2.  Psychiatric:  Patient with major depression, recently
+exacerbated by the loss of her husband, now with a second
+overdose attempt in her lifetime.  Likely Zyprexa and Ambien
+were the agents responsible.  Multiple attempts were made in
+the effort to contact the patient's outpatient psychiatrist,
+Dr. [**Last Name (STitle) **].  She was unable to be reached.  Psychiatry was
+consulted, who felt that the patient needed inpatient
+evaluation and treatment.  They also recommended
+psychotropics be avoided, and that the patient have a
+one-to-one sitter.  Social Work and Case Management were
+consulted.
+
+3.  Cardiovascular:  Patient was hemodynamically stable with
+history of hypertension.  Her antihypertensives were held.
+Her electrocardiogram was unremarkable, although there were
+no studies for comparison.
+
+4.  Pulmonary:  Patient intubated secondary to decreased
+mental status without a primary lung process.
+Post-extubation arterial blood gas did not suggest any
+obstructive lung process leading to hypercarbia or hypoxemia
+from other pulmonary process.  The examination was
+unremarkable.  A facile extubation was anticipated, and the
+patient was extubated within several hours of arriving in the
+Intensive Care Unit.
+
+5.  Psychosocial:  Communication was maintained with the
+patient's daughters, who also felt that the patient should
+receive inpatient evaluation and treatment.
+
+CONDITION ON DISCHARGE:   Stable.
+
+DISCHARGE STATUS:  The patient was discharged to an inpatient
+psychiatric bed.
+
+DISCHARGE MEDICATIONS:   Zestril 20 mg by mouth once daily,
+Estradiol 1 mg by mouth once daily.
+
+DISCHARGE DIAGNOSIS:
+1.  Major depression
+2.  Ambien and Zyprexa overdose
+3.  Hypertension
+
+
+
+
+                            [**Name6 (MD) **] [**Last Name (NamePattern4) 5837**], M.D.  [**MD Number(1) 8285**]
+
+Dictated By:[**Last Name (NamePattern1) 5246**]
+MEDQUIST36
+
+D:  [**2196-4-10**]  02:10
+T:  [**2196-4-10**]  02:20
+JOB#:  [**Job Number 38050**]
+ Normal sinus rhythm. Non-diagnostic repolarization abnormalities. Compared to
+theprevious tracing of [**2196-4-9**] no major change, although non-diagnostic
+repolarization abnormalities are now evident.
+TRACING #2
+
+ Normal sinus rhythm without diagnostic abnormality. No previous tracing
+available for comparison.
+TRACING #1
+
+ [**2196-4-10**] 11:52 PM
+ CHEST (PORTABLE AP)                                             Clip # [**Clip Number (Radiology) 44266**]
+ Reason: eval tubualr structure noted on portable chest [**4-9**]
+ ______________________________________________________________________________
+ [**Hospital 4**] MEDICAL CONDITION:
+  64 year old woman with overdose with tubular opacity noted on portable chest
+  XR.  Radiology posed question of retained vascular catheter.
+ REASON FOR THIS EXAMINATION:
+  eval tubualr structure noted on portable chest [**4-9**]
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ PORTABLE CHEST [**2196-4-10**].
+
+ INDICATION:  Question of retained vascular catheter.
+
+ COMPARISON:  [**2196-4-9**] - 10:41.
+
+ FINDINGS:  Compared to the prior study the previously identified radiopaque
+ density in the  the left subclavian region is no longer identified and
+ presumably this was an artifact or  outside the patient.  Since the previous
+ exam the patient has been extubated.
+
+ The lungs are clear without evidence for focal consolidation, or fluid
+ overload.  Heart size is normal.
+
+ IMPRESSION:
+
+ Normal chest.  The concern of the previous radiopaque catheter is dismissed as
+ it is no longer present.
+
+
+ [**2196-4-9**] 10:19 AM
+ CT HEAD W/O CONTRAST                                            Clip # [**Clip Number (Radiology) 44231**]
+ Reason: r/o bleed
+ ______________________________________________________________________________
+ [**Hospital 4**] MEDICAL CONDITION:
+  64 year old woman found unresponsive
+ REASON FOR THIS EXAMINATION:
+  r/o bleed
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ INDICATION: 64 year old woman with loss of consciousness.
+
+ TECHNIQUE: Contiguous axial images were obtained from the cranial vertex to
+ the foramen magnum.
+
+ FINDINGS: There are no intra or extraaxial hyperdensities to suggest
+ hemorrhage. There is no shift of normally midline structures or mass effect.
+ The ventricles, cisterns, and sulci are unremarkable. The parenchymal
+ attenuation is normal. The [**Doctor Last Name 181**]-white matter differentiation is preserved.
+
+ The osseous structures, soft tissues, and sinuses are unremarkable. The
+ mastoid air cells are aerated.
+
+ IMPRESSION: Normal head CT with no evidence of intracranial hemorrhage.
+
+ [**2196-4-9**] 10:40 AM
+ CHEST (PORTABLE AP)                                             Clip # [**Clip Number (Radiology) 44229**]
+ Reason: tube placewment
+ ______________________________________________________________________________
+ [**Hospital 4**] MEDICAL CONDITION:
+  64 year old woman with s/p ett
+ REASON FOR THIS EXAMINATION:
+  tube placewment
+ ______________________________________________________________________________
+                                 FINAL REPORT
+ INDICATION: Endotracheal tube placement.
+
+ COMPARISON: None
+
+ CHEST, SINGLE VIEW: The endotracheal tube is in satisfactory position,
+ approximately 4cm above the carina.  The NG tube terminates in the body of the
+ stomach.  Heart size, mediastinal and hilar contours are within normal limits.
+ The lungs are clear.  No effusions.  The visualized osseous and soft tissue
+ structures are unremarkable.  There is an approximately 2cm tubular opacity
+ which projects over the lateral 3rd and 4th ribs on the left just inferior to
+ the clavicle.
+
+ IMPRESSION:
+ 1. Endotracheal and nasogastric tubes in satisfactory position.
+ 2. No evidence of acute cardiopulmonary disease.
+ 3. Tubular appearing opacity projecting beneath the left clavicle is of
+ uncertain etiology, possibly external to the patient.  Clinical correlation
+ advised as to possibility of previous vascular catheter to exclude possibility
+ of retained fragment.
+
+ MICU/SICU NURSING ADMISSION NOTE
+     Admitted to ths MICU/SICU at 1330 from the E.W. with the dx of overdose of ambien and/or Zyprexia.  Was living with daughter following death of husband in [**Name2 (NI) 120**].  Went to bed last night and was found unresponsive this am with empty pill bottles at bed side.  Death of husband in [**Name2 (NI) 120**] has exacerbated mood disorder, had been unable to sleep recently and was prescribed several medications for sleep.  [**Month (only) **] have taken as many as 12 zyprexia and 26 ambien
+     Upon arrival to ED was intubated d/t apnea, given charcoal via ogt, had foley placed and 2 # 18 ga. iv's inserted in lla and rac.
+     Past medical history includes htn, mood disorder with depression, and prior suicide attempt by od.
+     NKDA
+     On arrival to micu is responsive to verbal stimuli, will follow commands and shake head in yes or no fashion to answer questions.  Reports understanding in hospital. Denies discomfort. MAE.  Good pulses all extremeties.  Restraints in place to prevent pt from harming self by removing ett tube.
+    Lung sounds are clear and equal bilaterally with good air movement throughout.  Good capillary refill, 02 sats 99-100% on simv+ps of 8,peep5,fio2 40%,tv500,rr 14.  Tolerating tube fairly well but propofol is on standby should it be needed.  Pt continued to be apneic when tried to wean.
+    Sinus rythm to sinus tachycardia without ectopy noted, rate 70-110.  Blood pressures 133/65-163/91.  Blood pressure and hr  elevated when agitated.
+    Abdomen soft with good bowel sounds throughout.  Ogt in place by auscultation.  Fecal bag in place,0 stool.  Foley catheter in place, draining clear yellow urine.
+    Skin appears intact with no area's of breakdown noted.
+    Daughters in with mother, were very upset in ew but have been calm and controlled. They are very concerned about mothers condition.
+    [**Name2 (NI) 121**] is to wean pt from vent, have sitter in place when family is not present and to monitor pts respiratory status.
+ Resp Care
+pt received from eu s/p intubation for airway protection following OD.
+pt has #7.0 ETT/taped 21 lip. placed initially on 500x14x.[**2204-5-7**],,weaned to rate of 10 and now to Psv 5/5/40%. awake and responsive, occas slows rr when falls asleep. will most likely be extub before 7 p.m.
+ S/MICU Nursing Progress Note
+Pt extubated at [**2124**] without difficulty, rr 18-22, placed on nasal cannula and weaned to off maintaining O2 sat 98%,
+Met with psych consult who ordered sitters. Pt spoke with her two daughters who were very upset. She was still expressing her feelings of depression. Pt recently lost her husband who died on 12/[**2195**]. talks openly about her 44years of marriage. Has a history of SA in the past. Pt was upset that a sitter needed to be in the room. Explained the reasons and feel she is still at risk to harm herself. "I am sad and grieving but I am not ..." she was unable to say the words suicidal.then dropped the subject from conversation.
+  Pt is A&Ox3, MAE, foley out and ambulates to commode. not always steady on her feet.speech clear. unable to sleep all night. tried soft music to help calm her.
+  GU: foley out and amb to commode, voiding well no c/o.
+  GI: pt on clear liquids and may advance as tolerated. she was able to have juice,water and custard. [**Month (only) **] advance today.no stool.
+  Plan: sitters, when medically clear will transfer to pysch facility for inpatient admit.
+ PT TRANSFER NOTE PLEASE REFER TO ADMIT NOTE [**2196-4-9**] FOR DETAILS.  PT WAS ADMITTED FOR DX OF OD OF AMBIEN POSS 26 AND ZYPREXIA APPOX 12.  SHE WAS INTUBATED IN ED SECONDARY TO APNEA GIVEN CHARCOAL VIA OGT
+SHE WAS EXTUBATED [**4-9**] AT [**2124**] WITHOUT DIFFICULTY.  SHE HAS HAD SITTERS OVERNIGHT AND FAMILY THIS AM. HER HUSBAND [**Name (NI) 122**] [**2196-1-3**] AND OVER LAST MONTH OR SO FELT INCREASINGLY MORE DEPRESSED FEELING GUILTY OVER HUSBAND'S DEATH THAT SHE COULD HAVE DONE SOMETHING TO SAVE HIM.  HER PSYCH MD [**First Name (Titles) 123**] [**Last Name (Titles) 124**] TO WEAN HER FROM HER NORTYPTILINE AND BEGAN PAXIL AND ZYPREXA SHE REPORTS TO FEELING ILL SINCE THEN WITH NAUSEA DECREASE APPETITE DOPEY WITH INCREASE SADNESS
+PMH HTN
+MOOD DISORDER WITH DEPRESSION WITH PRIOR SUICIDE ATTEMPT BY OD
+NKDA
+MEDS
+ZESTRIL
+ESTRADIOL
+BIOTIN
+MVI
+CACO3
+NORTRYPTILINE
+KLONOPIN
+AMBIEN
+ZYPREXIA
+SOCIAL NO ETOH NO SMOKING SHE HAS [**Last Name (un) 125**] CHILDREN AND 6 GRANDCHILDREN SHE HAS BEEN STAYING WITH HER DAUGHTER [**Doctor First Name 126**] SINCE  HUSBAND'S DEATH FAMILY VERY SUPPORTIVE
+O. NEURO A/OX3 AFFECT FLAT
+CARDIAC HR 90-[**Street Address(2) 127**] WITHOUT ECTOPY K+ 3.4 TX WITH A TOTAL OF 80 MEQ KCL PO BP 130/-140 SKIN W+D PP+
+RESP ON RM AIR O2 SAT 99% LUNGS CTA
+GI TAKING PO APPETITE POOR ABD SNT BS+ NO STOOL
+GU VOIDS
+SKIN INTACT
+ACCESS 18 GAUGE LT HAND
+A. OD MAJOR DEPRESSION
+P. TRANSFER TO PSYCH [**Hospital1 128**] 4
