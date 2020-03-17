@@ -3,10 +3,10 @@ import re
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
-#in_file = open('mimic_iob_test.txt')
-#out_file = open('test_out.txt', 'w+')
-in_file = open('all_notes.txt')
-out_file = open('all_notes_iob.txt', 'w+')
+in_file = open('mimic_iob_test.txt')
+out_file = open('test_out.txt', 'w+')
+#in_file = open('all_notes.txt')
+#out_file = open('all_notes_iob.txt', 'w+')
 
 #medication_file = open('medication_set.txt')
 frequency_file = open('frequency.txt')
@@ -94,9 +94,11 @@ for line in in_file.readlines():
                     if max_begin >= 0:
                         for i in range(max_begin, max_end):
                             if i == max_begin:
-                                labels[i] = 'B-DIAGNOSIS'
+                                if labels[i] == 'O':
+                                    labels[i] = 'B-DIAGNOSIS'
                             else:
-                                labels[i] = 'I-DIAGNOSIS'
+                                if labels[i] == 'O':
+                                    labels[i] = 'I-DIAGNOSIS'
 
             for medication in medications:
                 med_length = len(medication.split())
