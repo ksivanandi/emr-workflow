@@ -11,7 +11,7 @@ def add_los_and_binary_deathtime_columns(df):
     for row in df.iterrows():
         admit = pd.to_datetime(row[1]['admittime'])
         discharge = pd.to_datetime(row[1]['dischtime'])
-        los_timedelta = admit - discharge
+        los_timedelta = discharge - admit
         los_days_int = los_timedelta.days
         los_list.append(los_days_int)
     df['los'] = los_list
