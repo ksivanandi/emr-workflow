@@ -36,7 +36,7 @@ def find_infection_similar_terms(model):
     infected_key_words=[]
 
     for word in base_words:
-        infected_key_words.append(model.most_similar(word, topn=15))
+        infected_key_words.append(model.most_similar(word, topn=5))
 
     flattened=[item for sublist in infected_key_words for item in sublist]  
 

@@ -35,7 +35,7 @@ def find_readmit_similar_terms(model):
     
     readmit_base_words=[]
     for word in base_words:
-        readmit_base_words.append(model.most_similar(word, topn=15))
+        readmit_base_words.append(model.most_similar(word, topn=5))
     flattened=[item for sublist in readmit_base_words for item in sublist]    
     
     key_words=[]
