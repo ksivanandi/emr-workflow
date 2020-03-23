@@ -31,5 +31,5 @@ def create_word2vec_model():
     #found readmission as one of the tokens in tokens while testing, reduced min_count to get rid of that error
     model = Word2Vec([tokens], size=100, window=10, min_count=1, workers=3)
     model_pickled = pickle.dumps(model)
-    standard_write_to_db('readmisson_word2vec', model_pickled)
+    standard_write_to_db('readmission_word2vec', model_pickled)
 

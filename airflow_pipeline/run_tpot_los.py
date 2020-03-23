@@ -33,25 +33,38 @@ def create_tpot_pipeline(df, target_column):
     float_df = df.astype(type_conversion_dict)
 
     ##tpot
-    X_train, X_test, y_train, y_test = train_test_split(float_df,
+    print('BB1')
+    X_train, X_test, y_train, y_test = train_test_split(float_df.values,
         target, train_size=0.75, test_size=0.25)
 
 
+    print('BB2')
     tpot = TPOTClassifier(generations=100, population_size=20, verbosity=3, config_dict="TPOT sparse")
+    print('BB3')
     tpot.fit(X_train, y_train)
+    print('BB4')
     score = tpot.score(X_test, y_test)
 
+    print('BB5')
     tpot_pipeline_code = tpot.export()
+    print('BB6')
     return tpot_pipeline_code, score
 
 
 def run_tpot():
+    print('AA1')
     combined_df_json_encoded = standard_read_from_db('combined_dataframe')
+    print('AA2')
     combined_df_json = combined_df_json_encoded.decode()
+    print('AA3')
     combined_df = pd.read_json(combined_df_json)
 
+    print('AA4')
     tpot_pipeline_code, score = create_tpot_pipeline(combined_df, 'los')
 
+    print('AA5')
     tpot_pipeline_code_encoded = tpot_pipeline_code.encode()
+    print('AA6')
     score_encoded = str(score).encode()
+    print('AA7')
     tpot_write_to_db(tpot_pipeline_code_encoded, score_encoded, 'tpot_los')
