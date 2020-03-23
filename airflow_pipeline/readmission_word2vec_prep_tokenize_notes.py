@@ -42,7 +42,7 @@ def tokenize(text):
     return tokens
 
 def tokenize_readmission_notes():
-    notes_encoded = standard_read_from_db('readmission_all_notes_cleansed')
+    notes_encoded = standard_read_from_db('readmission_notes_cleansed')
     notes = notes_encoded.decode()
     
     tokens = tokenize(notes)
