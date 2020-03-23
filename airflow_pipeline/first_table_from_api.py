@@ -56,7 +56,7 @@ def get_dataframe_from_apis():
     admissions = get_admissions()
 
     #admissions_with_notes = combine_notes_and_admissions(admissions, notes)
-    admissions_with_notes = get_all_notes()
+    admissions_with_notes = combine_notes_and_admissions(admissions, notes)
     df = pd.json_normalize(admissions_with_notes)
     # create an index column where the rows have values from 0 to len(df.iterrows())-1
     df.reset_index(inplace=True)
