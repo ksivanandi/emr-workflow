@@ -34,16 +34,17 @@ def create_tpot_pipeline(df, target_column):
 
     ##tpot
     print('BB1')
-    X_train, X_test, y_train, y_test = train_test_split(float_df.values,
+    X_train, X_test, y_train, y_test = train_test_split(float_df,
         target, train_size=0.75, test_size=0.25)
-
 
     print('BB2')
     tpot = TPOTClassifier(generations=100, population_size=20, verbosity=3, config_dict="TPOT sparse")
     print('BB3')
-    tpot.fit(X_train, y_train)
+    XX_train = X_train.values
+    tpot.fit(XX_train, y_train)
     print('BB4')
-    score = tpot.score(X_test, y_test)
+    XX_test = X_test.values
+    score = tpot.score(XX_test, y_test)
 
     print('BB5')
     tpot_pipeline_code = tpot.export()
