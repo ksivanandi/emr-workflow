@@ -37,7 +37,7 @@ def combine_notes_and_admissions(admissions, all_notes):
 # create a smaller dataset than the whole mimic database, faster for testing
 def testing_admissions_with_notes():
     # change this to change the size of the dataset for testing
-    num_records = 1000
+    num_records = 10
 
     resp = requests.get('http://10.32.22.6:56733/admissions/' + str(num_records))
     admissions = resp.json()['json_admissions']
@@ -56,7 +56,7 @@ def get_dataframe_from_apis():
     admissions = get_admissions()
 
     #admissions_with_notes = combine_notes_and_admissions(admissions, notes)
-    admissions_with_notes = get_all_notes()
+    admissions_with_notes = testing_admissions_with_notes()
     df = pd.json_normalize(admissions_with_notes)
     # create an index column where the rows have values from 0 to len(df.iterrows())-1
     df.reset_index(inplace=True)
