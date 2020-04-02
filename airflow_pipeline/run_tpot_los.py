@@ -25,12 +25,18 @@ from dataframe in preparation for model fitting
 """
 def create_tpot_pipeline(df, target_column):
     target=df[target_column]
-    df.drop(target_column,inplace=True, axis=1)
+    df.drop([target_column],inplace=True, axis=1)
+    df.rename(columns={"los": "target"})
+
+    df.to_csv('jasontest_float_before.csv')	
 
     type_conversion_dict = {}
     for column in df.columns:
         type_conversion_dict[column] = 'float64'
     float_df = df.astype(type_conversion_dict)
+
+    #For valiadation
+    float_df.to_csv('jasontest_float_after.csv')
 
     ##tpot
     print('BB1')
