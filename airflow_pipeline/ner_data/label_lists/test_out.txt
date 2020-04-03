@@ -2,14 +2,14 @@ Admission O
 Date O
 : O
 2196-4-9 B-NUMBER
-Discharge B-DIAGNOSIS
+Discharge O
 Date O
 : O
 2196-4-10 B-NUMBER
 
 Date O
 of O
-Birth B-DIAGNOSIS
+Birth O
 : O
 2131-5-7 B-NUMBER
 Sex O
@@ -21,14 +21,14 @@ Service O
 ICU O
 
 CHIEF O
-COMPLAINT B-DIAGNOSIS
+COMPLAINT O
 : O
-Unresponsiveness O
+Unresponsiveness B-FEATURE
 
 HISTORY O
 OF O
 PRESENT O
-ILLNESS B-DIAGNOSIS
+ILLNESS O
 : O
 The O
 patient O
@@ -39,29 +39,29 @@ a O
 female O
 with O
 a O
-history O
-of O
-hypertension B-DIAGNOSIS
+history B-FEATURE
+of B-FEATURE
+hypertension I-FEATURE
 , O
-depression B-DIAGNOSIS
+depression B-FEATURE
 , O
-prior O
+prior B-FEATURE
 
-suicide B-DIAGNOSIS
-attempt I-DIAGNOSIS
+suicide B-FEATURE
+attempt I-FEATURE
 by O
-overdose B-DIAGNOSIS
+overdose O
 , O
 recently O
 with O
 exacerbated O
-mood B-DIAGNOSIS
+mood O
 
-disorder B-DIAGNOSIS
-status I-DIAGNOSIS
-post I-DIAGNOSIS
+disorder B-FEATURE
+status B-FEATURE
+post O
 the O
-death B-DIAGNOSIS
+death O
 of O
 her O
 husband O
@@ -72,9 +72,9 @@ now O
 presented O
 after O
 being O
-found O
-unresponsive O
-. O
+found B-FEATURE
+unresponsive I-FEATURE
+. I-FEATURE
 
 The O
 
@@ -88,12 +88,12 @@ the O
 morning O
 of O
 the O
-day O
+day B-TIME_UNIT
 of O
 
-presentation B-DIAGNOSIS
+presentation O
 , O
-unresponsive O
+unresponsive B-FEATURE
 with O
 empty O
 bottles O
@@ -107,7 +107,7 @@ the O
 bedside O
 . O
 
-Pill O
+Pill B-FORM_UNIT
 count O
 revealed O
 that O
@@ -133,18 +133,18 @@ unable O
 to O
 be O
 alone O
-secondary B-DIAGNOSIS
+secondary O
 to O
-depression B-DIAGNOSIS
+depression B-FEATURE
 with O
-suicidal B-DIAGNOSIS
+suicidal O
 
 ideation O
 , O
 and O
 has O
 been O
-living B-DIAGNOSIS
+living O
 with O
 her O
 daughters O
@@ -164,7 +164,7 @@ at O
 P.M. O
 the O
 night O
-prior O
+prior B-FEATURE
 to O
 
 admission O
@@ -174,23 +174,23 @@ found O
 at O
 11 B-NUMBER
 A.M. O
-unresponsive O
+unresponsive B-FEATURE
 with O
 
-respiratory B-DIAGNOSIS
-depression I-DIAGNOSIS
+respiratory B-FEATURE
+depression I-FEATURE
 . O
 
 The O
 patient O
 had O
-seen B-DIAGNOSIS
+seen O
 her O
-primary B-DIAGNOSIS
+primary O
 
 psychiatrist O
 the O
-day O
+day B-TIME_UNIT
 before O
 . O
 
@@ -205,13 +205,13 @@ was O
 charcoaled O
 , O
 
-gastric B-DIAGNOSIS
+gastric O
 lavaged O
 , O
-and O
-intubated O
+and B-FEATURE
+intubated I-FEATURE
 for O
-airway B-DIAGNOSIS
+airway O
 protection O
 . O
 
@@ -219,7 +219,7 @@ She O
 
 was O
 hemodynamically O
-stable B-DIAGNOSIS
+stable O
 . O
 
 She O
@@ -230,33 +230,33 @@ the O
 
 Intensive O
 Care O
-Unit O
+Unit B-FORM_UNIT
 . O
 
 In O
 the O
 Intensive O
 Care O
-Unit O
+Unit B-FORM_UNIT
 , O
 the O
 patient O
 was O
-able B-DIAGNOSIS
+able O
 to O
 open O
 her O
 
-eyes B-DIAGNOSIS
+eyes O
 , O
 and O
 was O
-moving B-DIAGNOSIS
+moving O
 all O
 four O
-extremities B-DIAGNOSIS
+extremities O
 and O
-responsive O
+responsive B-FEATURE
 to O
 
 command O
@@ -270,21 +270,21 @@ HISTORY O
 1 B-NUMBER
 . O
 
-Hypertension B-DIAGNOSIS
+Hypertension B-FEATURE
 
 2 B-NUMBER
 . O
 
-Depression B-DIAGNOSIS
+Depression B-FEATURE
 with O
-suicide B-DIAGNOSIS
-attempt I-DIAGNOSIS
+suicide B-FEATURE
+attempt I-FEATURE
 ten O
-years O
+years B-TIME_UNIT
 ago O
 by O
 
-overdose B-DIAGNOSIS
+overdose O
 . O
 
 The O
@@ -293,7 +293,7 @@ was O
 hospitalized O
 for O
 two O
-weeks O
+weeks B-TIME_UNIT
 at O
 that O
 
@@ -317,7 +317,7 @@ STitle O
 ALLERGIES O
 : O
 No O
-known O
+known B-FEATURE
 drug O
 allergies O
 . O
@@ -326,9 +326,9 @@ MEDICATIONS O
 : O
 Zyprexa B-MEDICATION
 2.5 B-NUMBER
-mg O
+mg B-MASS_UNIT
 by O
-mouth B-DIAGNOSIS
+mouth B-FEATURE
 daily O
 at O
 bedtime O
@@ -336,17 +336,17 @@ bedtime O
 
 Zestril B-MEDICATION
 20 B-NUMBER
-mg O
+mg B-MASS_UNIT
 by O
-mouth B-DIAGNOSIS
+mouth B-FEATURE
 once O
 daily O
 , O
 Ambien B-MEDICATION
 10 B-NUMBER
-mg O
+mg B-MASS_UNIT
 by O
-mouth B-DIAGNOSIS
+mouth O
 
 daily O
 at O
@@ -354,18 +354,18 @@ bedtime O
 , O
 Estradiol B-MEDICATION
 1 B-NUMBER
-mg O
+mg B-MASS_UNIT
 by O
-mouth B-DIAGNOSIS
+mouth B-FEATURE
 once O
 daily O
 , O
 
 nortriptyline B-MEDICATION
 25 B-NUMBER
-mg O
+mg B-MASS_UNIT
 by O
-mouth B-DIAGNOSIS
+mouth B-FEATURE
 daily O
 at O
 bedtime O
@@ -375,7 +375,7 @@ Klonopin B-MEDICATION
 
 to O
 1 B-NUMBER
-mg O
+mg B-MASS_UNIT
 daily O
 at O
 bedtime O
@@ -386,7 +386,7 @@ calcium B-MEDICATION
 supplementation O
 . O
 
-SOCIAL B-DIAGNOSIS
+SOCIAL O
 HISTORY O
 : O
 The O
@@ -421,14 +421,14 @@ drug O
 use O
 . O
 
-FAMILY B-DIAGNOSIS
+FAMILY O
 HISTORY O
 : O
-Unknown B-DIAGNOSIS
+Unknown O
 . O
 
-PHYSICAL B-DIAGNOSIS
-EXAMINATION I-DIAGNOSIS
+PHYSICAL O
+EXAMINATION O
 : O
 The O
 patient O
@@ -440,24 +440,24 @@ was O
 
 with O
 a O
-blood B-DIAGNOSIS
-pressure I-DIAGNOSIS
+blood B-FEATURE
+pressure O
 of O
 130/65 B-NUMBER
 , O
-pulse B-DIAGNOSIS
+pulse O
 of O
 84 B-NUMBER
 , O
-respiratory B-DIAGNOSIS
+respiratory B-FEATURE
 
-rate B-DIAGNOSIS
+rate O
 of O
 14 B-NUMBER
 , O
-and O
-oxygen B-DIAGNOSIS
-saturation O
+and B-FEATURE
+oxygen B-MEDICATION
+saturation I-FEATURE
 of O
 100 B-NUMBER
 % O
@@ -470,17 +470,17 @@ was O
 ventilated O
 on O
 IMV O
-pressure B-DIAGNOSIS
-support I-DIAGNOSIS
+pressure O
+support O
 with O
 a O
-rate B-DIAGNOSIS
+rate O
 of O
 14 B-NUMBER
 , O
 
-pressure B-DIAGNOSIS
-support I-DIAGNOSIS
+pressure O
+support O
 of O
 10 B-NUMBER
 , O
@@ -501,2586 +501,11 @@ FIO2 B-NUMBER
 
 On O
 general O
-examination B-DIAGNOSIS
+examination B-FEATURE
 , O
 the O
 patient O
 was O
 a O
 very O
-
-ill-appearing O
-female O
-, O
-in O
-no O
-apparent B-DIAGNOSIS
-distress I-DIAGNOSIS
-. O
-
-She O
-was O
-
-intubated O
-. O
-
-Head B-DIAGNOSIS
-, O
-eyes B-DIAGNOSIS
-, O
-ears B-DIAGNOSIS
-, O
-nose B-DIAGNOSIS
-and O
-throat B-DIAGNOSIS
-examination I-DIAGNOSIS
-
-revealed O
-1 B-NUMBER
-to O
-2 B-NUMBER
-mm O
-nonreactive O
-pupils O
-. O
-
-Neck B-DIAGNOSIS
-examination I-DIAGNOSIS
-
-revealed O
-no O
-jugular B-DIAGNOSIS
-venous I-DIAGNOSIS
-distention O
-and O
-no O
-bruits O
-. O
-
-Cardiac B-DIAGNOSIS
-
-examination B-DIAGNOSIS
-revealed O
-a O
-regular B-DIAGNOSIS
-rate I-DIAGNOSIS
-and O
-rhythm B-DIAGNOSIS
-, O
-normal B-DIAGNOSIS
-S1 B-NUMBER
-and O
-
-S2 B-NUMBER
-, O
-and O
-no O
-murmurs B-DIAGNOSIS
-, O
-gallops O
-or O
-rubs O
-. O
-
-Pulmonary B-DIAGNOSIS
-examination I-DIAGNOSIS
-
-revealed O
-that O
-the O
-lungs B-DIAGNOSIS
-were O
-clear B-DIAGNOSIS
-to O
-auscultation O
-
-bilaterally O
-. O
-
-Abdominal B-DIAGNOSIS
-examination I-DIAGNOSIS
-revealed O
-a O
-belly B-DIAGNOSIS
-that O
-was O
-
-soft B-DIAGNOSIS
-, O
-nontender O
-, O
-nondistended O
-, O
-with O
-normal B-DIAGNOSIS
-bowel I-DIAGNOSIS
-sounds I-DIAGNOSIS
-. O
-
-Extremity B-DIAGNOSIS
-examination I-DIAGNOSIS
-revealed O
-no O
-edema B-DIAGNOSIS
-, O
-with O
-2+ B-NUMBER
-dorsalis B-DIAGNOSIS
-
-pedis B-DIAGNOSIS
-pulses O
-bilaterally O
-. O
-
-Neurological B-DIAGNOSIS
-examination I-DIAGNOSIS
-revealed O
-
-a O
-patient O
-that O
-was O
-moving B-DIAGNOSIS
-all O
-four O
-extremities B-DIAGNOSIS
-, O
-opening B-DIAGNOSIS
-eyes I-DIAGNOSIS
-
-intermittently O
-, O
-withdrawing O
-to O
-pain B-DIAGNOSIS
-. O
-
-The O
-patient O
-had O
-2+ B-NUMBER
-deep O
-
-tendon B-DIAGNOSIS
-reflexes O
-, O
-and O
-downgoing O
-plantar B-DIAGNOSIS
-reflexes O
-. O
-
-LABORATORY O
-DATA O
-: O
-The O
-patient O
-had O
-a O
-white B-DIAGNOSIS
-blood I-DIAGNOSIS
-cell I-DIAGNOSIS
-count O
-
-of O
-5.1 B-NUMBER
-, O
-hematocrit B-DIAGNOSIS
-of O
-35.9 B-NUMBER
-, O
-platelets O
-of O
-259 B-NUMBER
-. O
-
-The O
-patient O
-
-had O
-a O
-sodium B-MEDICATION
-of O
-140 B-NUMBER
-, O
-potassium B-MEDICATION
-of O
-4.4 B-NUMBER
-, O
-chloride B-MEDICATION
-of O
-103 B-NUMBER
-, O
-
-bicarbonate B-MEDICATION
-of O
-28 B-NUMBER
-, O
-BUN O
-of O
-17 B-NUMBER
-, O
-creatinine O
-of O
-0.6 B-NUMBER
-, O
-and O
-glucose B-DIAGNOSIS
-
-of O
-102 B-NUMBER
-. O
-
-The O
-patient O
-'s O
-INR O
-was O
-1.1 B-NUMBER
-. O
-
-The O
-patient O
-had O
-an O
-ALT O
-
-of O
-19 B-NUMBER
-, O
-an O
-AST O
-of O
-26 B-NUMBER
-. O
-
-Arterial B-DIAGNOSIS
-blood I-DIAGNOSIS
-gas O
-was O
-performed O
-
-post-intubation O
-and O
-was O
-found O
-to O
-be O
-pH O
-of O
-7.47 B-NUMBER
-, O
-PACO2 B-NUMBER
-of O
-29 B-NUMBER
-, O
-
-and O
-PAO2 B-NUMBER
-of O
-287 B-NUMBER
-. O
-
-Electrocardiogram B-DIAGNOSIS
-: O
-Normal B-DIAGNOSIS
-sinus I-DIAGNOSIS
-rhythm I-DIAGNOSIS
-at O
-80 B-NUMBER
-, O
-with O
-normal B-DIAGNOSIS
-
-axis O
-, O
-Doctor O
-Last O
-Name O
-1754 B-NUMBER
-and O
-intervals O
-, O
-and O
-ST O
-elevations O
-in O
-V2 B-NUMBER
-and O
-
-Lead O
-I O
-. O
-
-Other O
-studies B-DIAGNOSIS
-: O
-Urine B-DIAGNOSIS
-toxicology O
-was O
-negative B-DIAGNOSIS
-, O
-serum B-DIAGNOSIS
-
-toxicology O
-was O
-negative B-DIAGNOSIS
-. O
-
-Urinalysis O
-revealed O
-negative B-DIAGNOSIS
-
-nitrates O
-, O
-leukocytes B-DIAGNOSIS
-, O
-blood B-DIAGNOSIS
-, O
-no O
-red O
-blood B-DIAGNOSIS
-cells I-DIAGNOSIS
-, O
-no O
-white B-DIAGNOSIS
-
-blood B-DIAGNOSIS
-cells I-DIAGNOSIS
-, O
-occasional O
-bacteria B-DIAGNOSIS
-, O
-and O
-less O
-than O
-one O
-
-epithelial B-DIAGNOSIS
-cell I-DIAGNOSIS
-. O
-
-Head B-DIAGNOSIS
-CT O
-: O
-No O
-signs B-DIAGNOSIS
-of O
-intracranial B-DIAGNOSIS
-hemorrhage I-DIAGNOSIS
-or O
-mass B-DIAGNOSIS
-effect I-DIAGNOSIS
-. O
-
-HOSPITAL O
-COURSE B-DIAGNOSIS
-: O
-The O
-patient O
-is O
-a O
-64-year-old B-NUMBER
-female O
-with O
-a O
-
-history O
-of O
-hypertension B-DIAGNOSIS
-and O
-depression B-DIAGNOSIS
-with O
-suicidal B-DIAGNOSIS
-ideation O
-
-and O
-previous O
-history O
-of O
-overdose B-DIAGNOSIS
-attempt I-DIAGNOSIS
-, O
-status B-DIAGNOSIS
-post I-DIAGNOSIS
-likely O
-
-overdose B-DIAGNOSIS
-on O
-Ambien B-MEDICATION
-and O
-Zyprexa B-MEDICATION
-, O
-status B-DIAGNOSIS
-post I-DIAGNOSIS
-intubation I-DIAGNOSIS
-and O
-
-hemodynamically O
-stable B-DIAGNOSIS
-. O
-
-1 B-NUMBER
-. O
-
-Toxicology O
-: O
-Patient O
-with O
-likely O
-Ambien B-MEDICATION
-overdose B-DIAGNOSIS
-and O
-
-Zyprexa B-MEDICATION
-overdose B-DIAGNOSIS
-. O
-
-Her O
-symptoms B-DIAGNOSIS
-of O
-light O
-coma B-DIAGNOSIS
-, O
-somnolence B-DIAGNOSIS
-and O
-
-respiratory B-DIAGNOSIS
-compromise O
-were O
-consistent O
-with O
-Ambien B-MEDICATION
-overdose B-DIAGNOSIS
-. O
-
-The O
-patient O
-also O
-had O
-evidence B-DIAGNOSIS
-of O
-myosis O
-, O
-which O
-was O
-consistent O
-
-with O
-Zyprexa B-MEDICATION
-overdose B-DIAGNOSIS
-. O
-
-The O
-patient O
-had O
-been O
-gastric B-DIAGNOSIS
-lavaged O
-, O
-
-charcoaled O
-and O
-supported B-DIAGNOSIS
-in O
-the O
-Emergency O
-Department O
-. O
-
-In O
-the O
-
-Intensive O
-Care O
-Unit O
-, O
-the O
-patient O
-was O
-supported B-DIAGNOSIS
-with O
-
-intravenous O
-fluids B-DIAGNOSIS
-and O
-gradually O
-weaned O
-on O
-the O
-ventilator B-DIAGNOSIS
-to O
-
-the O
-point O
-where O
-she O
-was O
-successfully O
-extubated O
-shortly O
-after O
-
-arriving O
-to O
-the O
-Intensive O
-Care O
-Unit O
-. O
-
-2 B-NUMBER
-. O
-
-Psychiatric B-DIAGNOSIS
-: O
-Patient O
-with O
-major B-DIAGNOSIS
-depression I-DIAGNOSIS
-, O
-recently O
-
-exacerbated O
-by O
-the O
-loss B-DIAGNOSIS
-of O
-her O
-husband O
-, O
-now O
-with O
-a O
-second O
-
-overdose B-DIAGNOSIS
-attempt I-DIAGNOSIS
-in O
-her O
-lifetime O
-. O
-
-Likely O
-Zyprexa B-MEDICATION
-and O
-Ambien B-MEDICATION
-
-were O
-the O
-agents B-MEDICATION
-responsible O
-. O
-
-Multiple O
-attempts O
-were O
-made O
-in O
-
-the O
-effort O
-to O
-contact O
-the O
-patient O
-'s O
-outpatient O
-psychiatrist O
-, O
-
-Dr. O
-Last O
-Name O
-( O
-STitle O
-) O
-. O
-
-She O
-was O
-unable O
-to O
-be O
-reached O
-. O
-
-Psychiatry O
-was O
-
-consulted O
-, O
-who O
-felt O
-that O
-the O
-patient O
-needed O
-inpatient O
-
-evaluation B-DIAGNOSIS
-and O
-treatment O
-. O
-
-They O
-also O
-recommended O
-
-psychotropics O
-be O
-avoided O
-, O
-and O
-that O
-the O
-patient O
-have O
-a O
-
-one-to-one O
-sitter O
-. O
-
-Social B-DIAGNOSIS
-Work O
-and O
-Case O
-Management B-DIAGNOSIS
-were O
-
-consulted O
-. O
-
-3 B-NUMBER
-. O
-
-Cardiovascular B-DIAGNOSIS
-: O
-Patient O
-was O
-hemodynamically O
-stable B-DIAGNOSIS
-with O
-
-history O
-of O
-hypertension B-DIAGNOSIS
-. O
-
-Her O
-antihypertensives O
-were O
-held B-DIAGNOSIS
-. O
-
-Her O
-electrocardiogram B-DIAGNOSIS
-was O
-unremarkable O
-, O
-although O
-there O
-were O
-
-no O
-studies B-DIAGNOSIS
-for O
-comparison B-DIAGNOSIS
-. O
-
-4 B-NUMBER
-. O
-
-Pulmonary B-DIAGNOSIS
-: O
-Patient O
-intubated O
-secondary B-DIAGNOSIS
-to O
-decreased B-DIAGNOSIS
-
-mental B-DIAGNOSIS
-status I-DIAGNOSIS
-without O
-a O
-primary B-DIAGNOSIS
-lung I-DIAGNOSIS
-process O
-. O
-
-Post-extubation O
-arterial B-DIAGNOSIS
-blood I-DIAGNOSIS
-gas O
-did O
-not O
-suggest O
-any O
-
-obstructive B-DIAGNOSIS
-lung I-DIAGNOSIS
-process O
-leading B-DIAGNOSIS
-to O
-hypercarbia O
-or O
-hypoxemia B-DIAGNOSIS
-
-from O
-other O
-pulmonary B-DIAGNOSIS
-process O
-. O
-
-The O
-examination B-DIAGNOSIS
-was O
-
-unremarkable O
-. O
-
-A O
-facile O
-extubation O
-was O
-anticipated O
-, O
-and O
-the O
-
-patient O
-was O
-extubated O
-within O
-several O
-hours O
-of O
-arriving O
-in O
-the O
-
-Intensive O
-Care O
-Unit O
-. O
-
-5 B-NUMBER
-. O
-
-Psychosocial B-DIAGNOSIS
-: O
-Communication B-DIAGNOSIS
-was O
-maintained O
-with O
-the O
-
-patient O
-'s O
-daughters O
-, O
-who O
-also O
-felt O
-that O
-the O
-patient O
-should O
-
-receive O
-inpatient O
-evaluation B-DIAGNOSIS
-and O
-treatment O
-. O
-
-CONDITION O
-ON O
-DISCHARGE B-DIAGNOSIS
-: O
-Stable B-DIAGNOSIS
-. O
-
-DISCHARGE B-DIAGNOSIS
-STATUS I-DIAGNOSIS
-: O
-The O
-patient O
-was O
-discharged O
-to O
-an O
-inpatient O
-
-psychiatric B-DIAGNOSIS
-bed O
-. O
-
-DISCHARGE B-DIAGNOSIS
-MEDICATIONS O
-: O
-Zestril B-MEDICATION
-20 B-NUMBER
-mg O
-by O
-mouth B-DIAGNOSIS
-once O
-daily O
-, O
-
-Estradiol B-MEDICATION
-1 B-NUMBER
-mg O
-by O
-mouth B-DIAGNOSIS
-once O
-daily O
-. O
-
-DISCHARGE B-DIAGNOSIS
-DIAGNOSIS I-DIAGNOSIS
-: O
-
-1 B-NUMBER
-. O
-
-Major B-DIAGNOSIS
-depression I-DIAGNOSIS
-
-2 B-NUMBER
-. O
-
-Ambien B-MEDICATION
-and O
-Zyprexa B-MEDICATION
-overdose B-DIAGNOSIS
-
-3 B-NUMBER
-. O
-
-Hypertension B-DIAGNOSIS
-
-Name6 B-NUMBER
-( O
-MD O
-) O
-Last O
-Name O
-( O
-NamePattern4 B-NUMBER
-) O
-5837 B-NUMBER
-, O
-M.D O
-. O
-
-MD O
-Number O
-( O
-1 B-NUMBER
-) O
-8285 B-NUMBER
-
-Dictated O
-By O
-: O
-Last O
-Name O
-( O
-NamePattern1 B-NUMBER
-) O
-5246 B-NUMBER
-
-MEDQUIST36 B-NUMBER
-
-D O
-: O
-2196-4-10 B-NUMBER
-02:10 I-NUMBER
-
-T O
-: O
-2196-4-10 B-NUMBER
-02:20 I-NUMBER
-
-JOB B-DIAGNOSIS
-# O
-: O
-Job B-DIAGNOSIS
-Number O
-38050 B-NUMBER
-
-Normal B-DIAGNOSIS
-sinus I-DIAGNOSIS
-rhythm I-DIAGNOSIS
-. O
-
-Non-diagnostic O
-repolarization O
-abnormalities B-DIAGNOSIS
-. O
-
-Compared O
-to O
-
-theprevious O
-tracing O
-of O
-2196-4-9 B-NUMBER
-no O
-major B-DIAGNOSIS
-change I-DIAGNOSIS
-, O
-although O
-non-diagnostic O
-
-repolarization O
-abnormalities B-DIAGNOSIS
-are O
-now O
-evident O
-. O
-
-TRACING O
-# O
-2 B-NUMBER
-
-Normal B-DIAGNOSIS
-sinus I-DIAGNOSIS
-rhythm I-DIAGNOSIS
-without O
-diagnostic B-DIAGNOSIS
-abnormality I-DIAGNOSIS
-. O
-
-No O
-previous O
-tracing O
-
-available B-DIAGNOSIS
-for O
-comparison B-DIAGNOSIS
-. O
-
-TRACING O
-# O
-1 B-NUMBER
-
-2196-4-10 B-NUMBER
-11:52 I-NUMBER
-PM O
-
-CHEST B-DIAGNOSIS
-( O
-PORTABLE O
-AP O
-) O
-Clip O
-# O
-Clip O
-Number O
-( O
-Radiology O
-) O
-44266 B-NUMBER
-
-Reason B-DIAGNOSIS
-: O
-eval O
-tubualr O
-structure O
-noted O
-on O
-portable O
-chest B-DIAGNOSIS
-4-9 B-NUMBER
-
-Hospital O
-4 B-NUMBER
-MEDICAL O
-CONDITION O
-: O
-
-64 B-NUMBER
-year O
-old O
-woman O
-with O
-overdose B-DIAGNOSIS
-with O
-tubular B-DIAGNOSIS
-opacity I-DIAGNOSIS
-noted O
-on O
-portable O
-chest B-DIAGNOSIS
-
-XR O
-. O
-
-Radiology O
-posed O
-question O
-of O
-retained B-DIAGNOSIS
-vascular I-DIAGNOSIS
-catheter I-DIAGNOSIS
-. O
-
-REASON B-DIAGNOSIS
-FOR O
-THIS O
-EXAMINATION B-DIAGNOSIS
-: O
-
-eval O
-tubualr O
-structure O
-noted O
-on O
-portable O
-chest B-DIAGNOSIS
-4-9 B-NUMBER
-
-FINAL O
-REPORT O
-
-PORTABLE O
-CHEST B-DIAGNOSIS
-2196-4-10 B-NUMBER
-. O
-
-INDICATION B-DIAGNOSIS
-: O
-Question O
-of O
-retained B-DIAGNOSIS
-vascular I-DIAGNOSIS
-catheter I-DIAGNOSIS
-. O
-
-COMPARISON B-DIAGNOSIS
-: O
-2196-4-9 B-NUMBER
-- O
-10:41 B-NUMBER
-. O
-
-FINDINGS O
-: O
-Compared O
-to O
-the O
-prior O
-study B-DIAGNOSIS
-the O
-previously O
-identified O
-radiopaque O
-
-density B-DIAGNOSIS
-in O
-the O
-the O
-left O
-subclavian B-DIAGNOSIS
-region I-DIAGNOSIS
-is O
-no O
-longer O
-identified O
-and O
-
-presumably O
-this O
-was O
-an O
-artifact O
-or O
-outside B-DIAGNOSIS
-the O
-patient O
-. O
-
-Since O
-the O
-previous O
-
-exam O
-the O
-patient O
-has O
-been O
-extubated O
-. O
-
-The O
-lungs B-DIAGNOSIS
-are O
-clear B-DIAGNOSIS
-without O
-evidence B-DIAGNOSIS
-for O
-focal B-DIAGNOSIS
-consolidation O
-, O
-or O
-fluid B-DIAGNOSIS
-
-overload B-DIAGNOSIS
-. O
-
-Heart B-DIAGNOSIS
-size I-DIAGNOSIS
-is O
-normal B-DIAGNOSIS
-. O
-
-IMPRESSION O
-: O
-
-Normal B-DIAGNOSIS
-chest I-DIAGNOSIS
-. O
-
-The O
-concern B-DIAGNOSIS
-of O
-the O
-previous O
-radiopaque O
-catheter B-DIAGNOSIS
-is O
-dismissed O
-as O
-
-it O
-is O
-no O
-longer O
-present O
-. O
-
-2196-4-9 B-NUMBER
-10:19 I-NUMBER
-AM O
-
-CT O
-HEAD B-DIAGNOSIS
-W/O O
-CONTRAST B-DIAGNOSIS
-Clip O
-# O
-Clip O
-Number O
-( O
-Radiology O
-) O
-44231 B-NUMBER
-
-Reason B-DIAGNOSIS
-: O
-r/o O
-bleed O
-
-Hospital O
-4 B-NUMBER
-MEDICAL O
-CONDITION O
-: O
-
-64 B-NUMBER
-year O
-old O
-woman O
-found O
-unresponsive O
-
-REASON B-DIAGNOSIS
-FOR O
-THIS O
-EXAMINATION B-DIAGNOSIS
-: O
-
-r/o O
-bleed O
-
-FINAL O
-REPORT O
-
-INDICATION B-DIAGNOSIS
-: O
-64 B-NUMBER
-year O
-old O
-woman O
-with O
-loss B-DIAGNOSIS
-of O
-consciousness B-DIAGNOSIS
-. O
-
-TECHNIQUE O
-: O
-Contiguous B-DIAGNOSIS
-axial O
-images O
-were O
-obtained O
-from O
-the O
-cranial B-DIAGNOSIS
-vertex O
-to O
-
-the O
-foramen O
-magnum B-DIAGNOSIS
-. O
-
-FINDINGS O
-: O
-There O
-are O
-no O
-intra O
-or O
-extraaxial O
-hyperdensities O
-to O
-suggest O
-
-hemorrhage B-DIAGNOSIS
-. O
-
-There O
-is O
-no O
-shift O
-of O
-normally O
-midline B-DIAGNOSIS
-structures I-DIAGNOSIS
-or O
-mass B-DIAGNOSIS
-effect I-DIAGNOSIS
-. O
-
-The O
-ventricles B-DIAGNOSIS
-, O
-cisterns O
-, O
-and O
-sulci O
-are O
-unremarkable O
-. O
-
-The O
-parenchymal O
-
-attenuation O
-is O
-normal B-DIAGNOSIS
-. O
-
-The O
-Doctor O
-Last O
-Name O
-181-white B-NUMBER
-matter B-DIAGNOSIS
-differentiation O
-is O
-preserved B-MEDICATION
-. O
-
-The O
-osseous B-DIAGNOSIS
-structures I-DIAGNOSIS
-, O
-soft B-DIAGNOSIS
-tissues I-DIAGNOSIS
-, O
-and O
-sinuses B-DIAGNOSIS
-are O
-unremarkable O
-. O
-
-The O
-
-mastoid B-DIAGNOSIS
-air O
-cells B-DIAGNOSIS
-are O
-aerated O
-. O
-
-IMPRESSION O
-: O
-Normal B-DIAGNOSIS
-head I-DIAGNOSIS
-CT O
-with O
-no O
-evidence B-DIAGNOSIS
-of O
-intracranial B-DIAGNOSIS
-hemorrhage I-DIAGNOSIS
-. O
-
-2196-4-9 B-NUMBER
-10:40 I-NUMBER
-AM O
-
-CHEST B-DIAGNOSIS
-( O
-PORTABLE O
-AP O
-) O
-Clip O
-# O
-Clip O
-Number O
-( O
-Radiology O
-) O
-44229 B-NUMBER
-
-Reason B-DIAGNOSIS
-: O
-tube B-DIAGNOSIS
-placewment O
-
-Hospital O
-4 B-NUMBER
-MEDICAL O
-CONDITION O
-: O
-
-64 B-NUMBER
-year O
-old O
-woman O
-with O
-s/p O
-ett O
-
-REASON B-DIAGNOSIS
-FOR O
-THIS O
-EXAMINATION B-DIAGNOSIS
-: O
-
-tube B-DIAGNOSIS
-placewment O
-
-FINAL O
-REPORT O
-
-INDICATION B-DIAGNOSIS
-: O
-Endotracheal B-DIAGNOSIS
-tube I-DIAGNOSIS
-placement O
-. O
-
-COMPARISON B-DIAGNOSIS
-: O
-None O
-
-CHEST B-DIAGNOSIS
-, O
-SINGLE B-DIAGNOSIS
-VIEW O
-: O
-The O
-endotracheal B-DIAGNOSIS
-tube I-DIAGNOSIS
-is O
-in O
-satisfactory B-DIAGNOSIS
-position I-DIAGNOSIS
-, O
-
-approximately O
-4cm B-NUMBER
-above O
-the O
-carina O
-. O
-
-The O
-NG O
-tube B-DIAGNOSIS
-terminates O
-in O
-the O
-body B-DIAGNOSIS
-of O
-the O
-
-stomach B-DIAGNOSIS
-. O
-
-Heart B-DIAGNOSIS
-size I-DIAGNOSIS
-, O
-mediastinal B-DIAGNOSIS
-and O
-hilar O
-contours O
-are O
-within O
-normal B-DIAGNOSIS
-limits O
-. O
-
-The O
-lungs B-DIAGNOSIS
-are O
-clear B-DIAGNOSIS
-. O
-
-No O
-effusions O
-. O
-
-The O
-visualized O
-osseous B-DIAGNOSIS
-and O
-soft B-DIAGNOSIS
-tissue I-DIAGNOSIS
-
-structures B-DIAGNOSIS
-are O
-unremarkable O
-. O
-
-There O
-is O
-an O
-approximately O
-2cm B-NUMBER
-tubular B-DIAGNOSIS
-opacity I-DIAGNOSIS
-
-which O
-projects O
-over B-DIAGNOSIS
-the O
-lateral B-DIAGNOSIS
-3rd B-NUMBER
-and O
-4th B-NUMBER
-ribs B-DIAGNOSIS
-on O
-the O
-left O
-just O
-inferior B-DIAGNOSIS
-to O
-
-the O
-clavicle B-DIAGNOSIS
-. O
-
-IMPRESSION O
-: O
-
-1 B-NUMBER
-. O
-
-Endotracheal B-DIAGNOSIS
-and O
-nasogastric O
-tubes B-DIAGNOSIS
-in O
-satisfactory B-DIAGNOSIS
-position I-DIAGNOSIS
-. O
-
-2 B-NUMBER
-. O
-
-No O
-evidence B-DIAGNOSIS
-of O
-acute B-DIAGNOSIS
-cardiopulmonary O
-disease B-DIAGNOSIS
-. O
-
-3 B-NUMBER
-. O
-
-Tubular B-DIAGNOSIS
-appearing O
-opacity B-DIAGNOSIS
-projecting O
-beneath O
-the O
-left O
-clavicle B-DIAGNOSIS
-is O
-of O
-
-uncertain B-DIAGNOSIS
-etiology O
-, O
-possibly O
-external O
-to O
-the O
-patient O
-. O
-
-Clinical B-DIAGNOSIS
-correlation O
-
-advised O
-as O
-to O
-possibility O
-of O
-previous O
-vascular B-DIAGNOSIS
-catheter I-DIAGNOSIS
-to O
-exclude B-DIAGNOSIS
-possibility O
-
-of O
-retained B-DIAGNOSIS
-fragment O
-. O
-
-MICU/SICU O
-NURSING B-DIAGNOSIS
-ADMISSION O
-NOTE O
-
-Admitted O
-to O
-ths O
-MICU/SICU O
-at O
-1330 B-NUMBER
-from O
-the O
-E.W O
-. O
-
-with O
-the O
-dx O
-of O
-overdose B-DIAGNOSIS
-of O
-ambien B-MEDICATION
-and/or O
-Zyprexia O
-. O
-
-Was O
-living B-DIAGNOSIS
-with O
-daughter O
-following O
-death B-DIAGNOSIS
-of O
-husband O
-in O
-Name2 B-NUMBER
-( O
-NI O
-) O
-120 B-NUMBER
-. O
-
-Went O
-to O
-bed O
-last O
-night O
-and O
-was O
-found O
-unresponsive O
-this O
-am O
-with O
-empty O
-pill O
-bottles O
-at O
-bed O
-side O
-. O
-
-Death B-DIAGNOSIS
-of O
-husband O
-in O
-Name2 B-NUMBER
-( O
-NI O
-) O
-120 B-NUMBER
-has O
-exacerbated O
-mood B-DIAGNOSIS
-disorder I-DIAGNOSIS
-, O
-had O
-been O
-unable O
-to O
-sleep O
-recently O
-and O
-was O
-prescribed O
-several O
-medications O
-for O
-sleep O
-. O
-
-Month O
-( O
-only O
-) O
-have O
-taken O
-as O
-many O
-as O
-12 B-NUMBER
-zyprexia O
-and O
-26 B-NUMBER
-ambien B-MEDICATION
-
-Upon O
-arrival O
-to O
-ED O
-was O
-intubated O
-d/t O
-apnea B-DIAGNOSIS
-, O
-given B-DIAGNOSIS
-charcoal O
-via O
-ogt O
-, O
-had O
-foley O
-placed B-DIAGNOSIS
-and O
-2 B-NUMBER
-# O
-18 B-NUMBER
-ga. O
-iv O
-'s O
-inserted O
-in O
-lla O
-and O
-rac O
-. O
-
-Past O
-medical O
-history O
-includes O
-htn O
-, O
-mood B-DIAGNOSIS
-disorder I-DIAGNOSIS
-with O
-depression B-DIAGNOSIS
-, O
-and O
-prior O
-suicide B-DIAGNOSIS
-attempt I-DIAGNOSIS
-by O
-od O
-. O
-
-NKDA O
-
-On O
-arrival O
-to O
-micu O
-is O
-responsive O
-to O
-verbal B-DIAGNOSIS
-stimuli O
-, O
-will O
-follow O
-commands B-DIAGNOSIS
-and O
-shake O
-head B-DIAGNOSIS
-in O
-yes O
-or O
-no O
-fashion O
-to O
-answer O
-questions O
-. O
-
-Reports O
-understanding O
-in O
-hospital O
-. O
-
-Denies O
-discomfort B-DIAGNOSIS
-. O
-
-MAE O
-. O
-
-Good O
-pulses O
-all O
-extremeties O
-. O
-
-Restraints O
-in O
-place B-DIAGNOSIS
-to O
-prevent O
-pt O
-from O
-harming O
-self O
-by O
-removing O
-ett O
-tube B-DIAGNOSIS
-. O
-
-Lung B-DIAGNOSIS
-sounds I-DIAGNOSIS
-are O
-clear B-DIAGNOSIS
-and O
-equal O
-bilaterally O
-with O
-good O
-air O
-movement B-DIAGNOSIS
-throughout O
-. O
-
-Good O
-capillary B-DIAGNOSIS
-refill O
-, O
-02 B-NUMBER
-sats O
-99-100 B-NUMBER
-% O
-on O
-simv+ps O
-of O
-8 B-NUMBER
-, O
-peep5 B-NUMBER
-, O
-fio2 B-NUMBER
-40 I-NUMBER
-% O
-, O
-tv500 B-NUMBER
-, O
-rr O
-14 B-NUMBER
-. O
-
-Tolerating O
-tube B-DIAGNOSIS
-fairly O
-well B-DIAGNOSIS
-but O
-propofol B-MEDICATION
-is O
-on O
-standby O
-should O
-it O
-be O
-needed O
-. O
-
-Pt O
-continued O
-to O
-be O
-apneic O
-when O
-tried O
-to O
-wean O
-. O
-
-Sinus B-DIAGNOSIS
-rythm O
-to O
-sinus B-DIAGNOSIS
-tachycardia I-DIAGNOSIS
-without O
-ectopy O
-noted O
-, O
-rate B-DIAGNOSIS
-70-110 B-NUMBER
-. O
-
-Blood B-DIAGNOSIS
-pressures O
-133/65-163/91 B-NUMBER
-. O
-
-Blood B-DIAGNOSIS
-pressure I-DIAGNOSIS
-and O
-hr O
-elevated B-DIAGNOSIS
-when O
-agitated O
-. O
-
-Abdomen B-DIAGNOSIS
-soft I-DIAGNOSIS
-with O
-good O
-bowel B-DIAGNOSIS
-sounds I-DIAGNOSIS
-throughout O
-. O
-
-Ogt O
-in O
-place B-DIAGNOSIS
-by O
-auscultation O
-. O
-
-Fecal B-DIAGNOSIS
-bag O
-in O
-place,0 B-NUMBER
-stool O
-. O
-
-Foley O
-catheter B-DIAGNOSIS
-in O
-place B-DIAGNOSIS
-, O
-draining B-DIAGNOSIS
-clear I-DIAGNOSIS
-yellow I-DIAGNOSIS
-urine I-DIAGNOSIS
-. O
-
-Skin B-DIAGNOSIS
-appears O
-intact O
-with O
-no O
-area O
-'s O
-of O
-breakdown B-DIAGNOSIS
-noted O
-. O
-
-Daughters O
-in O
-with O
-mother O
-, O
-were O
-very O
-upset O
-in O
-ew O
-but O
-have O
-been O
-calm O
-and O
-controlled O
-. O
-
-They O
-are O
-very O
-concerned O
-about O
-mothers O
-condition O
-. O
-
-Name2 B-NUMBER
-( O
-NI O
-) O
-121 B-NUMBER
-is O
-to O
-wean O
-pt O
-from O
-vent O
-, O
-have O
-sitter O
-in O
-place B-DIAGNOSIS
-when O
-family B-DIAGNOSIS
-is O
-not O
-present O
-and O
-to O
-monitor O
-pts O
-respiratory B-DIAGNOSIS
-status I-DIAGNOSIS
-. O
-
-Resp O
-Care O
-
-pt O
-received O
-from O
-eu O
-s/p O
-intubation B-DIAGNOSIS
-for O
-airway B-DIAGNOSIS
-protection O
-following O
-OD O
-. O
-
-pt O
-has O
-# O
-7.0 B-NUMBER
-ETT/taped O
-21 B-NUMBER
-lip B-DIAGNOSIS
-. O
-
-placed B-DIAGNOSIS
-initially O
-on O
-500x14x.2204-5-7 B-NUMBER
-, O
-,weaned O
-to O
-rate B-DIAGNOSIS
-of O
-10 B-NUMBER
-and O
-now O
-to O
-Psv O
-5/5/40 B-NUMBER
-% O
-. O
-
-awake O
-and O
-responsive O
-, O
-occas O
-slows O
-rr O
-when O
-falls B-DIAGNOSIS
-asleep O
-. O
-
-will O
-most O
-likely O
-be O
-extub O
-before O
-7 B-NUMBER
-p.m O
-. O
-
-S/MICU O
-Nursing B-DIAGNOSIS
-Progress O
-Note O
-
-Pt O
-extubated O
-at O
-2124 B-NUMBER
-without O
-difficulty B-DIAGNOSIS
-, O
-rr O
-18-22 B-NUMBER
-, O
-placed B-DIAGNOSIS
-on O
-nasal B-DIAGNOSIS
-cannula O
-and O
-weaned O
-to O
-off O
-maintaining O
-O2 B-NUMBER
-sat O
-98 B-NUMBER
-% O
-, O
-
-Met B-MEDICATION
-with O
-psych O
-consult B-DIAGNOSIS
-who O
-ordered O
-sitters O
-. O
-
-Pt O
-spoke O
-with O
-her O
-two O
-daughters O
-who O
-were O
-very O
-upset O
-. O
-
-She O
-was O
-still O
-expressing O
-her O
-feelings O
-of O
-depression B-DIAGNOSIS
-. O
-
-Pt O
-recently O
-lost O
-her O
-husband O
-who O
-died O
-on O
-12/2195 B-NUMBER
-. O
-
-talks O
-openly O
-about O
-her O
-44years B-NUMBER
-of O
-marriage O
-. O
-
-Has O
-a O
-history O
-of O
-SA O
-in O
-the O
-past O
-. O
-
-Pt O
-was O
-upset O
-that O
-a O
-sitter O
-needed O
-to O
-be O
-in O
-the O
-room O
-. O
-
-Explained O
-the O
-reasons O
-and O
-feel O
-she O
-is O
-still O
-at O
-risk B-DIAGNOSIS
-to O
-harm O
-herself O
-. O
-
-`` O
-I O
-am O
-sad O
-and O
-grieving O
-but O
-I O
-am O
-not O
-... O
-'' O
-she O
-was O
-unable O
-to O
-say O
-the O
-words O
-suicidal.then O
-dropped O
-the O
-subject O
-from O
-conversation O
-. O
-
-Pt O
-is O
-A O
-& O
-Ox3 B-NUMBER
-, O
-MAE O
-, O
-foley O
-out B-DIAGNOSIS
-and O
-ambulates O
-to O
-commode O
-. O
-
-not O
-always O
-steady O
-on O
-her O
-feet.speech O
-clear B-DIAGNOSIS
-. O
-
-unable O
-to O
-sleep O
-all O
-night O
-. O
-
-tried O
-soft B-DIAGNOSIS
-music O
-to O
-help O
-calm O
-her O
-. O
-
-GU O
-: O
-foley O
-out B-DIAGNOSIS
-and O
-amb O
-to O
-commode O
-, O
-voiding O
-well B-DIAGNOSIS
-no O
-c/o O
-. O
-
-GI O
-: O
-pt O
-on O
-clear B-DIAGNOSIS
-liquids O
-and O
-may O
-advance O
-as O
-tolerated O
-. O
-
-she O
-was O
-able B-DIAGNOSIS
-to O
-have O
-juice O
-, O
-water B-DIAGNOSIS
-and O
-custard O
-. O
-
-Month O
-( O
-only O
-) O
-advance O
-today.no O
-stool O
-. O
-
-Plan B-MEDICATION
-: O
-sitters O
-, O
-when O
-medically O
-clear B-DIAGNOSIS
-will O
-transfer B-DIAGNOSIS
-to O
-pysch O
-facility B-DIAGNOSIS
-for O
-inpatient O
-admit O
-. O
-
-PT O
-TRANSFER B-DIAGNOSIS
-NOTE O
-PLEASE O
-REFER O
-TO O
-ADMIT O
-NOTE O
-2196-4-9 B-NUMBER
-FOR O
-DETAILS O
-. O
-
-PT O
-WAS O
-ADMITTED O
-FOR O
-DX O
-OF O
-OD O
-OF O
-AMBIEN B-MEDICATION
-POSS O
-26 B-NUMBER
-AND O
-ZYPREXIA O
-APPOX O
-12 B-NUMBER
-. O
-
-SHE O
-WAS O
-INTUBATED O
-IN O
-ED O
-SECONDARY B-DIAGNOSIS
-TO O
-APNEA B-DIAGNOSIS
-GIVEN I-DIAGNOSIS
-CHARCOAL O
-VIA O
-OGT O
-
-SHE O
-WAS O
-EXTUBATED O
-4-9 B-NUMBER
-AT O
-2124 B-NUMBER
-WITHOUT O
-DIFFICULTY B-DIAGNOSIS
-. O
-
-SHE O
-HAS O
-HAD O
-SITTERS O
-OVERNIGHT O
-AND O
-FAMILY B-DIAGNOSIS
-THIS O
-AM O
-. O
-
-HER O
-HUSBAND O
-Name O
-( O
-NI O
-) O
-122 B-NUMBER
-2196-1-3 I-NUMBER
-AND O
-OVER B-DIAGNOSIS
-LAST O
-MONTH O
-OR O
-SO O
-FELT O
-INCREASINGLY O
-MORE O
-DEPRESSED B-DIAGNOSIS
-FEELING I-DIAGNOSIS
-GUILTY O
-OVER B-DIAGNOSIS
-HUSBAND O
-'S O
-DEATH B-DIAGNOSIS
-THAT O
-SHE O
-COULD O
-HAVE O
-DONE O
-SOMETHING O
-TO O
-SAVE O
-HIM O
-. O
-
-HER O
-PSYCH O
-MD O
-First O
-Name O
-( O
-Titles O
-) O
-123 B-NUMBER
-Last O
-Name O
-( O
-Titles O
-) O
-124 B-NUMBER
-TO O
-WEAN O
-HER O
-FROM O
-HER O
-NORTYPTILINE O
-AND O
-BEGAN O
-PAXIL B-MEDICATION
-AND O
-ZYPREXA B-MEDICATION
-SHE O
-REPORTS O
-TO O
-FEELING B-DIAGNOSIS
-ILL O
-SINCE O
-THEN O
-WITH O
-NAUSEA B-DIAGNOSIS
-DECREASE O
-APPETITE O
-DOPEY O
-WITH O
-INCREASE O
-SADNESS O
-
-PMH O
-HTN O
-
-MOOD B-DIAGNOSIS
-DISORDER I-DIAGNOSIS
-WITH O
-DEPRESSION B-DIAGNOSIS
-WITH O
-PRIOR O
-SUICIDE B-DIAGNOSIS
-ATTEMPT I-DIAGNOSIS
-BY O
-OD O
-
-NKDA O
-
-MEDS O
-
-ZESTRIL B-MEDICATION
-
-ESTRADIOL B-MEDICATION
-
-BIOTIN O
-
-MVI O
-
-CACO3 B-NUMBER
-
-NORTRYPTILINE O
-
-KLONOPIN B-MEDICATION
-
-AMBIEN B-MEDICATION
-
-ZYPREXIA O
-
-SOCIAL B-DIAGNOSIS
-NO O
-ETOH O
-NO O
-SMOKING B-DIAGNOSIS
-SHE O
-HAS O
-Last O
-Name O
-( O
-un O
-) O
-125 B-NUMBER
-CHILDREN B-DIAGNOSIS
-AND O
-6 B-NUMBER
-GRANDCHILDREN O
-SHE O
-HAS O
-BEEN O
-STAYING O
-WITH O
-HER O
-DAUGHTER O
-Doctor O
-First O
-Name O
-126 B-NUMBER
-SINCE O
-HUSBAND O
-'S O
-DEATH B-DIAGNOSIS
-FAMILY I-DIAGNOSIS
-VERY O
-SUPPORTIVE O
-
-O. O
-NEURO O
-A/OX3 B-NUMBER
-AFFECT B-DIAGNOSIS
-FLAT I-DIAGNOSIS
-
-CARDIAC B-DIAGNOSIS
-HR O
-90-Street B-NUMBER
-Address O
-( O
-2 B-NUMBER
-) O
-127 B-NUMBER
-WITHOUT O
-ECTOPY O
-K+ O
-3.4 B-NUMBER
-TX O
-WITH O
-A O
-TOTAL B-MEDICATION
-OF O
-80 B-NUMBER
-MEQ O
-KCL O
-PO O
-BP O
-130/-140 B-NUMBER
-SKIN B-DIAGNOSIS
-W+D O
-PP+ O
-
-RESP O
-ON O
-RM O
-AIR O
-O2 B-NUMBER
-SAT O
-99 B-NUMBER
-% O
-LUNGS B-DIAGNOSIS
-CTA O
-
-GI O
-TAKING O
-PO O
-APPETITE O
-POOR B-DIAGNOSIS
-ABD O
-SNT O
-BS+ O
-NO O
-STOOL O
-
-GU O
-VOIDS O
-
-SKIN B-DIAGNOSIS
-INTACT O
-
-ACCESS B-DIAGNOSIS
-18 B-NUMBER
-GAUGE O
-LT O
-HAND B-DIAGNOSIS
-
-A. O
-OD O
-MAJOR B-DIAGNOSIS
-DEPRESSION I-DIAGNOSIS
-
-P. O
-TRANSFER B-DIAGNOSIS
-TO O
-PSYCH O
-Hospital1 B-NUMBER
-128 I-NUMBER
-4 I-NUMBER
 

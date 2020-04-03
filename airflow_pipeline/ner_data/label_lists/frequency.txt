@@ -1,15 +1,15 @@
-'bid'
-'b.i.d.'
-'prn'
-'qid'
-'tid'
-'qd'
-'q.d.'
-'q d'
-'q daily'
-'daily'
-'nightly'
-'hs'
-'as needed'
-'once a day'
-'twice a day'
+bid
+b.i.d.
+prn
+qid
+tid
+qd
+q.d.
+q d
+q daily
+daily
+nightly
+hs
+as needed
+once a day
+twice a day

@@ -35,9 +35,16 @@ class Admissions(db.Model):
     hospital_expire_flag = db.Column(db.SmallInteger)
     has_chartevents_data = db.Column(db.SmallInteger,nullable=False)
 
+class Diagnoses_icd(db.Model):
+    row_id = db.Column(db.Integer, primary_key=True)
+    subject_id = db.Column(db.Integer, nullable=False)
+    hadm_id = db.Column(db.Integer, nullable=False)
+    seq_num = db.Column(db.Integer, nullable=False)
+    icd9_code = db.Column(db.VARCHAR(length=10))
+
 @app.route('/health')
 def health_check():
-    return 'OK! APIs are running.'
+    return 'OK. APIs are running.'
 
 @app.route('/noteevents')
 def get_notes():
@@ -75,13 +82,49 @@ def get_notes_from_admit_id(admit_id):
         json_notes.append(json_note)
     return {'json_notes':json_notes}
 
+@app.route('/icd9/admitid/<admit_id>')
+def get_icd_codes_from_admit_id(admit_id):
+    codes = Diagnoses_icd.query.filter_by(hadm_id=admit_id).all()
+    json_codes = []
+    for code in codes:
+        json_code = {'code': code.icd9_code}
+        json_codes.append(json_code)
+    return {'json_codes':json_codes}
+    return admit_id
 
 @app.route('/noteevents/page/<page>')
 def get_notes_page(page):
-    notes = Noteevents.query.join(Admissions,Noteevents.hadm_id==Admissions.hadm_id).add_columns(Noteevents.row_id,Noteevents.text,Noteevents.subject_id,Noteevents.hadm_id,Admissions.admittime,Admissions.dischtime,Admissions.deathtime).paginate(int(page),100000)
+
+    notes = Noteevents.query.join(Admissions,Noteevents.hadm_id==Admissions.hadm_id).add_columns(
+            Noteevents.row_id,
+            Noteevents.text,
+            Noteevents.subject_id,
+            Noteevents.hadm_id,
+            Admissions.admittime,
+            Admissions.dischtime,
+            Admissions.deathtime,
+            Admissions.insurance,
+            Admissions.language,
+            Admissions.religion,
+            Admissions.marital_status,
+            Admissions.ethnicity,
+            Admissions.diagnosis).paginate(int(page),100000)
     json_notes = []
     for item in notes.items:
-        note = {'row_id': item.row_id,'text': item.text,'admittime': item.admittime,'dischtime': item.dischtime,'deathtime': item.deathtime,'patient_id': item.subject_id,'admission_id': item.hadm_id}
+        note = {'row_id': item.row_id,
+                'text': item.text,
+                'admittime': item.admittime,
+                'dischtime': item.dischtime,
+                'deathtime': item.deathtime,
+                'patient_id': item.subject_id,
+                'admission_id': item.hadm_id,
+                'insurance': item.insurance,
+                'language': item.language,
+                'religion': item.religion,
+                'marital_status': item.marital_status,
+                'ethnicity': item.ethnicity,
+                'diagnosis': item.diagnosis
+                }
         json_notes.append(note)
     return {'json_notes':json_notes}
 
@@ -102,7 +145,19 @@ def get_admissions():
     admissions_query = Admissions.query.all()
     admissions = []
     for entry in admissions_query:
-        admission = {'admission_id':entry.hadm_id, 'admittime': entry.admittime, 'dischtime': entry.dischtime, 'deathtime': entry.deathtime, 'patient_id': entry.subject_id}
+        admission = {
+                'admission_id':entry.hadm_id, 
+                'admittime': entry.admittime, 
+                'dischtime': entry.dischtime, 
+                'deathtime': entry.deathtime, 
+                'patient_id': entry.subject_id,
+                'insurance': entry.insurance,
+                'language': entry.language,
+                'religion': entry.religion,
+                'marital_status': entry.marital_status,
+                'ethnicity': entry.ethnicity,
+                'diagnosis': entry.diagnosis,
+                }
         admissions.append(admission)
     return {'json_admissions': admissions}
 
@@ -139,6 +194,24 @@ def get_notes_count():
                     Admissions.deathtime)\
             .count()
     return {'note_count':count}
+
+@app.route('/icdcount')
+def get_icd_count():
+    count = Diagnoses_icd.query.count()
+    return {'icd_count': count}
+
+@app.route('/icdcodes')
+def get_all_codes():
+    codes = Diagnoses_icd.query.all()
+    json_codes = []
+    for code in codes:
+        json_code = {
+                'admission_id': code.hadm_id,
+                'icd_code': code.icd9_code
+            }
+        json_codes.append(json_code)
+    return {'json_codes': json_codes}
+
 
 @app.route('/noteevents/<size>')
 def get_notes_size(size):

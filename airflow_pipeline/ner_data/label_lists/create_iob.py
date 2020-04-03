@@ -161,6 +161,5 @@ for line in in_file.readlines():
                     labels[i] = i_or_b + '-' + label
 
                 print(word + ' ' + labels[i], file = out_file)
-            print('')
             print('', file = out_file)
 

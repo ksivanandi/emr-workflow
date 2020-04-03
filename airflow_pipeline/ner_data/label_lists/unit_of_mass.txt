@@ -1,8 +1,8 @@
-'mcg'
-'microgram'
-'micrograms'
-'mg'
-'milligram'
-'g'
-'kg'
-'mEq'
+mcg
+microgram
+micrograms
+mg
+milligram
+g
+kg
+mEq

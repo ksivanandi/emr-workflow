@@ -1,11 +1,11 @@
-file_in = open('combined_dx_terms.csv')
-file_out = open('combined_dx_terms_cleaned.txt','w+')
+file_in = open('dx-terms-032420.csv')
+file_out = open('dx_terms_cleaned.txt','w+')
 
 import re
 
 for line in file_in.readlines():
-    line = line.strip()
+    line = line.split(',')[1].strip().lower()
     line = re.sub('\"', '', line)
-    if len(line) > 0:
+    if len(line) > 2:
         print(line, file=file_out)
 
