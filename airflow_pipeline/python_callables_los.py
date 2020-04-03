@@ -13,8 +13,8 @@ from fe_from_structured_readmit_los import create_structured_data_features
 from combine_dataframes import combine
 from run_tpot_los import run_tpot
 
-get_dataframe_from_apis()
-print("1. Done get_dataframe_from_apis")
+#get_dataframe_from_apis()
+#print("1. Done get_dataframe_from_apis")
 create_structured_data_features()
 print("2. Done create_structured_data_features")
 #clean_all_notes()
