@@ -23,15 +23,20 @@ def get_admissions():
     admissions = resp.json()['json_admissions']
     return admissions
 
+def get_icd_codes():
+    resp = requests.get('http://10.32.22.6:56733/icdcodes')
+    icd_codes = resp.json()['json_codes']
+    return icd_codes
 
-
-def combine_notes_and_admissions(admissions, all_notes):
+def combine_notes_and_admissions_and_codes(admissions, all_notes, icd_codes):
     for admission in admissions:
         notes_per_admission = [note for note in all_notes if note['admission_id'] == admission['admission_id']]
+        codes_per_admission = [code.icd_code for code in icd_codes if code['admission_id'] == admission['admission_id']]
         notes_concat = ''
         for note in notes_per_admission:
             notes_concat += ' ' + note['text']
         admission['notes'] = notes_concat
+        admission['icd_codes'] = codes_per_admission
     return admissions
 
 # create a smaller dataset than the whole mimic database, faster for testing
@@ -54,8 +59,9 @@ def testing_admissions_with_notes():
 def get_dataframe_from_apis():
     notes = get_all_notes()
     admissions = get_admissions()
+    icd_codes = get_icd_codes()
 
-    admissions_with_notes = combine_notes_and_admissions(admissions, notes)
+    admissions_with_notes_and_codes = combine_notes_and_admissions_and_codes(admissions, notes, icd_codes)
     #admissions_with_notes = testing_admissions_with_notes()
 
     df = pd.json_normalize(admissions_with_notes)
