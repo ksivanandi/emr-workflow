@@ -42,9 +42,56 @@ class Diagnoses_icd(db.Model):
     seq_num = db.Column(db.Integer, nullable=False)
     icd9_code = db.Column(db.VARCHAR(length=10))
 
+class Patients(db.Model):
+    row_id = db.Column(db.Integer, primary_key=True)
+    subject_id = db.Column(db.Integer)
+    gender = db.Column(db.VARCHAR(5))
+    dob = db.Column(db.TIMESTAMP())
+    dod = db.Column(db.TIMESTAMP())
+    dod_hosp = db.Column(db.TIMESTAMP())
+    dod_ssn = db.Column(db.TIMESTAMP())
+    expire_flag = db.Column(db.VARCHAR(5))
+
 @app.route('/health')
 def health_check():
     return 'OK. APIs are running.'
+
+@app.route('/patients/<size>')
+def get_patients_size(size):
+    patients_query = Patients.query.limit(size).all()
+    json_patients = []
+    for patient in patients_query:
+        json_patient = {
+                        'row_id': patient.row_id,
+                        'patient_id': patient.subject_id,
+                        'gender': patient.gender,
+                        'dob': patient.dob
+                       }
+        json_patients.append(json_patient)
+    return {'json_patients':json_patients}
+
+
+@app.route('/patients/patientid/<patient_id>')
+def get_patient_by_id(patient_id):
+    patient = Patients.query.filter_by(subject_id=patient_id).first()
+    return {
+            'gender':patient.gender, 
+            'dob': patient.dob
+           }
+
+@app.route('/patients')
+def get_patients():
+    patients_query = Patients.query.all()
+    json_patients = []
+    for patient in patients_query:
+        json_patient = {
+                        'row_id': patient.row_id,
+                        'patient_id': patient.subject_id,
+                        'gender': patient.gender,
+                        'dob': patient.dob
+                       }
+        json_patients.append(json_patient)
+    return {'json_patients':json_patients}
 
 @app.route('/noteevents')
 def get_notes():
