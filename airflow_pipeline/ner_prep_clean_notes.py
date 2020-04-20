@@ -6,17 +6,19 @@ from workflow_read_and_write import standard_write_to_db, standard_read_from_db
 MAX_SEQ_LENGTH = 100
 
 def clean_ner_notes():
-    #df_json_encoded = standard_read_from_db('first_dataframe')
-    #df_json = df_json_encoded.decode()
-    #df = pd.read_json(df_json)
+    df_json_encoded = standard_read_from_db('first_dataframe')
+    df_json = df_json_encoded.decode()
+    df = pd.read_json(df_json)
     
-    df = pd.read_parquet('short_ner_test.parquet')
+    #df = pd.read_parquet('short_ner_test.parquet')
 
     cleaned_notes = []
     for note in df['notes']:
         note = re.sub('\[','',note)
         note = re.sub('\]','',note)
         note = re.sub('\*','',note)
+        note = re.sub(',','',note)
+        note = re.sub(';','',note)
 
         cleaned_note = ''
 
