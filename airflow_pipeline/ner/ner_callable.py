@@ -23,15 +23,15 @@ from nemo.collections.nlp.utils.data_utils import get_vocab
 
 MAX_SEQ_LENGTH=128
 PRETRAINED_MODEL_NAME='bert-base-uncased'
-CHECKPOINT_DIR = '/home/dgxuser/emr-workflow/airflow_pipeline/ner/trained_ner_model_checkpoints'
-LABELS_DICT = '/home/dgxuser/emr-workflow/airflow_pipeline/ner/ner_label_ids.csv'
+CHECKPOINT_DIR = '/home/mworthington/emr-workflow/airflow_pipeline/ner/trained_ner_model_checkpoints'
+LABELS_DICT = '/home/mworthington/emr-workflow/airflow_pipeline/ner/ner_label_ids.csv'
 BERT_CONFIG = None
 TOKENIZER='nemobert'
 TOKENIZER_MODEL = None
 NONE_LABEL='O'
 ADD_BRACKETS = True
 
-nf = nemo.core.NeuralModuleFactory(backend=nemo.core.Backend.PyTorch, log_dir='home/dgxuser/emr-workflow/airflow_pipeline/ner/logs')
+nf = nemo.core.NeuralModuleFactory(backend=nemo.core.Backend.PyTorch, log_dir='home/mworthington/emr-workflow/airflow_pipeline/ner/logs')
 
 labels_dict = get_vocab(LABELS_DICT)
 
@@ -57,9 +57,9 @@ def concatenate(lists):
 def add_brackets(text, add=ADD_BRACKETS):
     return '[' + text + ']' if add else text
 
-def label_note(note):
+def label_notes(all_notes_lines):
 #    nf = nemo.core.NeuralModuleFactory(backend=nemo.core.Backend.PyTorch, log_dir=None)
-    note_line_queries = note.split('\n')
+    #note_line_queries = notes.split('\n')
     #note_line_queries = ['pt arrived obtunded not answering questions responding to voice and sternal rub speaking in garbled voice pupils unequal left 3mm and right 2mm brisk bilaterally trauma sicu MD aware currently recieving keppra IV finished dilantin gtt due for level at 08a EEG today LSCTA on 3LNC sats 100 % SBP 90 s to 100 s HR NSR no ectopy 60 s NS @ 75cc continuous +BS no stools rec d lactulose at OSH to recieve PR q4h abd soft non-tender non-distended foley in place draining adequate amt clear yellow urine skin intact left 20G x2 WNL wife Name  NI']
 
 #    labels_dict = get_vocab(LABELS_DICT)
@@ -80,7 +80,7 @@ def label_note(note):
 #    hidden_size = pretrained_bert_model.hidden_size
 
     data_layer = nemo_nlp.nm.data_layers.BertTokenClassificationInferDataLayer(
-        queries=note_line_queries, tokenizer=tokenizer, max_seq_length=MAX_SEQ_LENGTH, batch_size=2000
+        queries=all_notes_lines, tokenizer=tokenizer, max_seq_length=MAX_SEQ_LENGTH, batch_size=2000
     )
 
     classifier = TokenClassifier(hidden_size=hidden_size, num_classes=len(labels_dict))
@@ -93,15 +93,14 @@ def label_note(note):
     ###########################################################################
 
     # Instantiate an optimizer to perform `infer` action
-    #evaluated_tensors = nf.infer(tensors=[logits, subtokens_mask], checkpoint_dir=CHECKPOINT_DIR)
-    evaluated_tensors = nf.infer(tensors=[logits, subtokens_mask], checkpoint_dir=None)
+    evaluated_tensors = nf.infer(tensors=[logits, subtokens_mask], checkpoint_dir=CHECKPOINT_DIR)
 
     logits, subtokens_mask = [concatenate(tensors) for tensors in evaluated_tensors]
 
     preds = np.argmax(logits, axis=2) 
-    labeled_note = ''
+    all_notes_labeled_lines = []
 
-    for i, query in enumerate(note_line_queries):
+    for i, query in enumerate(all_notes_lines):
         logging.info(f'Query: {query}')
 
         pred = preds[i][subtokens_mask[i] > 0.5]
@@ -145,12 +144,14 @@ def label_note(note):
                     label = add_brackets(label)
                     output += label
                 output += ' '
-            labeled_note += '\n' + output.strip()
+            all_notes_labeled_lines.append(output.strip())
             logging.info(f'Combined: {output.strip()}')
         else:
+            all_notes_labeled_lines.append(query)
             pred_length = str(len(pred))
             word_length = str(len(words))
             logging.info(f'__Prediction/Word Length Mismatch__ pred length: {pred_length}, words length: {word_length}')
+            logging.info(f'{query}')
         
-    return labeled_note
+    return all_notes_labeled_lines
 
