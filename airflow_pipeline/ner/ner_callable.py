@@ -20,6 +20,7 @@ import nemo.collections.nlp as nemo_nlp
 from nemo import logging
 from nemo.collections.nlp.nm.trainables import TokenClassifier
 from nemo.collections.nlp.utils.data_utils import get_vocab
+import time
 
 MAX_SEQ_LENGTH=128
 PRETRAINED_MODEL_NAME='bert-base-uncased'
@@ -79,21 +80,29 @@ def label_notes(all_notes_lines):
 #    )
 #    hidden_size = pretrained_bert_model.hidden_size
 
+    load_datalayer_begin_time = time.time()
     data_layer = nemo_nlp.nm.data_layers.BertTokenClassificationInferDataLayer(
         queries=all_notes_lines, tokenizer=tokenizer, max_seq_length=MAX_SEQ_LENGTH, batch_size=2000
     )
+    load_datalayer_end_time = time.time()
 
     classifier = TokenClassifier(hidden_size=hidden_size, num_classes=len(labels_dict))
 
     input_ids, input_type_ids, input_mask, _, subtokens_mask = data_layer()
-
+    
+    load_hidden_states_begin_time = time.time()
     hidden_states = pretrained_bert_model(input_ids=input_ids, token_type_ids=input_type_ids, attention_mask=input_mask)
+    load_hidden_states_end_time = time.time()
+    load_logits_begin_time = time.time()
     logits = classifier(hidden_states=hidden_states)
+    load_logits_end_time = time.time()
 
     ###########################################################################
 
     # Instantiate an optimizer to perform `infer` action
+    infer_begin_time = time.time()
     evaluated_tensors = nf.infer(tensors=[logits, subtokens_mask], checkpoint_dir=CHECKPOINT_DIR)
+    infer_end_time = time.time()
 
     logits, subtokens_mask = [concatenate(tensors) for tensors in evaluated_tensors]
 
@@ -152,6 +161,12 @@ def label_notes(all_notes_lines):
             word_length = str(len(words))
             logging.info(f'__Prediction/Word Length Mismatch__ pred length: {pred_length}, words length: {word_length}')
             logging.info(f'{query}')
-        
+    
+
+    print(str(load_datalayer_end_time-load_datalayer_begin_time)+' seconds to load the datalayer')
+    print(str(load_hidden_states_end_time-load_hidden_states_begin_time)+' seconds to load hidden states')
+    print(str(load_logits_end_time-load_logits_begin_time)+' seconds to load logits')
+    print(str(infer_end_time-infer_begin_time)+' seconds to run inference')
+
     return all_notes_labeled_lines
 

@@ -1,5 +1,5 @@
 import pandas as pd
-from worfklow_read_and_write import standard_read_from_db, standard_write_to_db
+from workflow_read_and_write import standard_read_from_db, standard_write_to_db
 
 def extract_entities(note):
     lines = note.split('\n')
@@ -13,21 +13,22 @@ def extract_entities(note):
             if '[' in words[word_index]:
                 ent_end = word_index+1
                 if 'B-MEDICATION' in words[word_index]:
-                    while 'I-MEDICATION' in words[ent_end]:
+                    while ent_end < len(words) and 'I-MEDICATION' in words[ent_end]:
                         ent_end += 1
                     medication = ''
                     for sub_ent in words[word_index:ent_end]:
                         medication += ' ' + sub_ent.split('[')[0]
-                    medications += medication.strip()
+                    medications.append(medication.strip())
                 elif 'B-FEATURE' in words[word_index]:
-                    while 'I-FEATURE' in words[ent_end]:
+                    while ent_end < len(words) and 'I-FEATURE' in words[ent_end]:
                         ent_end += 1
                     feature = ''
                     for sub_ent in words[word_index:ent_end]:
                         feature += ' ' + sub_ent.split('[')[0]
-                    features += feature.strip()
+                    features.append(feature.strip())
+                word_index += ent_end
             else:
-                word_index +=1
+                word_index += 1
 
     return medications, features
 
