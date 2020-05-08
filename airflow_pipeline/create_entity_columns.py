@@ -16,16 +16,22 @@ def extract_entities(note):
                     while ent_end < len(words) and 'I-MEDICATION' in words[ent_end]:
                         ent_end += 1
                     medication = ''
-                    for sub_ent in words[word_index:ent_end]:
-                        medication += ' ' + sub_ent.split('[')[0]
-                    medications.append(medication.strip())
+                    for i,sub_ent in enumerate(words[word_index:ent_end]):
+                        if i == 0:
+                            medication += sub_ent.split('[')[0]
+                        else:
+                            medication += '_' + sub_ent.split('[')[0]
+                    medications.append(medication)
                 elif 'B-FEATURE' in words[word_index]:
                     while ent_end < len(words) and 'I-FEATURE' in words[ent_end]:
                         ent_end += 1
                     feature = ''
-                    for sub_ent in words[word_index:ent_end]:
-                        feature += ' ' + sub_ent.split('[')[0]
-                    features.append(feature.strip())
+                    for i,sub_ent in enumerate(words[word_index:ent_end]):
+                        if i == 0:
+                            feature += sub_ent.split('[')[0]
+                        else:
+                            feature += '_' + sub_ent.split('[')[0]
+                    features.append(feature)
                 word_index += ent_end
             else:
                 word_index += 1
@@ -51,10 +57,10 @@ def get_columns_from_notes(df):
         
 
 def create_entity_columns():
-    df_json_encoded = standard_read_from_db('labeled_notes')
+    df_json_encoded = standard_read_from_db('ner_labeled_notes')
     df = pd.read_json(df_json_encoded.decode())
 
     new_df = get_columns_from_notes(df)
 
     new_df_json_encoded = new_df.to_json().encode()
-    standard_write_to_db('make_entity_columns', new_df_json_encoded)
+    standard_write_to_db('entity_columns', new_df_json_encoded)
