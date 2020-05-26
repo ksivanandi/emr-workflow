@@ -47,6 +47,10 @@ def get_columns_from_notes(df):
     for i, row in df.iterrows():
         note = row['labeled_notes']
         medications, features = extract_entities(note)
+        #remove duplicates from the list:
+        medications = list(dict.fromkeys(medications))
+        features = list(dict.fromkeys(features))
+        #
         all_medication_entities.append(medications)
         all_general_feature_entities.append(features)
 
