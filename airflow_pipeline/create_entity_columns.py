@@ -12,10 +12,14 @@ def extract_entities(note):
         while word_index < len(words):
             if '[' in words[word_index]:
                 ent_end = word_index+1
+                #take into account negation of an entity
+                possible_negation = ''
+                if words[word_index-1] == 'no' or 'not':
+                    possible_negation = words[word_index] + '_'
                 if 'B-MEDICATION' in words[word_index]:
                     while ent_end < len(words) and 'I-MEDICATION' in words[ent_end]:
                         ent_end += 1
-                    medication = ''
+                    medication = possible_negation
                     for i,sub_ent in enumerate(words[word_index:ent_end]):
                         if i == 0:
                             medication += sub_ent.split('[')[0]
@@ -25,7 +29,7 @@ def extract_entities(note):
                 elif 'B-FEATURE' in words[word_index]:
                     while ent_end < len(words) and 'I-FEATURE' in words[ent_end]:
                         ent_end += 1
-                    feature = ''
+                    feature = possible_negation
                     for i,sub_ent in enumerate(words[word_index:ent_end]):
                         if i == 0:
                             feature += sub_ent.split('[')[0]
