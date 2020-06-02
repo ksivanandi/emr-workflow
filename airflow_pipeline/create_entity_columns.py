@@ -14,8 +14,8 @@ def extract_entities(note):
                 ent_end = word_index+1
                 #take into account negation of an entity
                 possible_negation = ''
-                if words[word_index-1] == 'no' or 'not':
-                    possible_negation = words[word_index] + '_'
+                if words[word_index-1] == 'no' or words[word_index-1] == 'not':
+                    possible_negation = words[word_index-1] + '_'
                 if 'B-MEDICATION' in words[word_index]:
                     while ent_end < len(words) and 'I-MEDICATION' in words[ent_end]:
                         ent_end += 1
