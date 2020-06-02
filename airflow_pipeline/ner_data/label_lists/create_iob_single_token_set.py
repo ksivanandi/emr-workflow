@@ -14,6 +14,7 @@ unit_of_form_file = open('unit_of_form.txt')
 unit_of_mass_file = open('unit_of_mass.txt')
 unit_of_time_file = open('unit_of_time.txt')
 unit_of_volume_file = open('unit_of_volume.txt')
+covid_file = open('covid_set.txt')
 
 medication_set = set({})
 for line in medication_file.readlines():
@@ -55,6 +56,11 @@ for line in unit_of_volume_file.readlines():
     word = re.sub('\n', '', line)
     unit_of_volume_set.add(word)
 
+covid_set = set({})
+for line in covid_file.readlines():
+    word = re.sub('\n', '', line)
+    covid_set.add(word)
+
 def has_numbers(inputString):
         return any(char.isdigit() for char in inputString)
 
@@ -82,6 +88,8 @@ for line in in_file.readlines():
                     label = 'TIME_UNIT'
                 elif word.lower() in unit_of_volume_set:
                     label = 'VOLUME_UNIT'
+                elif word.lower() in covid_set:
+                    label = 'COVID'
                 elif has_numbers(word):
                     label = 'NUMBER'
                 else:
