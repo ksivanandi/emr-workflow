@@ -109,6 +109,8 @@ tokenizer = nemo.collections.nlp.data.tokenizers.get_tokenizer(
 )
 hidden_size = pretrained_bert_model.hidden_size
 
+classifier = TokenClassifier(hidden_size=hidden_size, num_classes=len(labels_dict))
+
 def inference(queries):
     begin = time.time()
     datalayer_begin = time.time()
@@ -118,12 +120,10 @@ def inference(queries):
     datalayer_end = time.time()
     datalayer_time =datalayer_end - datalayer_begin
 
-    classifier = TokenClassifier(hidden_size=hidden_size, num_classes=len(labels_dict))
-
-    input_ids, input_type_ids, input_mask, _, subtokens_mask = data_layer()
-
-    hidden_states = pretrained_bert_model(input_ids=input_ids, token_type_ids=input_type_ids, attention_mask=input_mask)
-    logits = classifier(hidden_states=hidden_states)
+    with NeuralGraph(operation_mode=OperationMode.evaluation) as g1:
+        input_ids, input_type_ids, input_mask, _, subtokens_mask = data_layer()
+        hidden_states = pretrained_bert_model(input_ids=input_ids, token_type_ids=input_type_ids, attention_mask=input_mask)
+        logits = classifier(hidden_states=hidden_states)
 
     ###########################################################################
 
@@ -156,6 +156,10 @@ def inference(queries):
             output = query
         logging.info(f'Combined: {output.strip()}')
         print(output.strip(),file=out_file)
+
+    del data_layer
+    del g1
+    del evaluated_tensors
 
     end=time.time()
     total_time = end-begin
