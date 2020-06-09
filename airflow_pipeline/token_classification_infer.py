@@ -25,6 +25,7 @@ import nemo.collections.nlp as nemo_nlp
 from nemo import logging
 from nemo.collections.nlp.nm.trainables import TokenClassifier
 from nemo.collections.nlp.utils.data_utils import get_vocab
+from nemo.core import NeuralGraph, OperationMode
 
 # Parsing arguments
 parser = argparse.ArgumentParser(description='NER with pretrained BERT')
@@ -34,7 +35,7 @@ parser.add_argument(
     default="bert-base-uncased",
     type=str,
     help="Name of the pre-trained model",
-    choices=nemo_nlp.nm.trainables.get_bert_models_list(),
+    choices=nemo_nlp.nm.trainables.get_pretrained_lm_models_list(),
 )
 parser.add_argument("--bert_config", default=None, type=str, help="Path to bert config file in json format")
 parser.add_argument(
@@ -42,6 +43,9 @@ parser.add_argument(
     default=None,
     type=str,
     help="Path to pretrained tokenizer model, only used if --tokenizer is sentencepiece",
+)
+parser.add_argument(
+    "--vocab_file", default=None, type=str, help="Path to the vocab file. Required for pretrained Megatron models"
 )
 parser.add_argument(
     "--tokenizer",
@@ -69,8 +73,8 @@ parser.add_argument(
     help="Whether to take predicted label in brackets or \
                     just append to word in the output",
 )
-parser.add_argument("--checkpoint_dir", default='output/checkpoints', type=str)
-parser.add_argument("--labels_dict", default='label_ids.csv', type=str)
+parser.add_argument("--checkpoint_dir", default='/home/mworthington/emr-workflow/airflow_pipeline/ner/trained_ner_model_checkpoints', type=str)
+parser.add_argument("--labels_dict", default='/home/mworthington/emr-workflow/airflow_pipeline/ner/ner_label_ids.csv', type=str)
 
 args = parser.parse_args()
 logging.info(args)
@@ -83,14 +87,14 @@ def add_brackets(text, add=args.add_brackets):
 
 #in_file = open('all_note_lines.txt')
 #in_file = open('100000_lines.txt')
-out_file = open('all_notes_label_lines.txt', 'w+')
+out_file = open('all_notes_label_lines.txt', 'a')
 
 if not os.path.exists(args.checkpoint_dir):
     raise ValueError(f'Checkpoint directory not found at {args.checkpoint_dir}')
 if not os.path.exists(args.labels_dict):
     raise ValueError(f'Dictionary with ids to labels not found at {args.labels_dict}')
 
-nf = nemo.core.NeuralModuleFactory(backend=nemo.core.Backend.PyTorch, log_dir=None)
+nf = nemo.core.NeuralModuleFactory(backend=nemo.core.Backend.PyTorch, log_dir='nemo_logs')
 
 labels_dict = get_vocab(args.labels_dict)
 
@@ -98,8 +102,8 @@ labels_dict = get_vocab(args.labels_dict)
 See the list of pretrained models, call:
 nemo_nlp.huggingface.BERT.list_pretrained_models()
 """
-pretrained_bert_model = nemo_nlp.nm.trainables.get_huggingface_model(
-    bert_config=args.bert_config, pretrained_model_name=args.pretrained_model_name
+pretrained_bert_model = nemo_nlp.nm.trainables.get_pretrained_lm_model(
+    config=args.bert_config, pretrained_model_name=args.pretrained_model_name, vocab=args.vocab_file
 )
 
 tokenizer = nemo.collections.nlp.data.tokenizers.get_tokenizer(
@@ -111,6 +115,7 @@ hidden_size = pretrained_bert_model.hidden_size
 
 classifier = TokenClassifier(hidden_size=hidden_size, num_classes=len(labels_dict))
 
+#functionalized for our pipeline
 def inference(queries):
     begin = time.time()
     datalayer_begin = time.time()

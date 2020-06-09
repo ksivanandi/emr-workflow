@@ -32,6 +32,7 @@ simalar terms are returned as a list of tuples: term, value [cosine of term and 
 append just the term to a new list
 """
 def find_infection_similar_terms(model):
+    # this can be customized for POC
     base_words=['infection', 'infected', 'sepsis','septic']
     infected_key_words=[]
 
