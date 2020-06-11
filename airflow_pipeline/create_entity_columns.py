@@ -47,7 +47,7 @@ def extract_entities(note):
                         else:
                             covid_term += '_' + sub_ent.split('[')[0]
                     covid_terms.append(covid_term)
-                word_index += ent_end
+                word_index += (ent_end-word_index)
             else:
                 word_index += 1
 
