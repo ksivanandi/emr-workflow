@@ -27,8 +27,8 @@ def extract_entities(note):
                         else:
                             medication += '_' + sub_ent.split('[')[0]
                     medications.append(medication)
-                elif 'B-FEATURE' in words[word_index]:
-                    while ent_end < len(words) and 'I-FEATURE' in words[ent_end]:
+                elif 'B-DIAGNOSIS' in words[word_index]:
+                    while ent_end < len(words) and 'I-DIAGNOSIS' in words[ent_end]:
                         ent_end += 1
                     feature = possible_negation
                     for i,sub_ent in enumerate(words[word_index:ent_end]):
