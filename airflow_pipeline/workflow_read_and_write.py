@@ -89,7 +89,7 @@ def train_ner_read_from_db():
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
     tokenizer_pickle = fs.get(most_recent_entry['tokenizer_gridfs_id'])
     bert_model_pickle = fs.get(most_recent_entry['bert_model_gridfs_id'])
-    labe_ids_pickle = fs.get(most_recent_entry['label_ids_gridfs_id'])
+    label_ids_pickle = fs.get(most_recent_entry['label_ids_gridfs_id'])
     return tokenizer_pickle, bert_model_pickle, label_ids_pickle
 
 def one_hot_write_to_db(updated_df_json_encoded, term_cos_simil_df_json_encoded, collection_name):
