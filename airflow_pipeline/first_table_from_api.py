@@ -39,7 +39,7 @@ def combine_notes_and_admissions_and_codes(admissions, all_notes, icd_codes, pat
 
     for admission in admissions:
         notes_per_admission = [note for note in all_notes if note['admission_id'] == admission['admission_id']]
-        codes_per_admission = [code.icd_code for code in icd_codes if code['admission_id'] == admission['admission_id']]
+        codes_per_admission = [code['icd_code'] for code in icd_codes if code['admission_id'] == admission['admission_id']]
         notes_concat = ''
         for note in notes_per_admission:
             notes_concat += ' ' + note['text']
