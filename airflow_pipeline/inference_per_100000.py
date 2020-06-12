@@ -16,4 +16,3 @@ def label_notes():
         inference(sub_lines)
         print(str(end_index/total_length)+"% lines labeled")
 
-label_notes()
