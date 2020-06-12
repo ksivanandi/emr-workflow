@@ -73,8 +73,8 @@ parser.add_argument(
     help="Whether to take predicted label in brackets or \
                     just append to word in the output",
 )
-parser.add_argument("--checkpoint_dir", default='/home/mworthington/emr-workflow/airflow_pipeline/ner/trained_ner_model_checkpoints', type=str)
-parser.add_argument("--labels_dict", default='/home/mworthington/emr-workflow/airflow_pipeline/ner/ner_label_ids.csv', type=str)
+parser.add_argument("--checkpoint_dir", default='ner/trained_ner_model_checkpoints', type=str)
+parser.add_argument("--labels_dict", default='ner/ner_label_ids.csv', type=str)
 
 args = parser.parse_args()
 logging.info(args)
@@ -120,7 +120,7 @@ def inference(queries):
     begin = time.time()
     datalayer_begin = time.time()
     data_layer = nemo_nlp.nm.data_layers.BertTokenClassificationInferDataLayer(
-        queries=queries, tokenizer=tokenizer, max_seq_length=args.max_seq_length, batch_size=4096
+        queries=queries, tokenizer=tokenizer, max_seq_length=args.max_seq_length, batch_size=2048
     )
     datalayer_end = time.time()
     datalayer_time =datalayer_end - datalayer_begin
