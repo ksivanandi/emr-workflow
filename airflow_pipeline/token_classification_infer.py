@@ -37,8 +37,8 @@ VOCAB_FILE = None
 TOKENIZER = 'nemobert'
 NONE_LABEL = 'O'
 ADD_BRACKETS = True
-CHECKPOINT_DIR = '/home/mworthington/emr-workflow/airflow_pipeline/ner/trained_ner_model_checkpoints'
-LABELS_DICT = '/home/mworthington/emr-workflow/airflow_pipeline/ner/ner_label_ids.csv'
+CHECKPOINT_DIR = 'ner/trained_ner_model_checkpoints'
+LABELS_DICT = 'ner/ner_label_ids.csv'
 
 def concatenate(lists):
     return np.concatenate([t.cpu() for t in lists])
