@@ -27,89 +27,48 @@ from nemo.collections.nlp.nm.trainables import TokenClassifier
 from nemo.collections.nlp.utils.data_utils import get_vocab
 from nemo.core import NeuralGraph, OperationMode
 
-# Parsing arguments
-parser = argparse.ArgumentParser(description='NER with pretrained BERT')
-parser.add_argument("--max_seq_length", default=128, type=int)
-parser.add_argument(
-    "--pretrained_model_name",
-    default="bert-base-uncased",
-    type=str,
-    help="Name of the pre-trained model",
-    choices=nemo_nlp.nm.trainables.get_pretrained_lm_models_list(),
-)
-parser.add_argument("--bert_config", default=None, type=str, help="Path to bert config file in json format")
-parser.add_argument(
-    "--tokenizer_model",
-    default=None,
-    type=str,
-    help="Path to pretrained tokenizer model, only used if --tokenizer is sentencepiece",
-)
-parser.add_argument(
-    "--vocab_file", default=None, type=str, help="Path to the vocab file. Required for pretrained Megatron models"
-)
-parser.add_argument(
-    "--tokenizer",
-    default="nemobert",
-    type=str,
-    choices=["nemobert", "sentencepiece"],
-    help="tokenizer to use, only relevant when using custom pretrained checkpoint.",
-)
-parser.add_argument("--none_label", default='O', type=str)
-parser.add_argument(
-    "--queries",
-    action='append',
-    default=[
-        'we bought four shirts from the nvidia gear ' + 'store in santa clara',
-        'Nvidia is a company',
-        'The Adventures of Tom Sawyer by Mark Twain '
-        + 'is an 1876 novel about a young boy growing '
-        + 'up along the Mississippi River',
-    ],
-    help="Example: --queries 'San Francisco' --queries 'LA'",
-)
-parser.add_argument(
-    "--add_brackets",
-    action='store_false',
-    help="Whether to take predicted label in brackets or \
-                    just append to word in the output",
-)
-parser.add_argument("--checkpoint_dir", default='/home/mworthington/emr-workflow/airflow_pipeline/ner/trained_ner_model_checkpoints', type=str)
-parser.add_argument("--labels_dict", default='/home/mworthington/emr-workflow/airflow_pipeline/ner/ner_label_ids.csv', type=str)
-
-args = parser.parse_args()
-logging.info(args)
+MAX_SEQ_LENGTH = 128
+#choices for PRETRAINED_MODEL_NAME: choices=nemo_nlp.nm.trainables.get_pretrained_lm_models_list()
+PRETRAINED_MODEL_NAME = 'bert-base-uncased'
+BERT_CONFIG = None
+TOKENIZER_MODEL = None
+VOCAB_FILE = None
+#choices for TOKENIZER: ["nemobert", "sentencepiece"]
+TOKENIZER = 'nemobert'
+NONE_LABEL = 'O'
+ADD_BRACKETS = True
+CHECKPOINT_DIR = '/home/mworthington/emr-workflow/airflow_pipeline/ner/trained_ner_model_checkpoints'
+LABELS_DICT = '/home/mworthington/emr-workflow/airflow_pipeline/ner/ner_label_ids.csv'
 
 def concatenate(lists):
     return np.concatenate([t.cpu() for t in lists])
 
-def add_brackets(text, add=args.add_brackets):
+def add_brackets(text, add=ADD_BRACKETS):
     return '[' + text + ']' if add else text
 
-#in_file = open('all_note_lines.txt')
-#in_file = open('100000_lines.txt')
 out_file = open('all_notes_label_lines.txt', 'a')
 
-if not os.path.exists(args.checkpoint_dir):
-    raise ValueError(f'Checkpoint directory not found at {args.checkpoint_dir}')
-if not os.path.exists(args.labels_dict):
-    raise ValueError(f'Dictionary with ids to labels not found at {args.labels_dict}')
+if not os.path.exists(CHECKPOINT_DIR):
+    raise ValueError(f'Checkpoint directory not found at {CHECKPOINT_DIR}')
+if not os.path.exists(LABELS_DICT):
+    raise ValueError(f'Dictionary with ids to labels not found at {LABELS_DICT}')
 
 nf = nemo.core.NeuralModuleFactory(backend=nemo.core.Backend.PyTorch, log_dir='nemo_logs')
 
-labels_dict = get_vocab(args.labels_dict)
+labels_dict = get_vocab(LABELS_DICT)
 
 """ Load the pretrained BERT parameters
 See the list of pretrained models, call:
 nemo_nlp.huggingface.BERT.list_pretrained_models()
 """
 pretrained_bert_model = nemo_nlp.nm.trainables.get_pretrained_lm_model(
-    config=args.bert_config, pretrained_model_name=args.pretrained_model_name, vocab=args.vocab_file
+    config=BERT_CONFIG, pretrained_model_name=PRETRAINED_MODEL_NAME, vocab=VOCAB_FILE
 )
 
 tokenizer = nemo.collections.nlp.data.tokenizers.get_tokenizer(
-    tokenizer_name=args.tokenizer,
-    pretrained_model_name=args.pretrained_model_name,
-    tokenizer_model=args.tokenizer_model,
+    tokenizer_name=TOKENIZER,
+    pretrained_model_name=PRETRAINED_MODEL_NAME,
+    tokenizer_model=TOKENIZER_MODEL,
 )
 hidden_size = pretrained_bert_model.hidden_size
 
@@ -120,7 +79,7 @@ def inference(queries):
     begin = time.time()
     datalayer_begin = time.time()
     data_layer = nemo_nlp.nm.data_layers.BertTokenClassificationInferDataLayer(
-        queries=queries, tokenizer=tokenizer, max_seq_length=args.max_seq_length, batch_size=4096
+        queries=queries, tokenizer=tokenizer, max_seq_length=MAX_SEQ_LENGTH, batch_size=2048
     )
     datalayer_end = time.time()
     datalayer_time =datalayer_end - datalayer_begin
@@ -134,7 +93,7 @@ def inference(queries):
 
     # Instantiate an optimizer to perform `infer` action
     infer_begin = time.time()
-    evaluated_tensors = nf.infer(tensors=[logits, subtokens_mask], checkpoint_dir=args.checkpoint_dir)
+    evaluated_tensors = nf.infer(tensors=[logits, subtokens_mask], checkpoint_dir=CHECKPOINT_DIR)
     infer_end = time.time()
     infer_time = infer_end - infer_begin
 
@@ -153,7 +112,7 @@ def inference(queries):
             for j, w in enumerate(words):
                 output += w
                 label = labels_dict[pred[j]]
-                if label != args.none_label:
+                if label != NONE_LABEL:
                     label = add_brackets(label)
                     output += label
                 output += ' '
