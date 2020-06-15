@@ -79,7 +79,7 @@ def inference(queries):
     begin = time.time()
     datalayer_begin = time.time()
     data_layer = nemo_nlp.nm.data_layers.BertTokenClassificationInferDataLayer(
-        queries=queries, tokenizer=tokenizer, max_seq_length=MAX_SEQ_LENGTH, batch_size=2048
+        queries=queries, tokenizer=tokenizer, max_seq_length=MAX_SEQ_LENGTH, batch_size=4096
     )
     datalayer_end = time.time()
     datalayer_time =datalayer_end - datalayer_begin

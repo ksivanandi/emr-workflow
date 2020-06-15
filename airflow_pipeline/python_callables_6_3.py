@@ -13,6 +13,7 @@ from make_all_note_lines_file import create_file
 from inference_per_100000 import label_notes
 from add_labeled_notes_column import create_labeled_notes_column
 from create_entity_columns import create_entity_columns
+from add_labeled_notes_column import create_labeled_notes_column
 
 #get_dataframe_from_apis()
 #print('1. Done creating dataframe')
@@ -41,7 +42,7 @@ from create_entity_columns import create_entity_columns
 #label_notes()
 #print('13. Done labeling notes with NER Model')
 create_labeled_notes_column()
-print('14. Done created labeled_notes_column')
+print('14. Done creating labeled_notes_column')
 create_entity_columns()
 print('15. Done creating entity columns from the NER-labeled notes')
 
