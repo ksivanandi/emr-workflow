@@ -32,7 +32,7 @@ def create_labeled_notes_column():
         begin += length
         note = ''
         for line in note_lines:
-            note += '\n' + line
+            note += line
         labeled_notes.append(note)
 
     df['labeled_notes'] = labeled_notes
