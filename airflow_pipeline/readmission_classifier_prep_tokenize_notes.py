@@ -35,7 +35,7 @@ def readmission_classifier_clean_notes():
     df = pd.read_json(df_json_encoded.decode())
     
     cleaned_notes = clean_notes(df)
-    df['readmission_classifier_tokens']
+    df['readmission_classifier_tokens'] = cleaned_notes
 
     df_json_encoded = df.to_json().encode()
     standard_write_to_db('readmission_classifer_tokenized',df_json_encoded)
