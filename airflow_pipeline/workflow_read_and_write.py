@@ -148,3 +148,31 @@ def tpot_read_from_db(collection_name):
 
     return tpot_pipeline_code_encoded, score_encoded
 
+def readmission_classifier_write_to_db(df_json_encoded, classifier_pickle):
+    db = get_db()
+    fs = gridfs.GridFS(db)
+    collection = db['readmission_classifier_train_predict']
+    
+    df_gridfs_id = fs.put(df_json_encoded)
+    classifier_gridfs_id = fs.put(classifier_pickle)
+    timestamp = datetime.datetime.now().timestamp()
+
+    mongodb_output = {
+        'timestamp': timestamp,
+        'df_gridfs_id': df_gridfs_id,
+        'classifier_gridfs_id': classifier_gridfs_id
+        }
+
+    collection.insert_one(mongodb_output)     
+
+
+def readmission_classifier_read_from_db():
+    db = get_db()
+    fs = gridfs.GridFS(db)
+    collection = db['readmission_classifier_train_predict']
+
+    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
+    df_json_encoded = fs.get(most_recent_entry['df_gridfs_id']).read()
+    classifier_pickle = fs.get(most_recent_entry['classifier_gridfs_id'])
+
+    return df_json_encoded, classifier_pickle
