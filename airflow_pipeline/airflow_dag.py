@@ -19,6 +19,8 @@ import ner_prep_clean_notes
 import make_all_note_lines_file
 #import inference_per_100000
 import create_entity_columns
+import readmission_classifier_prep_tokenize_notes
+import readmission_classifier_train_and_predict
 
 import placeholder
 
@@ -140,9 +142,24 @@ ner_one_hot_operator = PythonOperator(
     dag = dag
     )
 
+readmission_classifier_prep_operator = PythonOperator(
+    task_id = 'readmission_classifier_prep_clean',
+    python_callable = readmission_classifier_prep_tokenize_notes.readmission_classifier_clean_notes,
+    dag = dag
+    )
+
+readmission_classifier_train_predict_operator = PythonOperator(
+    task_id = 'readmission_classifier_train_predict',
+    python_callable = readmission_classifier_train_and_predict.train_and_predict,
+    dag = dag
+    )
 
 df_from_api_operator.set_downstream(structured_features_operator)
-structured_features_operator.set_downstream([all_word2vec_clean_notes_operator, readmission_word2vec_clean_notes_operator, ner_clean_operator])
+structured_features_operator.set_downstream([
+    all_word2vec_clean_notes_operator, 
+    readmission_word2vec_clean_notes_operator, 
+    ner_clean_operator, 
+    readmission_classifier_prep_operator])
 readmission_word2vec_clean_notes_operator.set_downstream(readmission_word2vec_tokenize_notes_operator)
 readmission_word2vec_tokenize_notes_operator.set_downstream(readmission_word2vec_operator)
 readmission_word2vec_operator.set_downstream(readmission_one_hot_operator)
@@ -154,6 +171,7 @@ ner_input_text_operator.set_downstream(label_with_ner_operator)
 label_with_ner_operator.set_downstream(ner_entity_columns_operator)
 ner_entity_columns_operator.set_downstream(ner_one_hot_operator)
 ner_one_hot_operator.set_downstream(combine_all_dataframes_operator)
+readmission_classifier_prep_operator.set_downstream(readmission_classifier_train_predict_operator)
 infected_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 readmission_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 combine_all_dataframes_operator.set_downstream([tpot_los_operator, tpot_readmission_operator])
