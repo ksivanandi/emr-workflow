@@ -37,7 +37,8 @@ VOCAB_FILE = None
 TOKENIZER = 'nemobert'
 NONE_LABEL = 'O'
 ADD_BRACKETS = True
-CHECKPOINT_DIR = 'ner/trained_ner_model_checkpoints'
+#CHECKPOINT_DIR = 'ner/trained_ner_model_checkpoints'
+CHECKPOINT_DIR = '/home/ubuntu/emr-workflow/airflow_pipeline/ner/trained_ner_model_checkpoints'
 LABELS_DICT = 'ner/ner_label_ids.csv'
 
 def concatenate(lists):
@@ -46,7 +47,8 @@ def concatenate(lists):
 def add_brackets(text, add=ADD_BRACKETS):
     return '[' + text + ']' if add else text
 
-out_file = open('all_notes_label_lines.txt', 'a')
+#out_file = open('all_notes_label_lines.txt', 'a')
+out_file = open('./all_notes_label_lines.txt', 'w+')
 
 if not os.path.exists(CHECKPOINT_DIR):
     raise ValueError(f'Checkpoint directory not found at {CHECKPOINT_DIR}')
@@ -79,7 +81,7 @@ def inference(queries):
     begin = time.time()
     datalayer_begin = time.time()
     data_layer = nemo_nlp.nm.data_layers.BertTokenClassificationInferDataLayer(
-        queries=queries, tokenizer=tokenizer, max_seq_length=MAX_SEQ_LENGTH, batch_size=4096
+        queries=queries, tokenizer=tokenizer, max_seq_length=MAX_SEQ_LENGTH, batch_size=2048
     )
     datalayer_end = time.time()
     datalayer_time =datalayer_end - datalayer_begin

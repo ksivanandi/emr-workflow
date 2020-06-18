@@ -7,7 +7,7 @@ from workflow_read_and_write import standard_write_to_db, standard_read_from_db
 MAX_SEQ_LENGTH = 100
 
 def clean_ner_notes():
-    df_json_encoded = standard_read_from_db('first_dataframe')
+    df_json_encoded = standard_read_from_db('structured_data_features')
     df_json = df_json_encoded.decode()
     df = pd.read_json(df_json)
 
