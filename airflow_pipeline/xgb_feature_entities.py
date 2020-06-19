@@ -14,8 +14,9 @@ def make_one_hot(df):
 def train_xgb_model(df):
     feat_one_hot = make_one_hot(df)
     labels = pd.DataFrame(df['readmission'])
-    data = xgb.DMatrix(med_one_hot, label=labels)
+    data = xgb.DMatrix(feat_one_hot, label=labels)
 
+    #tuning opportunity (grid search)
     parameters = {
             'booster': 'gbtree', 
             'tree_method':'gpu_hist', 
@@ -31,7 +32,7 @@ def train_xgb_model(df):
     
 def add_predictions_column(df, bst):
     feat_one_hot = make_one_hot(df)
-    data = xgb.DMatrix(med_one_hot)
+    data = xgb.DMatrix(feat_one_hot)
     predictions = bst.predict(data)
     df['xgb_feat_ent_pred'] = predictions
 
