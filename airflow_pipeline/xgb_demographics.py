@@ -62,6 +62,18 @@ def add_predictions_column(df, bst):
 
     return df
 
+def make_top_n_features(bst, one_hot, n):                                                                                   scores = bst.get_score(importance_type='gain')
+    
+    #https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
+    scores_sorted = {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
+    top_n_features = list(scores_sorted)[-n:]
+    
+    top_n_df = pd.DataFrame()
+    for feature in top_n_features:
+        top_n_df[feature] = one_hot[feature]
+    
+    return top_n_df
+
 def make_predictions():
     df_json_encoded = standard_read_from_db('entity_columns')
     df = pd.read_json(df_json_encoded.decode())
@@ -70,7 +82,10 @@ def make_predictions():
     
     df = add_predictions_column(df, bst)
 
+    top_n_df = make_top_n_features(bst, feat_one_hot, 5)
+
     df_json_encoded = df.to_json().encode()
+    top_n_df_json_encoded = df.to_json().encode()
     bst_pickle = pickle.dumps(bst)
 
-    xgb_write_to_db('demo_xgb', df_json_encoded, bst_pickle)
+    xgb_write_to_db('demo_xgb', df_json_encoded, top_n_df_json_encoded, bst_pickle)
