@@ -176,18 +176,20 @@ def readmission_classifier_read_from_db():
 
     return df_json_encoded, classifier_pickle
 
-def xgb_write_to_db(collection_name, df_json_encoded, xgb_pickle):
+def xgb_write_to_db(collection_name,df_json_encoded, top_n_df_json_encoded, xgb_pickle):
     db = get_db()
     fs = gridfs.GridFS(db)
     collection = db[collection_name]
 
     df_gridfs_id = fs.put(df_json_encoded)
+    top_n_df_gridfs_id = fs.put(top_n_df_json_encoded)
     xgb_gridfs_id = fs.put(xgb_pickle)
     timestamp = datetime.datetime.now().timestamp()
 
     mongodb_output = {
         'timestamp': timestamp,
         'df_gridfs_id': df_gridfs_id,
+        'top_n_df_gridfs_id': top_n_df_gridfs_id,
         'xgb_gridfs_id': xgb_gridfs_id
         }
 
@@ -200,6 +202,7 @@ def xgb_read_from_db(collection_name):
 
     most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
     df_json_encoded = fs.get(most_recent_entry['df_gridfs_id']).read()
+    top_n_df_json_encoded = fs.get(most_recent_entry['top_n_df_gridfs_id']).read()
     xgb_pickle = fs.get(most_recent_entry['xgb_gridfs_id'])
 
     return df_json_encoded, xgb_pickle
