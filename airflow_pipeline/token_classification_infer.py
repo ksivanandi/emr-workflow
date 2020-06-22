@@ -39,7 +39,7 @@ NONE_LABEL = 'O'
 ADD_BRACKETS = True
 #CHECKPOINT_DIR = 'ner/trained_ner_model_checkpoints'
 CHECKPOINT_DIR = '/home/ubuntu/emr-workflow/airflow_pipeline/ner/trained_ner_model_checkpoints'
-LABELS_DICT = 'ner/ner_label_ids.csv'
+LABELS_DICT = '/home/ubuntu/emr-workflow/airflow_pipeline/ner/ner_label_ids.csv'
 
 def concatenate(lists):
     return np.concatenate([t.cpu() for t in lists])
@@ -48,14 +48,14 @@ def add_brackets(text, add=ADD_BRACKETS):
     return '[' + text + ']' if add else text
 
 #out_file = open('all_notes_label_lines.txt', 'a')
-out_file = open('./all_notes_label_lines.txt', 'w+')
+out_file = open('/home/ubuntu/emr-workflow/airflow_pipeline/all_notes_label_lines.txt', 'w+')
 
 if not os.path.exists(CHECKPOINT_DIR):
     raise ValueError(f'Checkpoint directory not found at {CHECKPOINT_DIR}')
 if not os.path.exists(LABELS_DICT):
     raise ValueError(f'Dictionary with ids to labels not found at {LABELS_DICT}')
 
-nf = nemo.core.NeuralModuleFactory(backend=nemo.core.Backend.PyTorch, log_dir='nemo_logs')
+nf = nemo.core.NeuralModuleFactory(backend=nemo.core.Backend.PyTorch, log_dir='/home/ubuntu/emr-workflow/airflow_pipeline/nemo_logs')
 
 labels_dict = get_vocab(LABELS_DICT)
 
