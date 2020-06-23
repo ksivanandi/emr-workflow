@@ -1,0 +1,17 @@
+IV
+intravenous
+gtt
+drip
+inhalation
+by mouth
+topical
+subcutaneous
+ophthalmic
+injection
+mucous membrane
+oral
+nebs
+transdermal
+nasal
+po
+p.o.

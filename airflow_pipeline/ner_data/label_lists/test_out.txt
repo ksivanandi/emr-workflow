@@ -1,0 +1,511 @@
+Admission O
+Date O
+: O
+2196-4-9 B-NUMBER
+Discharge O
+Date O
+: O
+2196-4-10 B-NUMBER
+
+Date O
+of O
+Birth O
+: O
+2131-5-7 B-NUMBER
+Sex O
+: O
+F O
+
+Service O
+: O
+ICU O
+
+CHIEF O
+COMPLAINT O
+: O
+Unresponsiveness B-FEATURE
+
+HISTORY O
+OF O
+PRESENT O
+ILLNESS O
+: O
+The O
+patient O
+is O
+a O
+64-year-old B-NUMBER
+
+female O
+with O
+a O
+history B-FEATURE
+of B-FEATURE
+hypertension I-FEATURE
+, O
+depression B-FEATURE
+, O
+prior B-FEATURE
+
+suicide B-FEATURE
+attempt I-FEATURE
+by O
+overdose O
+, O
+recently O
+with O
+exacerbated O
+mood O
+
+disorder B-FEATURE
+status B-FEATURE
+post O
+the O
+death O
+of O
+her O
+husband O
+in O
+2195-6-2 B-NUMBER
+, O
+now O
+presented O
+after O
+being O
+found B-FEATURE
+unresponsive I-FEATURE
+. I-FEATURE
+
+The O
+
+patient O
+'s O
+daughters O
+found O
+her O
+in O
+the O
+morning O
+of O
+the O
+day B-TIME_UNIT
+of O
+
+presentation O
+, O
+unresponsive B-FEATURE
+with O
+empty O
+bottles O
+of O
+Ambien B-MEDICATION
+and O
+
+Zyprexa B-MEDICATION
+at O
+the O
+bedside O
+. O
+
+Pill B-FORM_UNIT
+count O
+revealed O
+that O
+the O
+patient O
+
+had O
+likely O
+taken O
+26 B-NUMBER
+Ambien B-MEDICATION
+and O
+12 B-NUMBER
+Zyprexa B-MEDICATION
+. O
+
+The O
+patient O
+has O
+
+been O
+unable O
+to O
+be O
+alone O
+secondary O
+to O
+depression B-FEATURE
+with O
+suicidal O
+
+ideation O
+, O
+and O
+has O
+been O
+living O
+with O
+her O
+daughters O
+. O
+
+They O
+note O
+
+that O
+the O
+patient O
+went O
+to O
+bed O
+at O
+11 B-NUMBER
+P.M. O
+the O
+night O
+prior B-FEATURE
+to O
+
+admission O
+and O
+was O
+found O
+at O
+11 B-NUMBER
+A.M. O
+unresponsive B-FEATURE
+with O
+
+respiratory B-FEATURE
+depression I-FEATURE
+. O
+
+The O
+patient O
+had O
+seen O
+her O
+primary O
+
+psychiatrist O
+the O
+day B-TIME_UNIT
+before O
+. O
+
+In O
+the O
+Emergency O
+Department O
+, O
+the O
+patient O
+was O
+charcoaled O
+, O
+
+gastric O
+lavaged O
+, O
+and B-FEATURE
+intubated I-FEATURE
+for O
+airway O
+protection O
+. O
+
+She O
+
+was O
+hemodynamically O
+stable O
+. O
+
+She O
+was O
+transferred O
+to O
+the O
+
+Intensive O
+Care O
+Unit B-FORM_UNIT
+. O
+
+In O
+the O
+Intensive O
+Care O
+Unit B-FORM_UNIT
+, O
+the O
+patient O
+was O
+able O
+to O
+open O
+her O
+
+eyes O
+, O
+and O
+was O
+moving O
+all O
+four O
+extremities O
+and O
+responsive B-FEATURE
+to O
+
+command O
+. O
+
+PAST O
+MEDICAL O
+HISTORY O
+: O
+
+1 B-NUMBER
+. O
+
+Hypertension B-FEATURE
+
+2 B-NUMBER
+. O
+
+Depression B-FEATURE
+with O
+suicide B-FEATURE
+attempt I-FEATURE
+ten O
+years B-TIME_UNIT
+ago O
+by O
+
+overdose O
+. O
+
+The O
+patient O
+was O
+hospitalized O
+for O
+two O
+weeks B-TIME_UNIT
+at O
+that O
+
+point O
+. O
+
+The O
+patient O
+'s O
+outpatient O
+psychiatrist O
+is O
+Dr. O
+Last O
+Name O
+( O
+STitle O
+) O
+. O
+
+ALLERGIES O
+: O
+No O
+known B-FEATURE
+drug O
+allergies O
+. O
+
+MEDICATIONS O
+: O
+Zyprexa B-MEDICATION
+2.5 B-NUMBER
+mg B-MASS_UNIT
+by O
+mouth B-FEATURE
+daily O
+at O
+bedtime O
+, O
+
+Zestril B-MEDICATION
+20 B-NUMBER
+mg B-MASS_UNIT
+by O
+mouth B-FEATURE
+once O
+daily O
+, O
+Ambien B-MEDICATION
+10 B-NUMBER
+mg B-MASS_UNIT
+by O
+mouth O
+
+daily O
+at O
+bedtime O
+, O
+Estradiol B-MEDICATION
+1 B-NUMBER
+mg B-MASS_UNIT
+by O
+mouth B-FEATURE
+once O
+daily O
+, O
+
+nortriptyline B-MEDICATION
+25 B-NUMBER
+mg B-MASS_UNIT
+by O
+mouth B-FEATURE
+daily O
+at O
+bedtime O
+, O
+Klonopin B-MEDICATION
+0.5 B-NUMBER
+
+to O
+1 B-NUMBER
+mg B-MASS_UNIT
+daily O
+at O
+bedtime O
+, O
+Biotin O
+and O
+calcium B-MEDICATION
+supplementation O
+. O
+
+SOCIAL O
+HISTORY O
+: O
+The O
+patient O
+lives O
+with O
+her O
+daughter O
+. O
+
+Name O
+( O
+NI O
+) O
+
+husband O
+died O
+in O
+2196-1-2 B-NUMBER
+. O
+
+The O
+patient O
+denied O
+any O
+
+tobacco O
+, O
+alcohol B-MEDICATION
+or O
+drug O
+use O
+. O
+
+FAMILY O
+HISTORY O
+: O
+Unknown O
+. O
+
+PHYSICAL O
+EXAMINATION O
+: O
+The O
+patient O
+'s O
+temperature O
+was O
+97.7 B-NUMBER
+, O
+
+with O
+a O
+blood B-FEATURE
+pressure O
+of O
+130/65 B-NUMBER
+, O
+pulse O
+of O
+84 B-NUMBER
+, O
+respiratory B-FEATURE
+
+rate O
+of O
+14 B-NUMBER
+, O
+and B-FEATURE
+oxygen B-MEDICATION
+saturation I-FEATURE
+of O
+100 B-NUMBER
+% O
+. O
+
+The O
+patient O
+was O
+
+ventilated O
+on O
+IMV O
+pressure O
+support O
+with O
+a O
+rate O
+of O
+14 B-NUMBER
+, O
+
+pressure O
+support O
+of O
+10 B-NUMBER
+, O
+PEEP O
+of O
+7.5 B-NUMBER
+, O
+volume O
+of O
+500 B-NUMBER
+, O
+and O
+40 B-NUMBER
+% O
+
+FIO2 B-NUMBER
+. O
+
+On O
+general O
+examination B-FEATURE
+, O
+the O
+patient O
+was O
+a O
+very O
+
