@@ -8,7 +8,7 @@ def make_one_hot(df):
 
     gender_one_hot = pd.DataFrame()
     gender_one_hot['Male'] = (df['gender'] == 'M').astype(float)
-    gender_one_hot('Female'] = (df['gender'] == 'F').astype(float)
+    gender_one_hot['Female'] = (df['gender'] == 'F').astype(float)
     
     lb = LabelBinarizer()
     ethnicity = df['ethnicity']
@@ -62,10 +62,10 @@ def add_predictions_column(df, bst):
 
     return df
 
-def make_top_n_features(bst, one_hot, n):                                                                                   scores = bst.get_score(importance_type='gain')
-    
+def make_top_n_features(bst, one_hot, n):
+    scores = bst.get_score(importance_type='gain')
     #https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
-    scores_sorted = {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
+    scores_sorted = {k: v for k, v in sorted(scores.items(), key=lambda item: item[1])}
     top_n_features = list(scores_sorted)[-n:]
     
     top_n_df = pd.DataFrame()
