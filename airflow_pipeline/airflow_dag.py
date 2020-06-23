@@ -17,10 +17,14 @@ import readmission_word2vec_prep_tokenize_notes
 import create_readmission_word2vec_model
 import ner_prep_clean_notes
 import make_all_note_lines_file
-#import inference_per_100000
+import inference_per_100000
 import create_entity_columns
 import readmission_classifier_prep_tokenize_notes
 import readmission_classifier_train_and_predict
+import xgb_demographics
+import xgb_feature_entities
+import xgb_medication_entities
+import combine_probabilities_tensorflow
 
 import placeholder
 
@@ -77,8 +81,7 @@ readmission_word2vec_operator = PythonOperator(
 
 label_with_ner_operator = PythonOperator(
     task_id = 'label_notes_with_ner_model',
-    #python_callable = inference_per_100000.label_notes,
-    python_callable = placeholder.placeholder_function,
+    python_callable = inference_per_100000.label_notes,
     dag = dag
     )
 
@@ -136,9 +139,33 @@ ner_entity_columns_operator = PythonOperator(
     dag = dag
     )
 
-ner_one_hot_operator = PythonOperator(
-    task_id = 'ner_one_hot',
-    python_callable = placeholder.placeholder_function,
+#ner_one_hot_operator = PythonOperator(
+#    task_id = 'ner_one_hot',
+#    python_callable = placeholder.placeholder_function,
+#    dag = dag
+#    )
+
+xgb_demo_operator = PythonOperator(
+    task_id = 'xgb_demographics',
+    python_callable = xgb_demographics.make_predictions,
+    dag = dag
+    )
+
+xgb_feat_operator = PythonOperator(
+    task_id = 'xgb_feature_entities',
+    python_callable = xgb_feature_entities.make_predictions,
+    dag = dag
+    )
+
+xgb_med_operator = PythonOperator(
+    task_id = 'xgb_medication_entities',
+    python_callable = xgb_medication_entities.make_predictions,
+    dag = dag
+    )
+
+tensorflow_operator = PythonOperator(
+    task_id = 'tensorflow_model',
+    python_callable = combine_probabilities_tensorflow.make_predictions,
     dag = dag
     )
 
@@ -160,6 +187,7 @@ structured_features_operator.set_downstream([
     readmission_word2vec_clean_notes_operator, 
     ner_clean_operator, 
     readmission_classifier_prep_operator])
+
 readmission_word2vec_clean_notes_operator.set_downstream(readmission_word2vec_tokenize_notes_operator)
 readmission_word2vec_tokenize_notes_operator.set_downstream(readmission_word2vec_operator)
 readmission_word2vec_operator.set_downstream(readmission_one_hot_operator)
@@ -169,9 +197,13 @@ all_word2vec_operator.set_downstream(infected_one_hot_operator)
 ner_clean_operator.set_downstream(ner_input_text_operator)
 ner_input_text_operator.set_downstream(label_with_ner_operator)
 label_with_ner_operator.set_downstream(ner_entity_columns_operator)
-ner_entity_columns_operator.set_downstream(ner_one_hot_operator)
-ner_one_hot_operator.set_downstream(combine_all_dataframes_operator)
+ner_entity_columns_operator.set_downstream([xgb_demo_operator, xgb_feat_operator, xgb_med_operator])
 readmission_classifier_prep_operator.set_downstream(readmission_classifier_train_predict_operator)
+readmission_classifier_train_predict_operator.set_downstream(tensorflow_operator)
+xgb_demo_operator.set_downstream(tensorflow_operator)
+xgb_feat_operator.set_downstream(tensorflow_operator)
+xgb_med_operator.set_downstream(tensorflow_operator)
+
 infected_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 readmission_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 combine_all_dataframes_operator.set_downstream([tpot_los_operator, tpot_readmission_operator])
