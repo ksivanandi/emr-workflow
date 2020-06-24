@@ -18,14 +18,14 @@ def train_xgb_model(df, feat_one_hot):
     #tuning opportunity (grid search)
     parameters = {
             'booster': 'gbtree', 
-            'tree_method':'gpu_hist', 
-            'predictor':'gpu_predictor', 
+            #'tree_method':'gpu_hist', 
+            #'predictor':'gpu_predictor', 
             'subsample':0.5, 
             'sampling_method': 'uniform', 
             'objective':'binary:logistic'
             }
 
-    bst = xgb.XGBRegressor.train(parameters, data)
+    bst = xgb.train(parameters, data)
     
     return bst
     
@@ -39,7 +39,7 @@ def add_predictions_column(df, bst, feat_one_hot):
 def make_top_n_features(bst, one_hot, n):
     scores = bst.get_score(importance_type='gain')
     #https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
-    scores_sorted = {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
+    scores_sorted = {k: v for k, v in sorted(scores.items(), key=lambda item: item[1])}
     top_n_features = list(scores_sorted)[-n:]
     
     top_n_df = pd.DataFrame()
