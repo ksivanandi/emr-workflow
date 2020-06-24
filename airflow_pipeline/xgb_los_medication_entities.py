@@ -22,10 +22,10 @@ def train_xgb_model(df):
             'predictor':'gpu_predictor', 
             'subsample':0.5, 
             'sampling_method': 'uniform', 
-            'objective':'binary:logistic'
+            'objective':'reg:linear'
             }
 
-    bst = xgb.train(parameters, data)
+    bst = xgb.XGBRegressor.train(parameters, data)
     
     return bst
     
@@ -63,4 +63,4 @@ def make_predictions():
     top_n_df_json_encoded = df.to_json().encode()
     bst_pickle = pickle.dumps(bst)
 
-    xgb_write_to_db('med_xgb', df_json_encoded, top_n_df_json_encoded, bst_pickle)
+    xgb_write_to_db('med_xgb_los', df_json_encoded, top_n_df_json_encoded, bst_pickle)

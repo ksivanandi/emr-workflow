@@ -88,4 +88,4 @@ def make_predictions():
     top_n_df_json_encoded = df.to_json().encode()
     bst_pickle = pickle.dumps(bst)
 
-    xgb_write_to_db('demo_xgb', df_json_encoded, top_n_df_json_encoded, bst_pickle)
+    xgb_write_to_db('demo_xgb_readmission', df_json_encoded, top_n_df_json_encoded, bst_pickle)

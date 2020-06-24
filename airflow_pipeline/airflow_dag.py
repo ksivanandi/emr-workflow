@@ -21,10 +21,10 @@ import inference_per_100000
 import create_entity_columns
 import readmission_classifier_prep_tokenize_notes
 import readmission_classifier_train_and_predict
-import xgb_demographics
-import xgb_feature_entities
-import xgb_medication_entities
-import combine_probabilities_tensorflow
+import xgb_readmission_demographics
+import xgb_readmission_feature_entities
+import xgb_readmission_medication_entities
+import combine_readmission_probabilities_tensorflow
 
 import placeholder
 
@@ -145,27 +145,27 @@ ner_entity_columns_operator = PythonOperator(
 #    dag = dag
 #    )
 
-xgb_demo_operator = PythonOperator(
-    task_id = 'xgb_demographics',
-    python_callable = xgb_demographics.make_predictions,
+xgb_readmission_demo_operator = PythonOperator(
+    task_id = 'readmission_xgb_demographics',
+    python_callable = xgb_readmission_demographics.make_predictions,
     dag = dag
     )
 
-xgb_feat_operator = PythonOperator(
-    task_id = 'xgb_feature_entities',
-    python_callable = xgb_feature_entities.make_predictions,
+xgb_readmission_feat_operator = PythonOperator(
+    task_id = 'readmission_xgb_feature_entities',
+    python_callable = xgb_readmission_feature_entities.make_predictions,
     dag = dag
     )
 
-xgb_med_operator = PythonOperator(
-    task_id = 'xgb_medication_entities',
-    python_callable = xgb_medication_entities.make_predictions,
+xgb_readmission_med_operator = PythonOperator(
+    task_id = 'readmission_xgb_medication_entities',
+    python_callable = xgb_readmission_medication_entities.make_predictions,
     dag = dag
     )
 
-tensorflow_operator = PythonOperator(
-    task_id = 'tensorflow_model',
-    python_callable = combine_probabilities_tensorflow.make_predictions,
+readmission_tensorflow_operator = PythonOperator(
+    task_id = 'readmission_tensorflow_model',
+    python_callable = combine_readmission_probabilities_tensorflow.make_predictions,
     dag = dag
     )
 
@@ -197,12 +197,12 @@ all_word2vec_operator.set_downstream(infected_one_hot_operator)
 ner_clean_operator.set_downstream(ner_input_text_operator)
 ner_input_text_operator.set_downstream(label_with_ner_operator)
 label_with_ner_operator.set_downstream(ner_entity_columns_operator)
-ner_entity_columns_operator.set_downstream([xgb_demo_operator, xgb_feat_operator, xgb_med_operator])
+ner_entity_columns_operator.set_downstream([xgb_readmission_demo_operator, xgb_readmission_feat_operator, xgb_readmission_med_operator])
 readmission_classifier_prep_operator.set_downstream(readmission_classifier_train_predict_operator)
-readmission_classifier_train_predict_operator.set_downstream(tensorflow_operator)
-xgb_demo_operator.set_downstream(tensorflow_operator)
-xgb_feat_operator.set_downstream(tensorflow_operator)
-xgb_med_operator.set_downstream(tensorflow_operator)
+readmission_classifier_train_predict_operator.set_downstream(tensorflow_readmission_operator)
+xgb_demo_operator.set_downstream(tensorflow_readmission_operator)
+xgb_feat_operator.set_downstream(tensorflow_readmission_operator)
+xgb_med_operator.set_downstream(tensorflow_readmission_operator)
 
 infected_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 readmission_one_hot_operator.set_downstream(combine_all_dataframes_operator)
