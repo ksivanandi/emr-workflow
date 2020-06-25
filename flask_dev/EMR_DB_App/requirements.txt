@@ -32,7 +32,7 @@ PyJWT==1.5.3
 pyserial==3.4
 pyxdg==0.26
 PyYAML==5.1
-requests==2.18.4
+requests==2.20.0
 requests-unixsocket==0.1.5
 SecretStorage==2.3.1
 service-identity==16.0.0
