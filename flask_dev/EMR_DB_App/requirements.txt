@@ -40,6 +40,6 @@ simplejson==3.13.2
 six==1.11.0
 SQLAlchemy
 Twisted==17.9.0
-urllib3==1.22
+urllib3==1.24.2
 Werkzeug==0.16.0
 zope.interface==4.3.2
