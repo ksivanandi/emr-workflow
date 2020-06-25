@@ -6,6 +6,9 @@ def extract_entities(note):
     medications = []
     features = []
     covid_terms = []
+    neg_medications = []
+    neg_features = []
+    neg_covid_terms = []
 
     for line in lines:
         words = line.split()
@@ -26,7 +29,10 @@ def extract_entities(note):
                             medication += sub_ent.split('[')[0]
                         else:
                             medication += '_' + sub_ent.split('[')[0]
-                    medications.append(medication)
+                    if possible_negation != '':
+                        neg_medications.append(medication)
+                    else:
+                        medications.append(medication)
                 elif 'B-DIAGNOSIS' in words[word_index]:
                     while ent_end < len(words) and 'I-DIAGNOSIS' in words[ent_end]:
                         ent_end += 1
@@ -36,7 +42,10 @@ def extract_entities(note):
                             feature += sub_ent.split('[')[0]
                         else:
                             feature += '_' + sub_ent.split('[')[0]
-                    features.append(feature)
+                    if possible_negation != '':
+                        neg_features.append(feature)
+                    else:
+                        features.append(feature)
                 elif 'B-COVID' in words[word_index]:
                     while ent_end < len(words) and 'I-COVID' in words[ent_end]:
                         ent_end += 1
@@ -46,12 +55,15 @@ def extract_entities(note):
                             covid_term += sub_ent.split('[')[0]
                         else:
                             covid_term += '_' + sub_ent.split('[')[0]
-                    covid_terms.append(covid_term)
+                    if possible_negation != '':
+                        neg_covid_terms.append(covid_term)
+                    else:
+                        covid_terms.append(covid_term)
                 word_index += (ent_end-word_index)
             else:
                 word_index += 1
 
-    return medications, features, covid_terms
+    return medications, neg_medications, features, neg_features, covid_terms, neg_covid_terms
 
 
 def get_columns_from_notes(df):
@@ -60,21 +72,34 @@ def get_columns_from_notes(df):
     all_general_feature_entities = []
     all_covid_term_entities = []
 
+    all_neg_medication_entities = []
+    all_neg_general_feature_entities = []
+    all_neg_covid_term_entities = []
+
     for i, row in df.iterrows():
         note = row['labeled_notes']
-        medications, features, covid_terms = extract_entities(note)
+        medications, neg_medications, features, neg_features, covid_terms, neg_covid_terms = extract_entities(note)
         #remove duplicates from the list:
         medications = list(dict.fromkeys(medications))
+        neg_medications = list(dict.fromkeys(neg_medications))
         features = list(dict.fromkeys(features))
+        neg_features = list(dict.fromkeys(neg_features))
         covid_terms = list(dict.fromkeys(covid_terms))
+        neg_covid_terms = list(dict.fromkeys(neg_covid_terms))
         #
         all_medication_entities.append(medications)
         all_general_feature_entities.append(features)
         all_covid_term_entities.append(covid_terms)
+        all_neg_medication_entities.append(neg_medications)
+        all_neg_general_feature_entities.append(neg_features)
+        all_neg_covid_term_entities.append(neg_covid_terms)
 
     df['medication_entities'] = all_medication_entities
     df['feature_entities'] = all_general_feature_entities
     df['covid19_entities'] = all_covid_term_entities
+    df['neg_medication_entities'] = all_neg_medication_entities
+    df['neg_feature_entities'] = all_neg_general_feature_entities
+    df['neg_covid_term_entities'] = all_neg_covid_term_entities
 
     return df
         
