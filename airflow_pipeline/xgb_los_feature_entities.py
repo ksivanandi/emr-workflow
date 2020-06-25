@@ -18,8 +18,8 @@ def train_xgb_model(df, feat_one_hot):
     #tuning opportunity (grid search)
     parameters = {
             'booster': 'gbtree', 
-            #'tree_method':'gpu_hist', 
-            #'predictor':'gpu_predictor', 
+            'tree_method':'gpu_hist', 
+            'predictor':'gpu_predictor', 
             'subsample':0.5, 
             'sampling_method': 'uniform', 
             'objective':'binary:logistic'
