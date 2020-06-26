@@ -6,14 +6,14 @@ from workflow_read_and_write import standard_read_from_db, xgb_write_to_db
 
 def make_one_hot(df):
     mlb = MultiLabelBinarizer()
-    medication_entities = df['medication_entities']
+    medication_entities = df['neg_medication_entities']
     med_one_hot = (pd.DataFrame(mlb.fit_transform(medication_entities), columns=mlb.classes_,index=df.index))
 
     return med_one_hot
 
 def train_xgb_model(df):
     med_one_hot = make_one_hot(df)
-    labels = pd.DataFrame(df['readmission'])
+    labels = pd.DataFrame(df['los'])
     data = xgb.DMatrix(med_one_hot, label=labels)
 
     parameters = {
@@ -63,4 +63,4 @@ def make_predictions():
     top_n_df_json_encoded = df.to_json().encode()
     bst_pickle = pickle.dumps(bst)
 
-    xgb_write_to_db('med_xgb_los', df_json_encoded, top_n_df_json_encoded, bst_pickle)
+    xgb_write_to_db('neg_med_xgb_los', df_json_encoded, top_n_df_json_encoded, bst_pickle)
