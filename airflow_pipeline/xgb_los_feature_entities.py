@@ -22,7 +22,7 @@ def train_xgb_model(df, feat_one_hot):
             'predictor':'gpu_predictor', 
             'subsample':0.5, 
             'sampling_method': 'uniform', 
-            'objective':'binary:logistic'
+            'objective':'reg:linear'
             }
 
     bst = xgb.train(parameters, data)

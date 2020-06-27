@@ -39,6 +39,11 @@ def make_predictions():
     xgb_med_df = pd.read_json(xgb_med_df_json_encoded.decode())
     top_n_med_df = pd.read_json(top_n_med_df_json_encoded.decode())
 
+    #add xgb_neg_med_df
+    xgb_neg_med_df_json_encoded, top_n_neg_med_df_json_encoded, _ = xgb_read_from_db('neg_med_xgb_readmission')
+    xgb_neg_med_df = pd.read_json(xgb_neg_med_df_json_encoded.decode())
+    top_n_neg_med_df = pd.read_json(top_n_neg_med_df_json_encoded.decode())
+
     prev_probas = pd.DataFrame()
     prev_probas['readmission_classifier_probabilities'] = readmission_classifier_df['readmission_classifier_probabilities']
     prev_probas['xgb_demo_ent_pred'] = xgb_demo_df['xgb_demo_ent_pred']
@@ -51,8 +56,8 @@ def make_predictions():
 
     readmissions = xgb_demo_df['readmissions']
 
-    model = creat_model(prev_probas, readmissions)
-    model_predictions = predict_with_model(prev_probas, model)
+    model = creat_model(tf_input, readmissions)
+    model_predictions = predict_with_model(tf_input, model)
     tf_input['keras_pred'] = model_predictions
     tf_input['admission_id'] = readmission_classifier_df['admission_id']
 

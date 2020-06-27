@@ -82,7 +82,7 @@ def make_predictions():
     
     df = add_predictions_column(df, bst)
 
-    top_n_df = make_top_n_features(bst, feat_one_hot, 5)
+    top_n_df = make_top_n_features(bst, demo_one_hot, 5)
 
     df_json_encoded = df.to_json().encode()
     top_n_df_json_encoded = df.to_json().encode()
