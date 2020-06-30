@@ -6,8 +6,8 @@ from tensorflow.keras.layers import Dense
 
 def create_model(proba_df, labels):
     model = Sequential()
-    model.add(Dense(len(proba_df.columns), activation = 'relu'))
-    model.add(Dense(4, activation = 'relu'))
+    model.add(Dense(20,input_shape=[len(proba_df.columns)], activation = 'relu'))
+    model.add(Dense(20, activation = 'relu'))
     model.add(Dense(1, activation = 'sigmoid'))
 
     model.compile(loss='binary_crossentropy', optimizer = 'Adam', metrics = ['acc'])
