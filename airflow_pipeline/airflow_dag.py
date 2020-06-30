@@ -33,6 +33,7 @@ import xgb_los_medication_entities
 import xgb_los_neg_feature_entities
 import xgb_los_neg_medication_entities
 import combine_los_estimates_tensorflow
+import readmission_tf_prob_to_likert
 
 import placeholder
 
@@ -237,6 +238,12 @@ readmission_classifier_train_predict_operator = PythonOperator(
     dag = dag
     )
 
+readmission_prob_to_likert_operator = PythonOperator(
+    task_id = '',
+    python_callable = readmission_tf_prob_to_likert.convert_to_likert,
+    dag = dag
+    )
+
 df_from_api_operator.set_downstream(structured_features_operator)
 structured_features_operator.set_downstream([
     all_word2vec_clean_notes_operator, 
@@ -276,7 +283,7 @@ xgb_readmission_feat_operator.set_downstream(readmission_tensorflow_operator)
 xgb_readmission_neg_feat_operator.set_downstream(readmission_tensorflow_operator)
 xgb_readmission_med_operator.set_downstream(readmission_tensorflow_operator)
 xgb_readmission_neg_med_operator.set_downstream(readmission_tensorflow_operator)
-
+readmission_tensorflow_operator.set_downstream(readmission_prob_to_likert_operator)
 #infected_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 #readmission_one_hot_operator.set_downstream(combine_all_dataframes_operator)
 #combine_all_dataframes_operator.set_downstream([tpot_los_operator, tpot_readmission_operator])
