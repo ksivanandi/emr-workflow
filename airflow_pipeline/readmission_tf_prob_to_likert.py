@@ -5,13 +5,11 @@ def make_likert_column(df):
     likert_vals = []
 
     for i, row in df.iterrows():
-        if row['keras_pred'] < 0.2:
+        if row['keras_pred'] < 0.25:
             likert_vals.append('Very Unlikely Readmission')
-        elif 0.2 <= row['keras_pred'] and row['keras_pred'] < 0.4:
+        elif 0.25 <= row['keras_pred'] and row['keras_pred'] < 0.5:
             likert_vals.append('Unlikely Readmission')
-        elif 0.4 <= row['keras_pred'] and row['keras_pred'] < 0.6:
-            likert_vals.append('Neither Likely or Unlikely Readmission')
-        elif 0.6 <= row['keras_pred'] and row['keras_pred'] < 0.8:
+        elif 0.5 <= row['keras_pred'] and row['keras_pred'] < 0.75:
             likert_vals.append('Likely Readmission')
         else:
             likert_vals.append('Very Likely Readmission')
