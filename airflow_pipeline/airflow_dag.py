@@ -239,7 +239,7 @@ readmission_classifier_train_predict_operator = PythonOperator(
     )
 
 readmission_prob_to_likert_operator = PythonOperator(
-    task_id = '',
+    task_id = 'convert_to_likert',
     python_callable = readmission_tf_prob_to_likert.convert_to_likert,
     dag = dag
     )
