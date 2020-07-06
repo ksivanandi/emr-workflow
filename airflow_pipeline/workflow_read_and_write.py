@@ -207,3 +207,31 @@ def xgb_read_from_db(collection_name):
 
     return df_json_encoded, xgb_pickle
 
+def summary_report_write_to_db(patient_df_json_encoded, hospital_df_json_encoded):
+    db = get_db()
+    fs = gridfs.GridFS(db)
+    collection = db['summary_report']
+
+    patient_df_gridfs_id = fs.put(patient_df_json_encoded)
+    hospital_df_gridfs_id = fs.put(hospital_df_json_encoded)
+    timestamp = datetime.datetime.now().timestamp()
+    
+    mongodb_output = {
+            'timestamp': timestamp,
+            'patient_df_gridfs_id': patient_df_gridfs_id,
+            'hospital_df_gridfs_id': hostpital_df_gridfs_id,
+        }
+
+    collection.insert_one(mongodb_output)
+
+def summary_report_read_from_db():
+    db = get_db()
+    fs = gridfs.GridFS(db)
+    collection = db['summary_report']
+
+    most_recent_entry = collection.find_one(sort=[('_id', pymongo.DESCENDING)])
+    patient_df_json_encoded = fs.get(most_recent_entry['patient_df_gridfs_id'])
+    hospital_df_json_encoded = fs.get(most_recent_entry['hospital_df_gridfs_id'])
+
+    return patient_df_json_encoded, hospital_df_json_encoded
+
